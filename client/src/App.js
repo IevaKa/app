@@ -49,6 +49,10 @@ class App extends React.Component {
           path='/login'
           render={props => <Login setUser={this.setUser} {...props} />}
         />
+        <Route
+          exact
+          path='/logout'
+        />
     </div>
   );
 }

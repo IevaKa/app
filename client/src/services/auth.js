@@ -26,6 +26,7 @@ const logout = () => {
   return axios
     .delete('/api/auth/logout')
     .then(response => {
+      console.log('logout happened')
       return response.data;
     })
     .catch(err => {
