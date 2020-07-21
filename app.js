@@ -23,6 +23,22 @@ const app_name = require('./package.json').name;
 const debug = require('debug')(`${app_name}:${path.basename(__filename).split('.')[0]}`);
 
 const app = express();
+const session = require('express-session');
+const passport = require('passport');
+
+require('./configs/passport');
+
+const MongoStore = require('connect-mongo')(session);
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    store: new MongoStore({ mongooseConnection: mongoose.connection })
+  })
+);
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Middleware Setup
 app.use(logger('dev'));
@@ -39,17 +55,11 @@ app.use(require('node-sass-middleware')({
 }));
 
 
-// app.set('views', path.join(__dirname, 'views'));
-// app.set('view engine', 'hbs');
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
 
 
-
-
-
-// default value for title local
-
 app.use('/api/tickets', require('./routes/ticket'));
+app.use('/api/auth', require('./routes/auth'));
 
 module.exports = app;

@@ -1,19 +1,32 @@
 import React from 'react';
-import 'bootstrap/dist/css/bootstrap.css';
 import './App.css';
 import { Route } from 'react-router-dom';
-// import Projects from './components/Projects';
+import Signup from './components/Signup';
+import Login from './components/Login';
+import Home from './components/Home';
 import Navbar from './components/Navbar';
 import Tickets from './components/Tickets';
 import AddTicket from './components/AddTicket';
-// import ProjectDetails from './components/ProjectDetails';
-// import TaskDetails from './components/TaskDetails';
 
-function App() {
-  return (
+class App extends React.Component {
+  state = {
+    user: this.props.user
+  }
+
+  setUser = user => {
+    this.setState({
+      user: user
+    })
+  }
+  render() {
+    return (
     <div className="App">
       <Navbar />
-
+      <Route
+        exact
+        path='/'
+        component={Home}
+      />
       <Route
         exact
         path='/tickets'
@@ -25,8 +38,20 @@ function App() {
         path='/tickets/create'
         component={AddTicket}
       />
+
+        <Route
+          exact
+          path='/signup'
+          render={props => <Signup setUser={this.setUser} {...props} />}
+        />
+        <Route
+          exact
+          path='/login'
+          render={props => <Login setUser={this.setUser} {...props} />}
+        />
     </div>
   );
+}
 }
 
 export default App;
