@@ -5,7 +5,7 @@ const bcrypt = require('bcrypt');
 const passport = require('passport');
 
 router.post('/signup', (req, res) => {
-  const { username, password, name } = req.body;
+  const { username, password, name, role } = req.body;
 
   if (!password || password.length < 8) {
     return res
@@ -27,7 +27,7 @@ router.post('/signup', (req, res) => {
       const salt = bcrypt.genSaltSync();
       const hash = bcrypt.hashSync(password, salt);
 
-      return User.create({ username: username, password: hash, name: name }).then(
+      return User.create({ username: username, password: hash, name: name, role: role}).then(
         dbUser => {
 
           req.login(dbUser, err => {

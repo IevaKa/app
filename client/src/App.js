@@ -52,6 +52,7 @@ class App extends React.Component {
         <Route
           exact
           path='/logout'
+          component={Navbar}
         />
     </div>
   );
