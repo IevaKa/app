@@ -2,53 +2,41 @@ import React from 'react'
 import { Link } from 'react-router-dom';
 import { Navbar as Nav } from 'react-bootstrap';
 import { logout } from '../../services/auth.js';
-import axios from 'axios';
-
+import axios from 'axios'
 
 
 export default class Navbar extends React.Component {
 
-  handleLogout = () => {
-    logout().then(() => {
-      this.props.setUser(null);
-    });
-  }
-
   state = {
-    username: '',
-    role: '',
-    name: '',
-    image: '',
-    userId: ''
+    user: null
   }
 
-  getData = () => {
-    axios.get('/api/user').then(response => {
+  getUser = () => {
+    axios.get('/api/auth/loggedin')
+    .then(response => {
+      const user = response.data;
       this.setState({
-        username: response.data.username,
-        role: response.data.role,
-        name: response.data.name,
-        image: response.data.image,
-        userId: response.data[0]._id
-      })
-    }).catch(err => {
-      console.log(err)
+        user: user,
+      });
     })
   }
 
   componentDidMount = () => {
-    this.getData()
+    this.getUser()
   }
 
 
-
-
-  render() {
-    // console.log('Iam here')
-    // console.log(this.state.username)
-    return (
-      <Nav className='navbar navbar-expand-lg navbar-light bg-light justify-content-end '>
-        {/* {this.props.user && 
+  // handleLogout = () => {
+  //   logout().then(() => {
+  //     this.props.setUser(null);
+  //   });
+  // }
+  render () {
+    console.log('this is navbar ', this.state.user)
+    if (!this.state.user) return (<></>)
+  return (
+    <Nav className='navbar navbar-expand-lg navbar-light bg-light justify-content-end '>
+      {/* {this.props.user && 
       <Nav.Brand>Welcome {this.props.user.username} 
       </Nav.Brand>} */}
         {/* <Nav.Brand>
@@ -60,11 +48,13 @@ export default class Navbar extends React.Component {
           </Nav.Brand>
           <Nav.Brand>
             {/* <Link to={`/profile/${this.props.user.id}`}>Profile</Link> */}
-            <Link to={`/profile/${this.state.userId}`}>Profile</Link>
+            <Link to={`/profile/${this.state.user._id}`}>Profile</Link>
           </Nav.Brand>
-        </>
-
-      </Nav>
-    )
-  }
+          {/* <Nav.Brand>
+            <Link to='/' onClick={() => handleLogout(props)}>Logout</Link>
+          </Nav.Brand> */}
+        </>  
+    </Nav>
+  )
+}
 }
