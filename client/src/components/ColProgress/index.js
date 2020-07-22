@@ -5,7 +5,7 @@ import { Button } from '../../styles/global.js';
 import { Box, Test, Hidden } from './style.js';
 
 
-function Home() {
+function ColProgress() {
 
   let [visibility, setVisibility] = useState(false);
 
@@ -24,4 +24,4 @@ function Home() {
   );
 }
 
-export default Home;
+export default ColProgress;

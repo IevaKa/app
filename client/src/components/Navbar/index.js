@@ -32,7 +32,7 @@ export default class Navbar extends React.Component {
   //   });
   // }
   render () {
-    console.log('this is navbar ', this.state.user)
+    // console.log('this is navbar ', this.state.user)
     if (!this.state.user) return (<></>)
   return (
     <Nav className='navbar navbar-expand-lg navbar-light bg-light justify-content-end '>
