@@ -66,7 +66,6 @@ router.post('/login', (req, res) => {
 });
 
 router.delete('/logout', (req, res) => {
-  console.log('logout happened')
   req.logout();
   res.json({ message: 'Successful logout' });
 })

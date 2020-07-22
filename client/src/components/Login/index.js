@@ -1,5 +1,5 @@
 import React from 'react'
-import { login } from '../services/auth';
+import { login } from '../../services/auth';
 
 export default class Login extends React.Component {
   state = {

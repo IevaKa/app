@@ -3,10 +3,10 @@ import './App.css';
 import { Route } from 'react-router-dom';
 import Signup from './components/Signup';
 import Login from './components/Login';
-import Home from './components/Home';
-import Navbar from './components/Navbar';
+import Home from './components/Home/';
 import Tickets from './components/Tickets';
 import AddTicket from './components/AddTicket';
+import MainDash from './components/MainDash';
 
 class App extends React.Component {
   state = {
@@ -21,7 +21,6 @@ class App extends React.Component {
   render() {
     return (
     <div className="App">
-      <Navbar />
       <Route
         exact
         path='/'
@@ -38,6 +37,11 @@ class App extends React.Component {
         path='/tickets/create'
         component={AddTicket}
       />
+      <Route
+        exact
+        path='/dashboard'
+        component={MainDash}
+      />
 
         <Route
           exact
@@ -49,11 +53,7 @@ class App extends React.Component {
           path='/login'
           render={props => <Login setUser={this.setUser} {...props} />}
         />
-        <Route
-          exact
-          path='/logout'
-          component={Navbar}
-        />
+
     </div>
   );
 }
