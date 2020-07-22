@@ -2,11 +2,13 @@ import React, { Component } from 'react';
 import ProfileEdit from '../ProfileEdit';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import { Button } from 'react-bootstrap';
 
 export default class index extends Component {
 
   state = {
-    user: null
+    user: null,
+    editForm: false,
   }
 
   getUser = () => {
@@ -23,6 +25,39 @@ export default class index extends Component {
     this.getUser()
   }
 
+  // Editing
+
+  handleChange = event => {
+    const { name, value } = event.target;
+    this.setState({
+      [name]: value
+    });
+  };
+
+  handleSubmit = event => {
+    event.preventDefault();
+    const id = this.props.match.params.id;
+    axios.put(`/api/auth/loggedin/${id}`, {
+      user: this.state.user,
+    })
+      .then(response => {
+        this.setState({
+          user: response.data,
+          editForm: false
+        })
+      })
+      .catch(err => {
+        console.log(err);
+      })
+  }
+
+  toggleEditForm = () => {
+    this.setState({
+      editForm: !this.state.editForm
+    })
+  }
+
+
   render() {
 
     if (!this.state.user) return (<></>)
@@ -31,12 +66,20 @@ export default class index extends Component {
       <div>
         <h1>Welcome</h1>
         <h1>{this.state.user.username}</h1>
-        
+
         <div>
-          <Link to={`/profile/${this.state.user._id}/edit`}>Edit your profile</Link>
+          <Link to={`/ticket/board`}>Navigate back to the Board</Link>
         </div>
 
-        <Link to={`/ticket/board`}>Navigate back to the Board</Link>
+        {/* Editing */}
+        <Button onClick={this.toggleEditForm}>Show Edit Form</Button>
+        {this.state.editForm && (
+          <ProfileEdit
+            {...this.state}
+            handleChange={this.handleChange}
+            handleSubmit={this.handleSubmit}
+          />
+        )}
 
       </div>
     )

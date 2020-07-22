@@ -5,7 +5,7 @@ const lightGray = "rgba(156, 160, 163, 1)";
 const ironBlue = "rgba(47, 199, 255, 1)";
 const ironPurple = "rgba(135, 79, 255, 1)";
 const ironRed = "rgba(248, 90, 91, 1)";
-const ironYellow = "rgba(255, 220, 97, 1))";
+const ironYellow = "rgba(255, 220, 97, 1)";
 const ironGreen = "rgba(57, 232, 197, 1)";
 
 const Button = styled.button`

@@ -74,4 +74,21 @@ router.get('/loggedin', (req, res) => {
   res.json(req.user);
 })
 
+router.put('/:id', (req, res) => {
+  const { user } = req.body;
+
+  User.findByIdAndUpdate(
+    req.params.id,
+    { user },
+    // { new: true } ensures that we are getting the updated document in the .then callback
+    { new: true }
+  )
+    .then(user => {
+      res.status(200).json(user);
+    })
+    .catch(err => {
+      res.json(err);
+    });
+});
+
 module.exports = router;
