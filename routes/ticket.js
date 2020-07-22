@@ -15,7 +15,6 @@ const router = express.Router();
 // });
 
 router.get('/', (req, res) => {
-  console.log('here get tickets')
     Ticket.find()
     // .populate('assignee')
     // .populate('createdBy')
@@ -23,7 +22,7 @@ router.get('/', (req, res) => {
         res.status(200).json(tickets);
       })
       .catch(err => {
-        res.json(err);
+        res.json(err);0
       });
   });
 

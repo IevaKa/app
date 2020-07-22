@@ -9,7 +9,7 @@ import TicketAdd from "./components/TicketAdd";
 // import TicketDetail from "./components/TicketDetail";
 // import TicketEdit from "./components/TicketEdit";
 // import MainDash from "./components/MainDash";
-// import Profile from "./components/Profile";
+import Profile from "./components/Profile";
 // import ProfileEdit from "./components/ProfileEdit";
 
 class App extends React.Component {
@@ -35,7 +35,7 @@ class App extends React.Component {
 
         {/* <Route exact path="/ticket/:id/edit" component={TicketEdit} /> */}
 
-        {/* <Route exact path="/profile/:id" component={Profile} /> */}
+        <Route exact path="/profile/:id" component={Profile} />
 
         {/* <Route exact path="/profile/:id/edit" component={ProfileEdit} /> */}
 
