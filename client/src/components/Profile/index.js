@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-// import ProfileEdit from '../ProfileEdit';
+import ProfileEdit from '../ProfileEdit';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 export default class index extends Component {
 
@@ -23,14 +24,20 @@ export default class index extends Component {
   }
 
   render() {
-    
+
     if (!this.state.user) return (<></>)
     console.log(this.state.user.username)
     return (
       <div>
-      <h1>Profile Name</h1>
+        <h1>Welcome</h1>
         <h1>{this.state.user.username}</h1>
-        {/* <ProfileEdit /> */}
+        
+        <div>
+          <Link to={`/profile/${this.state.user._id}/edit`}>Edit your profile</Link>
+        </div>
+
+        <Link to={`/ticket/board`}>Navigate back to the Board</Link>
+
       </div>
     )
   }

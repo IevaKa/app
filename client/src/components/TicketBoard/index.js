@@ -21,31 +21,29 @@ export default class Tickets extends Component {
   componentDidMount = () => {
     this.getData()
   }
-  // state = {
-  //   tickets: []
-  // };
 
-  // componentDidMount = () => {
-  //   this.getData();
-  // };
-
-  // getData = () => {
-  //   axios
-  //     .get('/api/tickets')
-  //     .then(response => {
-  //       this.setState({
-  //         tickets: response.data
-  //       });
-  //     })
-  //     .catch(err => {
-  //       console.log(err);
-  //     });
-  // };
   render() {
     console.log(this.state.data)
     return (
       <>
       <Navbar/>
+      <h1>These are the Open Tickets</h1>
+      <ul>
+      {this.state.data.map(ticket => {
+        return(
+        <li key={ticket._id}>{ticket.title}</li>
+        )
+      })}
+      </ul>
+      <h1>These are in Progress Tickets</h1>
+      <ul>
+      {this.state.data.map(ticket => {
+        return(
+        <li key={ticket._id}>{ticket.title}</li>
+        )
+      })}
+      </ul>
+      <h1>These are Solved Tickets</h1>
       <ul>
       {this.state.data.map(ticket => {
         return(

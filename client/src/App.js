@@ -10,7 +10,7 @@ import TicketAdd from "./components/TicketAdd";
 // import TicketEdit from "./components/TicketEdit";
 // import MainDash from "./components/MainDash";
 import Profile from "./components/Profile";
-// import ProfileEdit from "./components/ProfileEdit";
+import ProfileEdit from "./components/ProfileEdit";
 
 class App extends React.Component {
   state = {
@@ -38,7 +38,7 @@ class App extends React.Component {
 
         <Route exact path="/profile/:id" component={Profile} />
 
-        {/* <Route exact path="/profile/:id/edit" component={ProfileEdit} /> */}
+        <Route exact path="/profile/:id/edit" component={ProfileEdit} />
 
         <Route
           exact

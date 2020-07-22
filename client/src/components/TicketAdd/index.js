@@ -33,7 +33,7 @@ export default class AddTicket extends Component {
             title: '',
             description: ''
         });
-        this.props.history.push('/tickets');
+        this.props.history.push('/ticket/board');
         console.log('after the push', this.state)
       })
       .catch(err => {
