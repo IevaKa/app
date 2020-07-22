@@ -15,8 +15,10 @@ const router = express.Router();
 // });
 
 router.get('/', (req, res) => {
+  console.log('here get tickets')
     Ticket.find()
-    //   .populate('tasks')
+    // .populate('assignee')
+    // .populate('createdBy')
       .then(tickets => {
         res.status(200).json(tickets);
       })

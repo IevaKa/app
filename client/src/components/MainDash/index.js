@@ -1,5 +1,5 @@
 import React from "react";
-import { Route } from "react-router-dom";
+import { Route, Link } from "react-router-dom";
 import Navbar from "../Navbar/index";
 import TicketBoard from "../TicketBoard/index";
 import TicketAdd from "../TicketAdd/index";
@@ -11,29 +11,31 @@ import axios from "axios";
 
 
 class MainDash extends React.Component {
-  state = {
-    data: []
-  }
+  // state = {
+  //   data: []
+  // }
 
-  getData = () => {
-    axios.get('api/tickets')
-  }
+  // getData = () => {
+  //   axios.get('api/tickets').then(response => {
+  //     this.setState({
+  //       data: response.data
+  //     })
+  //   }).catch(err => {
+  //     console.log(err)
+  //   })
+  // }
+
+  // componentDidMount = () => {
+  //   this.getData()
+  // }
 
 
 render (){
+  console.log('hello')
   return (
     <div>
       <Navbar/>
-      <Route
-        exact
-        path='/addticket'
-        component={TicketAdd}
-      />
-      <Route
-        exact
-        path='profile/:id'
-        component={Profile}
-      />
+      <TicketBoard />
     </div>
   );
 }

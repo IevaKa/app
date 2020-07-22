@@ -5,33 +5,52 @@ import axios from 'axios';
 
 export default class Tickets extends Component {
   state = {
-    tickets: []
-  };
-
-  componentDidMount = () => {
-    this.getData();
-  };
+    data: []
+  }
 
   getData = () => {
-    axios
-      .get('/api/tickets')
-      .then(response => {
-        this.setState({
-          tickets: response.data
-        });
+    axios.get('/api/tickets').then(response => {
+      this.setState({
+        data: response.data
       })
-      .catch(err => {
-        console.log(err);
-      });
-  };
+    }).catch(err => {
+      console.log(err)
+    })
+  }
 
+  componentDidMount = () => {
+    this.getData()
+  }
+  // state = {
+  //   tickets: []
+  // };
+
+  // componentDidMount = () => {
+  //   this.getData();
+  // };
+
+  // getData = () => {
+  //   axios
+  //     .get('/api/tickets')
+  //     .then(response => {
+  //       this.setState({
+  //         tickets: response.data
+  //       });
+  //     })
+  //     .catch(err => {
+  //       console.log(err);
+  //     });
+  // };
   render() {
-    console.log(this.state.tickets);
+    console.log(this.state.data)
     return (
-      <div className='container'>
-        {/* <AddTicket getData={this.getData} /> */}
-        {/* <ProjectList projects={this.state.projects} /> */}
-      </div>
+      <ul>
+      {this.state.data.map(ticket => {
+        return(
+        <li key={ticket._id}>{ticket.title}</li>
+        )
+      })}
+      </ul>
     );
   }
 }
