@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import Navbar from '../Navbar';
 
 export default class AddTicket extends Component {
   state = {
@@ -42,6 +43,8 @@ export default class AddTicket extends Component {
 
   render() {
     return (
+      <>
+        <Navbar />
         <form onSubmit={this.handleSubmit}>
           <div className="form-group">
             <label htmlFor="Lab">Lab</label>
@@ -77,6 +80,7 @@ export default class AddTicket extends Component {
             </div>
             <button type="submit" className="btn btn-primary">Submit</button>
         </form>
+        </>
     );
   }
 }

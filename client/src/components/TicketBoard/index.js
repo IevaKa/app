@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-// import ProjectList from './ProjectList';
+import Navbar from '../Navbar';
 // import AddTicket from './AddTicket';
 import axios from 'axios';
 
@@ -44,6 +44,8 @@ export default class Tickets extends Component {
   render() {
     console.log(this.state.data)
     return (
+      <>
+      <Navbar/>
       <ul>
       {this.state.data.map(ticket => {
         return(
@@ -51,6 +53,7 @@ export default class Tickets extends Component {
         )
       })}
       </ul>
+      </>
     );
   }
 }

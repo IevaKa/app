@@ -8,7 +8,7 @@ import TicketBoard from "./components/TicketBoard";
 import TicketAdd from "./components/TicketAdd";
 // import TicketDetail from "./components/TicketDetail";
 // import TicketEdit from "./components/TicketEdit";
-import MainDash from "./components/MainDash";
+// import MainDash from "./components/MainDash";
 // import Profile from "./components/Profile";
 // import ProfileEdit from "./components/ProfileEdit";
 
@@ -27,9 +27,7 @@ class App extends React.Component {
       <div className="App">
         <Route exact path="/" component={Home} />
 
-        {/* <Route exact path="/dashboard" component={MainDash} /> */}
-
-        <Route exact path="/ticket/board" component={MainDash} />
+        <Route exact path="/ticket/board" component={TicketBoard} />
 
         <Route exact path="/ticket/add" component={TicketAdd} />
 

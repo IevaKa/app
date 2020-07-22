@@ -33,7 +33,7 @@ export default class Navbar extends React.Component {
             <Link to='/' onClick={() => handleLogout(props)}>Logout</Link>
           </Nav.Brand> */}
         </>
-      ) 
+       
     </Nav>
   )
 }
