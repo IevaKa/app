@@ -1,62 +1,59 @@
-import React from 'react';
-import './App.css';
-import { Route } from 'react-router-dom';
-import Signup from './components/Signup';
-import Login from './components/Login';
-import Home from './components/Home/';
-import Tickets from './components/Tickets';
-import AddTicket from './components/AddTicket';
-import MainDash from './components/MainDash';
+import React from "react";
+import "./App.css";
+import { Route } from "react-router-dom";
+import Signup from "./components/Signup";
+import Login from "./components/Login";
+import Home from "./components/Home/";
+import TicketBoard from "./components/TicketBoard";
+import TicketAdd from "./components/TicketAdd";
+import TicketDetail from "./components/TicketDetail";
+import TicketEdit from "./components/TicketEdit";
+import MainDash from "./components/MainDash";
+import Profile from "./components/Profile";
+import ProfileEdit from "./components/ProfileEdit";
 
 class App extends React.Component {
   state = {
-    user: this.props.user
-  }
+    user: this.props.user,
+  };
 
-  setUser = user => {
+  setUser = (user) => {
     this.setState({
-      user: user
-    })
-  }
+      user: user,
+    });
+  };
   render() {
     return (
-    <div className="App">
-      <Route
-        exact
-        path='/'
-        component={Home}
-      />
-      <Route
-        exact
-        path='/tickets'
-        component={Tickets}
-      />
+      <div className="App">
+        <Route exact path="/" component={Home} />
 
-      <Route
-        exact
-        path='/tickets/create'
-        component={AddTicket}
-      />
-      <Route
-        exact
-        path='/dashboard'
-        component={MainDash}
-      />
+        <Route exact path="/dashboard" component={MainDash} />
+
+        <Route exact path="/ticket/board" component={TicketBoard} />
+
+        <Route exact path="/ticket/add" component={TicketAdd} />
+
+        <Route exact path="/ticket/:id" component={TicketDetail} />
+
+        <Route exact path="/ticket/:id/edit" component={TicketEdit} />
+
+        <Route exact path="/profile/:id" component={Profile} />
+
+        <Route exact path="/profile/:id/edit" component={ProfileEdit} />
 
         <Route
           exact
-          path='/signup'
-          render={props => <Signup setUser={this.setUser} {...props} />}
+          path="/signup"
+          render={(props) => <Signup setUser={this.setUser} {...props} />}
         />
         <Route
           exact
-          path='/login'
-          render={props => <Login setUser={this.setUser} {...props} />}
+          path="/login"
+          render={(props) => <Login setUser={this.setUser} {...props} />}
         />
-
-    </div>
-  );
-}
+      </div>
+    );
+  }
 }
 
 export default App;
