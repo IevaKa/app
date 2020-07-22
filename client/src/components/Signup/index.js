@@ -5,8 +5,10 @@ import { signup } from '../../services/auth.js';
 export default class Signup extends Component {
   state = {
     username: '',
+    name: '',
     password: '',
-    message: ''
+    message: '',
+    role: 'Student'
   };
 
   handleChange = event => {
@@ -17,23 +19,23 @@ export default class Signup extends Component {
     });
   };
 
+
   handleSubmit = event => {
     event.preventDefault();
+    const { username, password, name, role } = this.state;
 
-    console.log(this.state)
-
-    const { username, password } = this.state;
-
-    signup(username, password).then(data => {
+    signup(username, password, name, role).then(data => {
       if (data.message) {
         this.setState({
           message: data.message,
           username: '',
-          password: ''
+          password: '',
+          name: '',
+          role: 'Student'
         });
       } else {
         this.props.setUser(data);
-        this.props.history.push('/dashboard');
+        this.props.history.push('/ticket/board');
       }
     });
   };
@@ -43,6 +45,26 @@ export default class Signup extends Component {
       <>
         <h2>Signup</h2>
         <Form onSubmit={this.handleSubmit}>
+        <label>
+            <input
+              type="radio"
+              value="Student"
+              name="role"
+              checked={this.state.role === "Student"}
+              onChange={this.handleChange}
+            />
+            Student 
+          </label>
+          <label>
+            <input
+              type="radio"
+              value="Teacher"
+              name="role"
+              checked={this.state.role === "Teacher"}
+              onChange={this.handleChange}
+            />
+            Teacher
+          </label>
           <Form.Group>
             <Form.Label htmlFor='username'>Username: </Form.Label>
             <Form.Control
@@ -51,6 +73,16 @@ export default class Signup extends Component {
               value={this.state.username}
               onChange={this.handleChange}
               id='username'
+            />
+          </Form.Group>
+          <Form.Group>
+            <Form.Label htmlFor='name'>Full name: </Form.Label>
+            <Form.Control
+              type='text'
+              name='name'
+              value={this.state.name}
+              onChange={this.handleChange}
+              id='name'
             />
           </Form.Group>
           <Form.Group>
