@@ -3,7 +3,6 @@ import { Form, Button } from 'react-bootstrap';
 
 export default class index extends Component {
   render() {
-    console.log(this.props.user.username);
     return (
       <div>
         <h2>Edit profile: </h2>
@@ -13,7 +12,7 @@ export default class index extends Component {
             <Form.Control
               type='text'
               name='user'
-              value={this.props.user.username}
+              value={this.props.user.name}
               onChange={this.props.handleChange}
             />
           </Form.Group>

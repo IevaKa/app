@@ -7,7 +7,7 @@ import { Button } from 'react-bootstrap';
 export default class index extends Component {
 
   state = {
-    user: null,
+    user: '',
     editForm: false,
   }
 
@@ -41,6 +41,7 @@ export default class index extends Component {
       user: this.state.user,
     })
       .then(response => {
+        console.log(response.data.user)
         this.setState({
           user: response.data,
           editForm: false
@@ -61,11 +62,10 @@ export default class index extends Component {
   render() {
 
     if (!this.state.user) return (<></>)
-    console.log(this.state.user.username)
     return (
       <div>
         <h1>Welcome</h1>
-        <h1>{this.state.user.username}</h1>
+        <h1>{this.state.user.name}</h1>
 
         <div>
           <Link to={`/ticket/board`}>Navigate back to the Board</Link>
