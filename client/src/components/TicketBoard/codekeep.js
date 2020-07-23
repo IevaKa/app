@@ -9,7 +9,7 @@ render() {
         onDragEnd={this.onDragEnd}
       >
         <Container>
-          {this.state.order.columnOrder.map((columnId) => {
+          {this.state.columns.length && this.state.order.columnOrder.map((columnId) => {
             // map through colum order to render columns
             const column = this.state.columns.columns[columnId];
             const tickets = column.ticketIds.map((ticketId) =>

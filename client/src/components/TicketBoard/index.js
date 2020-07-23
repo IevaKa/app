@@ -1,12 +1,9 @@
 import React from "react";
 // import { data, order } from "./data.js";
 import styled from "styled-components";
-
 import { DragDropContext } from "react-beautiful-dnd";
-
 import Navbar from "../Navbar";
 import Column from "../Column";
-
 import axios from "axios";
 
 const Container = styled.div`
@@ -36,21 +33,21 @@ class TicketBoard extends React.Component {
   };
 
   updateTicketStates = () => {
-    const openTickets = 
+    const openTickets =
       this.state.tickets
-      .filter(ticket => ticket.status === 'Opened')
-      .map(t => t._id)
-    
-    const inProgressTickets = 
+        .filter(ticket => ticket.status === 'Opened')
+        .map(t => t._id)
+
+    const inProgressTickets =
       this.state.tickets
-      .filter(ticket => ticket.status === 'In progress')
-      .map(t => t._id)
-    
-    const solvedTickets = 
+        .filter(ticket => ticket.status === 'In progress')
+        .map(t => t._id)
+
+    const solvedTickets =
       this.state.tickets
-      .filter(ticket => ticket.status === 'Solved')
-      .map(t => t._id)
-                                   
+        .filter(ticket => ticket.status === 'Solved')
+        .map(t => t._id)
+
     const columnOpen = {
       id: "columnOpen",
       title: "Open",
@@ -77,7 +74,7 @@ class TicketBoard extends React.Component {
     this.setState({
       columns: columns
     });
-    console.log('update state', this.state.columns)
+    console.log('old state: ', columns)
   }
 
   // getColumns = () => {
@@ -141,63 +138,60 @@ class TicketBoard extends React.Component {
     // console.log('from: ' + source.droppableId + '  //  to: ' + destination.droppableId);
     // console.log('is: ' + draggableId);
 
-    // const start = this.state.columns.columns[source.droppableId];
-    // const finish = this.state.columns.columns[destination.droppableId];
+    const start = this.state.columns[source.droppableId];
+    const finish = this.state.columns[destination.droppableId];
 
-    // if (start === finish) {
-    //   const newTicketIds = Array.from(start.ticketIds);
-    //   newTicketIds.splice(source.index, 1); // removes item from original array position
-    //   newTicketIds.splice(destination.index, 0, draggableId); // inserts in the new one
 
-    //   const newColumn = {
-    //     ...start,
-    //     ticketIds: newTicketIds,
-    //   };
+    if (start === finish) {
+      const newTicketIds = Array.from(start.ticketIds);
+      newTicketIds.splice(source.index, 1); // removes item from original array position
+      newTicketIds.splice(destination.index, 0, draggableId); // inserts in the new one
 
-    //   const newState = {
-    //     ...this.state.columns,
-    //     columns: {
-    //       ...this.state.columns.columns,
-    //       [newColumn.id]: newColumn,
-    //     },
-    //   };
+      const newColumn = {
+        ...start,
+        ticketIds: newTicketIds,
+      };
 
-    //   this.setState({
-    //     columns: newState,
-    //   });
-    //   return;
-    // }
+      const newState = {
+          ...this.state.columns,
+          [newColumn.id]: newColumn,
+      };
 
-    // // moving between columns
-    // const startTicketIds = Array.from(start.ticketIds);
-    // startTicketIds.splice(source.index, 1);
-    // const newStart = {
-    //   ...start,
-    //   ticketIds: startTicketIds,
-    // };
+      this.setState({
+        columns: newState,
+      });
+      return;
+    }
 
-    // const finishTicketIds = Array.from(finish.ticketIds);
-    // finishTicketIds.splice(destination.index, 0, draggableId); // inserts in the new column
-    // const newFinish = {
-    //   ...finish,
-    //   ticketIds: finishTicketIds,
-    // };
+    // moving between columns
+    const startTicketIds = Array.from(start.ticketIds);
+    startTicketIds.splice(source.index, 1);
+    const newStart = {
+      ...start,
+      ticketIds: startTicketIds,
+    };
 
-    // const newState = {
-    //   ...this.state.columns,
-    //   columns: {
-    //     ...this.state.columns.columns,
-    //     [newStart.id]: newStart,
-    //     [newFinish.id]: newFinish,
-    //   },
-    // };
-    // this.setState({
-    //   columns: newState,
-    // });
+    const finishTicketIds = Array.from(finish.ticketIds);
+    finishTicketIds.splice(destination.index, 0, draggableId); // inserts in the new column
+    const newFinish = {
+      ...finish,
+      ticketIds: finishTicketIds,
+    };
+
+    const newState = {
+      ...this.state.columns,
+      columns: {
+        ...this.state.columns,
+        [newStart.id]: newStart,
+        [newFinish.id]: newFinish,
+      },
+    };
+    this.setState({
+      columns: newState,
+    });
   };
 
   render() {
-    if (!this.state.columns.columns) return (<></>)
     return (
       <>
         <Navbar />
@@ -207,25 +201,17 @@ class TicketBoard extends React.Component {
           onDragEnd={this.onDragEnd}
         >
           <Container>
-            {this.state.order.map((columnId) => {
-              console.log('column id', columnId)
-              const column = this.state.columns.columns[columnId];
-              console.log('column id', column)
+            {this.state.columns && this.state.order.map((columnId) => {
+              const column = this.state.columns[columnId];
               // map through colum order to render columns
-              {/* const column = this.state.columns.columns[columnId];
-              const tickets = column.ticketIds.map((ticketId) =>
-                this.state.tickets.find((ticket) => ticket._id === ticketId) */}
-              //);
-  
-              
-                /* console.log(tickets) */
-              
-  
-              // return column.title
-              {/* return (
+              const tickets = column.ticketIds.map((ticketId) => {
+                return this.state.tickets.find((ticket) => ticket._id === ticketId)
+              })
+              return (
                 <Column key={column.id} column={column} tickets={tickets} />
-              ); */}
-            })}
+              );
+            })
+            };
           </Container>
         </DragDropContext>
       </>
