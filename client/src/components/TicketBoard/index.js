@@ -1,12 +1,9 @@
 import React from "react";
 // import { data, order } from "./data.js";
 import styled from "styled-components";
-
 import { DragDropContext } from "react-beautiful-dnd";
-
 import Navbar from "../Navbar";
 import Column from "../Column";
-
 import axios from "axios";
 
 const Container = styled.div`
@@ -141,59 +138,62 @@ class TicketBoard extends React.Component {
     // console.log('from: ' + source.droppableId + '  //  to: ' + destination.droppableId);
     // console.log('is: ' + draggableId);
 
-    // const start = this.state.columns.columns[source.droppableId];
-    // const finish = this.state.columns.columns[destination.droppableId];
+    const start = this.state.columns[source.droppableId];
+    const finish = this.state.columns[destination.droppableId];
 
-    // if (start === finish) {
-    //   const newTicketIds = Array.from(start.ticketIds);
-    //   newTicketIds.splice(source.index, 1); // removes item from original array position
-    //   newTicketIds.splice(destination.index, 0, draggableId); // inserts in the new one
+    console.log(start)
+    console.log(finish)
 
-    //   const newColumn = {
-    //     ...start,
-    //     ticketIds: newTicketIds,
-    //   };
+    if (start === finish) {
+      const newTicketIds = Array.from(start.ticketIds);
+      newTicketIds.splice(source.index, 1); // removes item from original array position
+      newTicketIds.splice(destination.index, 0, draggableId); // inserts in the new one
 
-    //   const newState = {
-    //     ...this.state.columns,
-    //     columns: {
-    //       ...this.state.columns.columns,
-    //       [newColumn.id]: newColumn,
-    //     },
-    //   };
+      const newColumn = {
+        ...start,
+        ticketIds: newTicketIds,
+      };
 
-    //   this.setState({
-    //     columns: newState,
-    //   });
-    //   return;
-    // }
+      const newState = {
+        ...this.state.columns,
+        columns: {
+          ...this.state.columns,
+          [newColumn.id]: newColumn,
+        },
+      };
 
-    // // moving between columns
-    // const startTicketIds = Array.from(start.ticketIds);
-    // startTicketIds.splice(source.index, 1);
-    // const newStart = {
-    //   ...start,
-    //   ticketIds: startTicketIds,
-    // };
+      this.setState({
+        columns: newState,
+      });
+      return;
+    }
 
-    // const finishTicketIds = Array.from(finish.ticketIds);
-    // finishTicketIds.splice(destination.index, 0, draggableId); // inserts in the new column
-    // const newFinish = {
-    //   ...finish,
-    //   ticketIds: finishTicketIds,
-    // };
+    // moving between columns
+    const startTicketIds = Array.from(start.ticketIds);
+    startTicketIds.splice(source.index, 1);
+    const newStart = {
+      ...start,
+      ticketIds: startTicketIds,
+    };
 
-    // const newState = {
-    //   ...this.state.columns,
-    //   columns: {
-    //     ...this.state.columns.columns,
-    //     [newStart.id]: newStart,
-    //     [newFinish.id]: newFinish,
-    //   },
-    // };
-    // this.setState({
-    //   columns: newState,
-    // });
+    const finishTicketIds = Array.from(finish.ticketIds);
+    finishTicketIds.splice(destination.index, 0, draggableId); // inserts in the new column
+    const newFinish = {
+      ...finish,
+      ticketIds: finishTicketIds,
+    };
+
+    const newState = {
+      ...this.state.columns,
+      columns: {
+        ...this.state.columns,
+        [newStart.id]: newStart,
+        [newFinish.id]: newFinish,
+      },
+    };
+    this.setState({
+      columns: newState,
+    });
   };
 
   render() {
@@ -211,20 +211,12 @@ class TicketBoard extends React.Component {
               // map through colum order to render columns
               const tickets = column.ticketIds.map((ticketId) => {
                 return this.state.tickets.find((ticket) => ticket._id === ticketId)
-              }
-              )
+              })
               return (
                 <Column key={column.id} column={column} tickets={tickets} />
               );
             })
-
             };
-            {/* // return column.title
-              /* return (
-                <Column key={column.id} column={column} tickets={tickets} />
-              );
-            })} */}
-
           </Container>
         </DragDropContext>
       </>
