@@ -27,10 +27,12 @@ const Title = styled.h3`
   padding: 8px;
 `;
 const TicketList = styled.div`
-  padding: 8px;
-  background-color: ${props => (props.isDraggingOver ? ironBlue : 'white')};
+  min-height: 300px;
+  padding: 16px;
+  background-color: red;
+
+  ${'' /* background-color: ${props => (props.isDraggingOver ? ironBlue : 'white')}; */}
   flex-grow: 1;
-  min-height: 100px
 `;
 
 export default class Column extends React.Component {
@@ -46,7 +48,7 @@ export default class Column extends React.Component {
               ref={provided.innerRef}
               {...provided.droppableProps}
               isDraggingOver={snapshot.isDraggingOver}
-            >
+            > :)
               {this.props.tickets.map((ticket, index) => <TicketPreview key={ticket._id} ticket={ticket} index={index}/>)}
               {provided.placeholder}
             </TicketList>

@@ -76,7 +76,9 @@ class TicketBoard extends React.Component {
 
     // moving inside the same column
 
-    console.log("this.state.columns");
+    console.log('from: ' + source.droppableId + '  //  to: ' + destination.droppableId);
+    console.log('is: ' + draggableId);
+
 
     const start = this.state.columns.columns[source.droppableId];
     const finish = this.state.columns.columns[destination.droppableId];
