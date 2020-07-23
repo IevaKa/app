@@ -1,5 +1,4 @@
 import React from "react";
-// import { data, order } from "./data.js";
 import styled from "styled-components";
 import { DragDropContext } from "react-beautiful-dnd";
 import Navbar from "../Navbar";
@@ -75,19 +74,6 @@ class TicketBoard extends React.Component {
       columns: columns
     });
   }
-
-  // getColumns = () => {
-  //   axios
-  //     .get("/api/columns")
-  //     .then((response) => {
-  //       this.setState({
-  //         columns: response.data,
-  //       });
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // };
 
   componentDidMount = () => {
     this.getTickets();
@@ -184,13 +170,26 @@ class TicketBoard extends React.Component {
         [newFinish.id]: newFinish
     };
 
-console.log('new state', newState)
-console.log('old state', this.state.columns)
     this.setState({
       columns: newState,
     });
-    console.log('after the move', this.state.columns)
-  };
+
+    const statusMap = {
+      columnOpen: 'Opened',
+      columnProgress: 'In progress', 
+      columnDone: 'Solved'
+    }
+    
+    axios.put(`/api/tickets/${draggableId}`, {
+      status: statusMap[destination.droppableId]
+      })
+      .then(response => {
+        console.log(response);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+    };
 
   render() {
     return (

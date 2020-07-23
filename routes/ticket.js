@@ -46,18 +46,17 @@ router.post('/', (req, res) => {
     });
 });
 
-// router.put('/:id', (req, res, next) => {
-//   const id = req.params.id;
-//   const { title, description } = req.body;
-
-//   Task.findByIdAndUpdate(id, { title, description }, { new: true })
-//     .then(task => {
-//       res.json(task);
-//     })
-//     .catch(err => {
-//       res.json(err);
-//     });
-// });
+router.put('/:id', (req, res, next) => {
+  const id = req.params.id;
+  const status = req.body;
+  Ticket.findByIdAndUpdate(id, status, { new: true })
+    .then(ticket => {
+      res.json(ticket);
+    })
+    .catch(err => {
+      res.json(err);
+    });
+});
 
 // router.delete('/:id', (req, res, next) => {
 //   const id = req.params.id;
