@@ -1,15 +1,18 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 const { Schema, model } = mongoose;
 
 const columnSchema = new Schema({
-  ticketIds: {
-    type: Schema.Types.ObjectId,
-    ref: 'Ticket',
+  id: {
+    type: String,
+    enum: ['columnOpen', 'columnProgress', 'columnDone']
   },
-  title: 'String',
-  id: 'String'
-});
+  title: {
+    type: String,
+    enum: ["Open", "In progress", "Done"]
+  },
+  ticketIds: [String]
+})
 
-const Column = model("Column", columnSchema);
+const Column = model('Column', columnSchema);
 
 module.exports = Column;
