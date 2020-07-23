@@ -8,23 +8,68 @@ const data = {
 
   },
   columns: {
-    column1: {
-      id: "column1",
-      title: "todo",
-      ticketIds: ["ticket1", "ticket2"] // keep pushing and pulling the tasks according to status
+    columnOpen: {
+      id: "columnOpen",
+      title: "Open",
+      ticketIds: ["5f1840156c61b182859ee318", "5f1840286c61b182859ee319", "5f18402f6c61b182859ee31a"] // keep pushing and pulling the tasks according to status
     },
-    column2: {
-      id: "column2",
-      title: "progress",
-      ticketIds: ["ticket3", "ticket4"] // keep pushing and pulling the tasks according to status
+    columnProgress: {
+      id: "columnProgress",
+      title: "In progress",
+      ticketIds: ["5f190ebd6c61b182859ee31d"] // keep pushing and pulling the tasks according to status
     },
-    column3: {
-      id: "column3",
-      title: "done",
-      ticketIds: ["ticket5"] // keep pushing and pulling the tasks according to status
+    columnDone: {
+      id: "columnDone",
+      title: "Done",
+      ticketIds: ["5f190ed66c61b182859ee31e"] // keep pushing and pulling the tasks according to status
     }
   },
-  columnOrder: ['column1', 'column2', 'column3']
+  columnOrder: ['columnOpen', 'columnProgress', 'columnDone']
 };
 
 export default data;
+
+// we have to push the ticketids to the correct columns
+// to render the tickets object, obj keys must be == obj.id
+
+
+
+// import React, { useState, useEffect } from "react";
+// import Navbar from "../Navbar";
+// import axios from "axios";
+
+// function Tickets() {
+//   let [tickets, setTickets] = useState([]);
+
+//   useEffect(() => {
+//     axios
+//       .get("/api/tickets")
+//       .then((data) => {
+//         setTickets(data);
+//       })
+//       .catch((err) => {
+//         console.log(err);
+//       });
+//   }, []);
+
+//   let allTickets;
+//   if (tickets.data) {
+//     allTickets = tickets.data.map((ticket) => {
+//       return <h2 key={ticket._id}>{ticket.title}</h2>;
+//     });
+//   } else {
+//     tickets.data = null;
+//   }
+
+//   // console.log(tickets);
+
+//   return (
+//     <>
+//       <Navbar />
+//       {allTickets}
+//     </>
+//   );
+// }
+
+// export default Tickets;
+

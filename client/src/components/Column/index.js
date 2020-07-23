@@ -13,7 +13,7 @@ import {
 
 import { Droppable } from "react-beautiful-dnd";
 
-import Ticket from "../Ticket";
+import TicketPreview from "../TicketPreview";
 
 const Container = styled.div`
   margin: 8px;
@@ -35,24 +35,24 @@ const TicketList = styled.div`
 
 export default class Column extends React.Component {
   render() {
-    console.log(this.props.tickets);
+    console.log(this.props.tickets); // array of objects
 
     return (
       <Container>
         <Title> {this.props.column.title}</Title>
-        <Droppable droppableId={this.props.column.id}>
+        {this.props.tickets[0] ? (<Droppable droppableId={this.props.column.id}>
           {(provided, snapshot) => (
             <TicketList
               ref={provided.innerRef}
               {...provided.droppableProps}
               isDraggingOver={snapshot.isDraggingOver}
             >
-              {this.props.tickets.map((ticket, index) => <Ticket key={ticket.id} ticket={ticket} index={index}/>)}
+              {this.props.tickets.map((ticket, index) => <TicketPreview key={ticket._id} ticket={ticket} index={index}/>)}
               {provided.placeholder}
             </TicketList>
           )}
-        </Droppable>
+        </Droppable>) : (null)}
       </Container>
-    );
+    ) ;
   }
 }
