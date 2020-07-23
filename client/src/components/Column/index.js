@@ -29,9 +29,9 @@ const Title = styled.h3`
 const TicketList = styled.div`
   min-height: 300px;
   padding: 16px;
-  background-color: red;
+  ${'' /* background-color: red; */}
 
-  ${"" /* background-color: ${props => (props.isDraggingOver ? ironBlue : 'white')}; */}
+  background-color: ${props => (props.isDraggingOver ? ironYellow : 'white')};
   flex-grow: 1;
 `;
 
@@ -39,7 +39,7 @@ export default class Column extends React.Component {
   render() {
     // console.log(this.props.tickets); // array of objects
     const propsLoaded = this.props.tickets;
-    console.log(propsLoaded);
+    // console.log(propsLoaded);
 
     return (
       <Container>

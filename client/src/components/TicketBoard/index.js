@@ -1,5 +1,5 @@
 import React from "react";
-import data from "./data.js";
+import { data, order } from "./data.js";
 import styled from "styled-components";
 
 import { DragDropContext } from "react-beautiful-dnd";
@@ -17,6 +17,7 @@ class TicketBoard extends React.Component {
   state = {
     columns: data,
     tickets: [],
+    order: order
   };
 
   getTickets = () => {
@@ -76,9 +77,8 @@ class TicketBoard extends React.Component {
 
     // moving inside the same column
 
-    console.log('from: ' + source.droppableId + '  //  to: ' + destination.droppableId);
-    console.log('is: ' + draggableId);
-
+    // console.log('from: ' + source.droppableId + '  //  to: ' + destination.droppableId);
+    // console.log('is: ' + draggableId);
 
     const start = this.state.columns.columns[source.droppableId];
     const finish = this.state.columns.columns[destination.droppableId];
@@ -145,7 +145,7 @@ class TicketBoard extends React.Component {
           onDragEnd={this.onDragEnd}
         >
           <Container>
-            {this.state.columns.columnOrder.map((columnId) => {
+            {this.state.order.columnOrder.map((columnId) => {
               // map through colum order to render columns
               const column = this.state.columns.columns[columnId];
               const tickets = column.ticketIds.map((ticketId) =>
