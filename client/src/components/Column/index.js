@@ -1,14 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
 import {
-  darkGray,
-  lightGray,
-  ironBlue,
-  ironPurple,
-  ironRed,
-  ironYellow,
-  ironGreen,
-  Button,
+  ironYellow
 } from "../../styles/global.js";
 
 import { Droppable } from "react-beautiful-dnd";

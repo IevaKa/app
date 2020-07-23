@@ -11,6 +11,7 @@ import axios from "axios";
 
 const Container = styled.div`
   display: flex;
+  justify-content: center;
 `;
 
 class TicketBoard extends React.Component {
@@ -33,8 +34,22 @@ class TicketBoard extends React.Component {
       });
   };
 
+  // getColumns = () => {
+  //   axios
+  //     .get("/api/columns")
+  //     .then((response) => {
+  //       this.setState({
+  //         columns: response.data,
+  //       });
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // };
+
   componentDidMount = () => {
     this.getTickets();
+    // this.getColumns();
   };
 
   //   render() {
@@ -70,7 +85,7 @@ class TicketBoard extends React.Component {
     }
     if (
       destination.droppableId === source.droppableId &&
-      destination.index == source.index
+      destination.index === source.index
     ) {
       return;
     }
@@ -136,6 +151,7 @@ class TicketBoard extends React.Component {
   };
 
   render() {
+    
     return (
       <>
         <Navbar />
@@ -149,12 +165,12 @@ class TicketBoard extends React.Component {
               // map through colum order to render columns
               const column = this.state.columns.columns[columnId];
               const tickets = column.ticketIds.map((ticketId) =>
-                this.state.tickets.find((ticket) => ticket._id == ticketId)
+                this.state.tickets.find((ticket) => ticket._id === ticketId)
               );
 
-              {
+              
                 /* console.log(tickets) */
-              }
+              
 
               // return column.title
               return (
