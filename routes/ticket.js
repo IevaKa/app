@@ -1,5 +1,6 @@
 const express = require('express');
 const Ticket = require('../models/Ticket');
+const Column = require('../models/Column');
 const router = express.Router();
 
 // router.get('/:id', (req, res) => {
@@ -28,7 +29,6 @@ router.get('/', (req, res) => {
 
 router.post('/', (req, res) => {
   const { lab, title, description, status } = req.body;
-  console.log('backend1:', lab, title, description, status)
   Ticket.create({
     lab, 
     title, 
@@ -36,12 +36,16 @@ router.post('/', (req, res) => {
     status
   })
     .then(task => {
-      console.log('backend2:', task)
+      Column.update(
+        { user: req.user.id }, 
+        { $push: { columnOpen: task._id } },
+    ).then(column => {
+      console.log('column is updated ', column)
+    })
       res.json(task)
     })
     .catch(err => {
       console.log('catch:', err)
-
       res.json(err);
     });
 });
