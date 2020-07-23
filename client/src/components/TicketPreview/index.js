@@ -1,15 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
 import { Draggable } from "react-beautiful-dnd";
 import {
-  darkGray,
-  lightGray,
-  ironBlue,
-  ironPurple,
-  ironRed,
-  ironYellow,
-  ironGreen,
-  Button,
+
+  ironBlue
+
 } from "../../styles/global.js";
 
 const Container = styled.div`

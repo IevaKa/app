@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
 import { Navbar as Nav } from 'react-bootstrap';
-import { logout } from '../../services/auth.js';
+// import { logout } from '../../services/auth.js';
 import axios from 'axios'
 
 

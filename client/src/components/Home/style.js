@@ -1,13 +1,9 @@
 import styled from "styled-components";
 import {
-  darkGray,
-  lightGray,
-  ironBlue,
+
   ironPurple,
-  ironRed,
   ironYellow,
-  ironGreen,
-  Button
+
 } from "../../styles/global.js";
 
 export const Box = styled.div`
