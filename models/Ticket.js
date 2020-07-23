@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const { Schema, model } = mongoose;
 
+
 const ticketSchema = new Schema({
     // user_id of the student
     createdBy: { 

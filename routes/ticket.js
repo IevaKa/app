@@ -22,7 +22,7 @@ router.get('/', (req, res) => {
         res.status(200).json(tickets);
       })
       .catch(err => {
-        res.json(err);0
+        res.json(err);
       });
   });
 
