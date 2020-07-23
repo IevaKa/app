@@ -1,6 +1,8 @@
 import React from "react";
-import "./App.css";
 import { Route } from "react-router-dom";
+
+import {GlobalStyles} from  "../src/styles/global.js"
+
 import Signup from "./components/Signup";
 import Login from "./components/Login";
 import Home from "./components/Home/";
@@ -10,7 +12,7 @@ import TicketAdd from "./components/TicketAdd";
 // import TicketEdit from "./components/TicketEdit";
 // import MainDash from "./components/MainDash";
 import Profile from "./components/Profile";
-// import ProfileEdit from "./components/ProfileEdit";
+import ProfileEdit from "./components/ProfileEdit";
 
 class App extends React.Component {
   state = {
@@ -26,6 +28,7 @@ class App extends React.Component {
     // console.log('this is App.js', this.props.user)
     return (
       <div className="App">
+        <GlobalStyles />
         <Route exact path="/" component={Home} />
 
         <Route exact path="/ticket/board" component={TicketBoard} />
@@ -38,7 +41,7 @@ class App extends React.Component {
 
         <Route exact path="/profile/:id" component={Profile} />
 
-        {/* <Route exact path="/profile/:id/edit" component={ProfileEdit} /> */}
+        <Route exact path="/profile/:id/edit" component={ProfileEdit} />
 
         <Route
           exact

@@ -15,7 +15,7 @@ const ticketSchema = new Schema({
     // properties: week, topics (routing, crud, etc), iterations
     lab: {
         type: String,
-        enum: ['React | Ironbeers', 'React | Wiki Countries', 'React | IronBook']
+        // enum: ['React|Ironbeers', 'React|Wiki Countries', 'React|IronBook']
     },
     // user id of a TA picks up the ticket
     assignee: { 

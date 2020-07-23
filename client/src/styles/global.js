@@ -1,4 +1,13 @@
-import styled from "styled-components";
+import { createGlobalStyle } from "styled-components";
+import styled, { keyframes } from 'styled-components';
+
+const GlobalStyles = createGlobalStyle`
+  body {
+    font-family: 'Poppins', sans-serif;
+        font-size: 16px;
+    font-weight: 400;
+  }
+`
 
 const darkGray = "rgba(82, 82, 82, 1)";
 const lightGray = "rgba(156, 160, 163, 1)";
@@ -9,6 +18,7 @@ const ironYellow = "rgba(255, 220, 97, 1)";
 const ironGreen = "rgba(57, 232, 197, 1)";
 
 const Button = styled.button`
+  text-transform: uppercase;
   cursor: pointer;
   background: transparent;
   font-size: 16px;
@@ -27,7 +37,7 @@ const Button = styled.button`
   }
 `;
 
-export { darkGray, lightGray, ironBlue, ironPurple, ironRed, ironYellow, ironGreen, Button }
+export { GlobalStyles, darkGray, lightGray, ironBlue, ironPurple, ironRed, ironYellow, ironGreen, Button }
 
 
 
