@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
 import { Navbar as Nav } from 'react-bootstrap';
-// import { logout } from '../../services/auth.js';
+import { logout } from '../../services/auth.js';
 import axios from 'axios'
 
 
@@ -25,12 +25,19 @@ export default class Navbar extends React.Component {
     this.getUser()
   }
 
+  setUser = user => {
+    this.setState({
+      user: user
+    })
+  }
 
-  // handleLogout = () => {
-  //   logout().then(() => {
-  //     this.props.setUser(null);
-  //   });
-  // }
+
+  handleLogout = () => {
+    logout().then(() => {
+      this.setUser(null);
+    });
+  }
+
   render () {
     // console.log('this is navbar ', this.state.user)
     if (!this.state.user) return (<></>)
@@ -50,9 +57,9 @@ export default class Navbar extends React.Component {
             {/* <Link to={`/profile/${this.props.user.id}`}>Profile</Link> */}
             <Link to={`/profile/${this.state.user._id}`}>Profile</Link>
           </Nav.Brand>
-          {/* <Nav.Brand>
-            <Link to='/' onClick={() => handleLogout(props)}>Logout</Link>
-          </Nav.Brand> */}
+          <Nav.Brand>
+            <Link to='/' onClick={() => this.handleLogout(this.props)}>Logout</Link>
+          </Nav.Brand>
         </>  
     </Nav>
   )
