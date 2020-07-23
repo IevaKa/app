@@ -7,15 +7,57 @@ import { DragDropContext } from "react-beautiful-dnd";
 import Navbar from "../Navbar";
 import Column from "../Column";
 
+import axios from "axios";
+
 const Container = styled.div`
   display: flex;
 `;
 
-class DragTest extends React.Component {
-  state = data;
+class TicketBoard extends React.Component {
+  state = {
+    columns: data,
+    tickets: [],
+  };
+
+  getTickets = () => {
+    axios
+      .get("/api/tickets")
+      .then((response) => {
+        this.setState({
+          tickets: response.data,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  componentDidMount = () => {
+    this.getTickets();
+  };
+
+  //   render() {
+  //     console.log(this.state.columns);
+  //     console.log(this.state.columns.columns);
+
+  //     return (
+  //       <>
+  //         <Navbar />
+  //         <ul>
+  //           {this.state.tickets.map((ticket) => {
+  //             return <li key={ticket._id}>{ticket.title}</li>;
+  //           })}
+  //           {this.state.columns.columnOrder.map((column, i) => {
+  //             return <li key={i}>{column}</li>;
+  //           })}
+  //         </ul>
+  //       </>
+  //     );
+  //   }
+  // }
 
   // onDragStart = () => {
-  //   document.body.style.color = 'orange'
+  //   document.body.style.color = 'orange'    // directly changing dom is kinda shitty in react
   // }
 
   onDragEnd = (result) => {
@@ -34,8 +76,10 @@ class DragTest extends React.Component {
 
     // moving inside the same column
 
-    const start = this.state.columns[source.droppableId];
-    const finish = this.state.columns[destination.droppableId];
+    console.log("this.state.columns");
+
+    const start = this.state.columns.columns[source.droppableId];
+    const finish = this.state.columns.columns[destination.droppableId];
 
     if (start === finish) {
       const newTicketIds = Array.from(start.ticketIds);
@@ -48,14 +92,16 @@ class DragTest extends React.Component {
       };
 
       const newState = {
-        ...this.state,
+        ...this.state.columns,
         columns: {
-          ...this.state.columns,
+          ...this.state.columns.columns,
           [newColumn.id]: newColumn,
         },
       };
 
-      this.setState(newState);
+      this.setState({
+        columns: newState,
+      });
       return;
     }
 
@@ -75,14 +121,16 @@ class DragTest extends React.Component {
     };
 
     const newState = {
-      ...this.state,
+      ...this.state.columns,
       columns: {
-        ...this.state.columns,
+        ...this.state.columns.columns,
         [newStart.id]: newStart,
         [newFinish.id]: newFinish,
       },
     };
-    this.setState(newState);
+    this.setState({
+      columns: newState,
+    });
   };
 
   render() {
@@ -95,12 +143,16 @@ class DragTest extends React.Component {
           onDragEnd={this.onDragEnd}
         >
           <Container>
-            {this.state.columnOrder.map((columnId) => {
+            {this.state.columns.columnOrder.map((columnId) => {
               // map through colum order to render columns
-              const column = this.state.columns[columnId];
-              const tickets = column.ticketIds.map(
-                (ticketId) => this.state.tickets[ticketId]
+              const column = this.state.columns.columns[columnId];
+              const tickets = column.ticketIds.map((ticketId) =>
+                this.state.tickets.find((ticket) => ticket._id == ticketId)
               );
+
+              {
+                /* console.log(tickets) */
+              }
 
               // return column.title
               return (
@@ -114,7 +166,7 @@ class DragTest extends React.Component {
   }
 }
 
-export default DragTest;
+export default TicketBoard;
 
 // import React, { Component } from 'react';
 // import Navbar from '../Navbar';

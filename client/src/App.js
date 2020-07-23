@@ -23,7 +23,7 @@ class App extends React.Component {
     });
   };
   render() {
-    console.log('this is App.js', this.props.user)
+    // console.log('this is App.js', this.props.user)
     return (
       <div className="App">
         <Route exact path="/" component={Home} />
