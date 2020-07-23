@@ -31,7 +31,6 @@ export default class Navbar extends React.Component {
     })
   }
 
-
   handleLogout = () => {
     logout().then(() => {
       this.setUser(null);
