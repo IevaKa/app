@@ -74,7 +74,6 @@ class TicketBoard extends React.Component {
     this.setState({
       columns: columns
     });
-    console.log('old state: ', columns)
   }
 
   // getColumns = () => {
@@ -122,7 +121,6 @@ class TicketBoard extends React.Component {
     document.body.style.color = "inherit";
 
     const { destination, source, draggableId } = result;
-    console.log('on drag ', result)
     if (!destination) {
       return;
     }
@@ -153,8 +151,8 @@ class TicketBoard extends React.Component {
       };
 
       const newState = {
-          ...this.state.columns,
-          [newColumn.id]: newColumn,
+        ...this.state.columns,
+        [newColumn.id]: newColumn,
       };
 
       this.setState({
@@ -165,11 +163,13 @@ class TicketBoard extends React.Component {
 
     // moving between columns
     const startTicketIds = Array.from(start.ticketIds);
+
     startTicketIds.splice(source.index, 1);
     const newStart = {
       ...start,
       ticketIds: startTicketIds,
     };
+
 
     const finishTicketIds = Array.from(finish.ticketIds);
     finishTicketIds.splice(destination.index, 0, draggableId); // inserts in the new column
@@ -180,15 +180,16 @@ class TicketBoard extends React.Component {
 
     const newState = {
       ...this.state.columns,
-      columns: {
-        ...this.state.columns,
         [newStart.id]: newStart,
-        [newFinish.id]: newFinish,
-      },
+        [newFinish.id]: newFinish
     };
+
+console.log('new state', newState)
+console.log('old state', this.state.columns)
     this.setState({
       columns: newState,
     });
+    console.log('after the move', this.state.columns)
   };
 
   render() {
@@ -211,7 +212,7 @@ class TicketBoard extends React.Component {
                 <Column key={column.id} column={column} tickets={tickets} />
               );
             })
-            };
+            }
           </Container>
         </DragDropContext>
       </>
