@@ -35,7 +35,7 @@ const TicketList = styled.div`
 
 export default class Column extends React.Component {
   render() {
-    console.log(this.props.tickets); // array of objects
+    // console.log(this.props.tickets); // array of objects
 
     return (
       <Container>
