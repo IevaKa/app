@@ -36,21 +36,21 @@ class TicketBoard extends React.Component {
   };
 
   updateTicketStates = () => {
-    const openTickets = 
+    const openTickets =
       this.state.tickets
-      .filter(ticket => ticket.status === 'Opened')
-      .map(t => t._id)
-    
-    const inProgressTickets = 
+        .filter(ticket => ticket.status === 'Opened')
+        .map(t => t._id)
+
+    const inProgressTickets =
       this.state.tickets
-      .filter(ticket => ticket.status === 'In progress')
-      .map(t => t._id)
-    
-    const solvedTickets = 
+        .filter(ticket => ticket.status === 'In progress')
+        .map(t => t._id)
+
+    const solvedTickets =
       this.state.tickets
-      .filter(ticket => ticket.status === 'Solved')
-      .map(t => t._id)
-                                   
+        .filter(ticket => ticket.status === 'Solved')
+        .map(t => t._id)
+
     const columnOpen = {
       id: "columnOpen",
       title: "Open",
@@ -197,7 +197,6 @@ class TicketBoard extends React.Component {
   };
 
   render() {
-    if (!this.state.columns.columns) return (<></>)
     return (
       <>
         <Navbar />
@@ -207,25 +206,25 @@ class TicketBoard extends React.Component {
           onDragEnd={this.onDragEnd}
         >
           <Container>
-            {this.state.order.map((columnId) => {
-              console.log('column id', columnId)
-              const column = this.state.columns.columns[columnId];
-              console.log('column id', column)
+            {this.state.columns && this.state.order.map((columnId) => {
+              const column = this.state.columns[columnId];
               // map through colum order to render columns
-              {/* const column = this.state.columns.columns[columnId];
-              const tickets = column.ticketIds.map((ticketId) =>
-                this.state.tickets.find((ticket) => ticket._id === ticketId) */}
-              //);
-  
-              
-                /* console.log(tickets) */
-              
-  
-              // return column.title
-              {/* return (
+              const tickets = column.ticketIds.map((ticketId) => {
+                return this.state.tickets.find((ticket) => ticket._id === ticketId)
+              }
+              )
+              return (
                 <Column key={column.id} column={column} tickets={tickets} />
-              ); */}
-            })}
+              );
+            })
+
+            };
+            {/* // return column.title
+              /* return (
+                <Column key={column.id} column={column} tickets={tickets} />
+              );
+            })} */}
+
           </Container>
         </DragDropContext>
       </>
