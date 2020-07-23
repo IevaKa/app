@@ -1,12 +1,9 @@
 import React from "react";
-import { data, order } from "./data.js";
+// import { data, order } from "./data.js";
 import styled from "styled-components";
-
 import { DragDropContext } from "react-beautiful-dnd";
-
 import Navbar from "../Navbar";
 import Column from "../Column";
-
 import axios from "axios";
 
 const Container = styled.div`
@@ -16,9 +13,9 @@ const Container = styled.div`
 
 class TicketBoard extends React.Component {
   state = {
-    columns: data,
+    columns: null,
     tickets: [],
-    order: order
+    order: ["columnOpen", "columnProgress", "columnDone"]
   };
 
   getTickets = () => {
@@ -28,11 +25,57 @@ class TicketBoard extends React.Component {
         this.setState({
           tickets: response.data,
         });
+        this.updateTicketStates()
       })
       .catch((err) => {
         console.log(err);
       });
   };
+
+  updateTicketStates = () => {
+    const openTickets =
+      this.state.tickets
+        .filter(ticket => ticket.status === 'Opened')
+        .map(t => t._id)
+
+    const inProgressTickets =
+      this.state.tickets
+        .filter(ticket => ticket.status === 'In progress')
+        .map(t => t._id)
+
+    const solvedTickets =
+      this.state.tickets
+        .filter(ticket => ticket.status === 'Solved')
+        .map(t => t._id)
+
+    const columnOpen = {
+      id: "columnOpen",
+      title: "Open",
+      ticketIds: openTickets
+    }
+
+    const columnProgress = {
+      id: "columnProgress",
+      title: "In progress",
+      ticketIds: inProgressTickets
+    }
+
+    const columnDone = {
+      id: "columnDone",
+      title: "Done",
+      ticketIds: solvedTickets
+    }
+
+    const columns = {
+      columnOpen,
+      columnProgress,
+      columnDone
+    }
+    this.setState({
+      columns: columns
+    });
+    console.log('update state', this.state.columns)
+  }
 
   // getColumns = () => {
   //   axios
@@ -49,7 +92,6 @@ class TicketBoard extends React.Component {
 
   componentDidMount = () => {
     this.getTickets();
-    // this.getColumns();
   };
 
   //   render() {
@@ -80,6 +122,7 @@ class TicketBoard extends React.Component {
     document.body.style.color = "inherit";
 
     const { destination, source, draggableId } = result;
+    console.log('on drag ', result)
     if (!destination) {
       return;
     }
@@ -95,8 +138,11 @@ class TicketBoard extends React.Component {
     // console.log('from: ' + source.droppableId + '  //  to: ' + destination.droppableId);
     // console.log('is: ' + draggableId);
 
-    const start = this.state.columns.columns[source.droppableId];
-    const finish = this.state.columns.columns[destination.droppableId];
+    const start = this.state.columns[source.droppableId];
+    const finish = this.state.columns[destination.droppableId];
+
+    console.log(start)
+    console.log(finish)
 
     if (start === finish) {
       const newTicketIds = Array.from(start.ticketIds);
@@ -111,7 +157,7 @@ class TicketBoard extends React.Component {
       const newState = {
         ...this.state.columns,
         columns: {
-          ...this.state.columns.columns,
+          ...this.state.columns,
           [newColumn.id]: newColumn,
         },
       };
@@ -140,7 +186,7 @@ class TicketBoard extends React.Component {
     const newState = {
       ...this.state.columns,
       columns: {
-        ...this.state.columns.columns,
+        ...this.state.columns,
         [newStart.id]: newStart,
         [newFinish.id]: newFinish,
       },
@@ -151,7 +197,6 @@ class TicketBoard extends React.Component {
   };
 
   render() {
-    
     return (
       <>
         <Navbar />
@@ -161,22 +206,17 @@ class TicketBoard extends React.Component {
           onDragEnd={this.onDragEnd}
         >
           <Container>
-            {this.state.order.columnOrder.map((columnId) => {
+            {this.state.columns && this.state.order.map((columnId) => {
+              const column = this.state.columns[columnId];
               // map through colum order to render columns
-              const column = this.state.columns.columns[columnId];
-              const tickets = column.ticketIds.map((ticketId) =>
-                this.state.tickets.find((ticket) => ticket._id === ticketId)
-              );
-
-              
-                /* console.log(tickets) */
-              
-
-              // return column.title
+              const tickets = column.ticketIds.map((ticketId) => {
+                return this.state.tickets.find((ticket) => ticket._id === ticketId)
+              })
               return (
                 <Column key={column.id} column={column} tickets={tickets} />
               );
-            })}
+            })
+            };
           </Container>
         </DragDropContext>
       </>

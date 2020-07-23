@@ -47,6 +47,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 // Express View engine setup
+// app.set('view engine', 'hbs');
 
 app.use(require('node-sass-middleware')({
   src: path.join(__dirname, 'public'),
@@ -62,8 +63,6 @@ app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
 app.use('/api/tickets', require('./routes/ticket'));
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/user', require('./routes/user'));
-app.use('/api/columns', require('./routes/column'));
-
-
+app.use('/api/columns', require('./routes/columns'));
 
 module.exports = app;
