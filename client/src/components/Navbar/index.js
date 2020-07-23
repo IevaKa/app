@@ -42,7 +42,7 @@ export default class Navbar extends React.Component {
         {/* <Nav.Brand>
         <Link to='/'>Home</Link>
       </Nav.Brand> */}
-        <>
+      
           <Nav.Brand>
             <Link to='/ticket/add'>Add Ticket</Link>
           </Nav.Brand>
@@ -53,7 +53,7 @@ export default class Navbar extends React.Component {
           {/* <Nav.Brand>
             <Link to='/' onClick={() => handleLogout(props)}>Logout</Link>
           </Nav.Brand> */}
-        </>  
+        
     </Nav>
   )
 }

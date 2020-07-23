@@ -2,15 +2,26 @@ const mongoose = require('mongoose');
 const { Schema, model } = mongoose;
 
 const columnSchema = new Schema({
-  id: {
-    type: String,
-    enum: ['columnOpen', 'columnProgress', 'columnDone']
+  user: {
+      type: Schema.Types.ObjectId, 
+      ref: 'User' 
   },
-  title: {
-    type: String,
-    enum: ["Open", "In progress", "Done"]
-  },
-  ticketIds: [String]
+  columnOpen: [ {      
+    type: Schema.Types.ObjectId, 
+    ref: 'Ticket' 
+  } ],
+  columnProgress: [ {      
+    type: Schema.Types.ObjectId, 
+    ref: 'Ticket' 
+  } ],
+  columnDone: [ {      
+    type: Schema.Types.ObjectId, 
+    ref: 'Ticket' 
+  } ],
+  columnCancelled: [ {      
+    type: Schema.Types.ObjectId, 
+    ref: 'Ticket' 
+  } ]
 })
 
 const Column = model('Column', columnSchema);
