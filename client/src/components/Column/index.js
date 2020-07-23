@@ -8,7 +8,7 @@ import {
   ironRed,
   ironYellow,
   ironGreen,
-  Button
+  Button,
 } from "../../styles/global.js";
 
 import { Droppable } from "react-beautiful-dnd";
@@ -31,30 +31,52 @@ const TicketList = styled.div`
   padding: 16px;
   background-color: red;
 
-  ${'' /* background-color: ${props => (props.isDraggingOver ? ironBlue : 'white')}; */}
+  ${"" /* background-color: ${props => (props.isDraggingOver ? ironBlue : 'white')}; */}
   flex-grow: 1;
 `;
 
 export default class Column extends React.Component {
   render() {
     // console.log(this.props.tickets); // array of objects
+    const propsLoaded = this.props.tickets;
+    console.log(propsLoaded);
 
     return (
       <Container>
         <Title> {this.props.column.title}</Title>
-        {this.props.tickets[0] ? (<Droppable droppableId={this.props.column.id}>
-          {(provided, snapshot) => (
-            <TicketList
-              ref={provided.innerRef}
-              {...provided.droppableProps}
-              isDraggingOver={snapshot.isDraggingOver}
-            > :)
-              {this.props.tickets.map((ticket, index) => <TicketPreview key={ticket._id} ticket={ticket} index={index}/>)}
-              {provided.placeholder}
-            </TicketList>
-          )}
-        </Droppable>) : (null)}
+        {propsLoaded[0] ? (
+          <Droppable droppableId={this.props.column.id}>
+            {(provided, snapshot) => (
+              <TicketList
+                ref={provided.innerRef}
+                {...provided.droppableProps}
+                isDraggingOver={snapshot.isDraggingOver}
+              >
+                {this.props.tickets.map((ticket, index) => (
+                  <TicketPreview
+                    key={ticket._id}
+                    ticket={ticket}
+                    index={index}
+                  />
+                ))}
+                {provided.placeholder}
+              </TicketList>
+            )}
+          </Droppable>
+        ) : (
+          <Droppable droppableId={this.props.column.id}>
+            {(provided, snapshot) => (
+              <TicketList
+                ref={provided.innerRef}
+                {...provided.droppableProps}
+                isDraggingOver={snapshot.isDraggingOver}
+              >
+                {provided.placeholder}
+              </TicketList>
+            )}
+          </Droppable>
+        )}
       </Container>
-    ) ;
+    );
   }
 }
