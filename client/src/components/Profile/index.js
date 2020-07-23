@@ -28,6 +28,7 @@ export default class index extends Component {
   // Editing
 
   handleChange = event => {
+    console.log(event.target)
     const { name, value } = event.target;
     this.setState({
       [name]: value
@@ -41,7 +42,7 @@ export default class index extends Component {
       user: this.state.user,
     })
       .then(response => {
-        console.log(response.data.user)
+        console.log(response.data.name)
         this.setState({
           user: response.data,
           editForm: false

@@ -27,7 +27,7 @@ router.post('/signup', (req, res) => {
       const salt = bcrypt.genSaltSync();
       const hash = bcrypt.hashSync(password, salt);
 
-      return User.create({ username: username, password: hash, name: name, role: role}).then(
+      return User.create({ username: username, password: hash, name: name, role: role }).then(
         dbUser => {
 
           req.login(dbUser, err => {
@@ -74,16 +74,17 @@ router.get('/loggedin', (req, res) => {
   res.json(req.user);
 })
 
-router.put('/:id', (req, res) => {
-  const { user } = req.body;
-
+router.put('/loggedin/:id', (req, res) => {
+  const name = req.body.user;
+  // console.log(name)
   User.findByIdAndUpdate(
     req.params.id,
-    { user },
+    { name },
     // { new: true } ensures that we are getting the updated document in the .then callback
     { new: true }
   )
     .then(user => {
+      console.log(user)
       res.status(200).json(user);
     })
     .catch(err => {
