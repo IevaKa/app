@@ -141,7 +141,7 @@ class TicketBoard extends React.Component {
 
       axios.put('/api/columns', {
         property: newColumn.id,
-          array: newColumn.ticketIds
+        array: newColumn.ticketIds
         })
         .then(response => {
           console.log(response);
@@ -168,6 +168,12 @@ class TicketBoard extends React.Component {
       ticketIds: finishTicketIds,
     };
 
+    console.log('destination ', destination.droppableId)
+    console.log('source ', source.droppableId)
+    // arrays to pass in the column
+    console.log('start tickets ', startTicketIds)
+    console.log('finish tickets ', finishTicketIds)
+
     const newState = {
       ...this.state.columns,
         [newStart.id]: newStart,
@@ -186,8 +192,10 @@ class TicketBoard extends React.Component {
     
     axios.put(`/api/tickets/${draggableId}`, {
       status: statusMap[destination.droppableId],
-      destination: destination.droppableId,
-      source: source.droppableId
+      destination: destination.droppableId, // progress
+      source: source.droppableId, // open
+      sourceArray: startTicketIds,
+      destinationArray: finishTicketIds
       })
       .then(response => {
         console.log(response);
