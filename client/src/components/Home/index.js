@@ -1,12 +1,7 @@
 import React, { useState } from "react";
-import { Link, Route } from "react-router-dom";
+import { Link } from "react-router-dom";
 
-import {
-  Button,
-  lightGray,
-  lightBlue,
-  lightPurple,
-} from "../../styles/global.js";
+import { Button } from "../../styles/global.js";
 import styled, { keyframes } from "styled-components";
 import Lottie from "react-lottie";
 import animationData from "../../files/animation.json";
@@ -15,8 +10,6 @@ import heart from "../../files/heart.svg";
 import code from "../../files/code.svg";
 
 import Login from "../Login";
-
-// import { Box, Test, Hidden } from './style.js';
 
 const Animation = keyframes`
  0% { background-position: -20vw 120vh; opacity: 0 }
@@ -77,19 +70,18 @@ const Signature = styled.div`
 
 const Close = styled.div`
   font-size: 30px;
+  font-weight: 600;
   color: white;
-  text-align: right;
   position: absolute;
-  ${'' /* width: 20px;
-  height: 20px; */}
   top: 10px;
   right: 20px;
   z-index: 4;
-  cursor: pointer
+  cursor: pointer;
 `;
 
 function Home(props) {
-  let [login, setLogin] = useState(false);
+  let [login, showLogin] = useState(false);
+  let [signup, showSignup] = useState(false);
 
   const defaultOptions = {
     loop: true,
@@ -103,7 +95,7 @@ function Home(props) {
   return (
     <Container>
       {login && <Login setUser={props.setUser} {...props} />}
-      {login && <Close onClick={() => setLogin(false)}>CLOSEEE</Close>}
+      {login && <Close onClick={() => showLogin(false)}>CLOSE</Close>}
 
       <ContainerButtons>
         <Title>
@@ -113,7 +105,7 @@ function Home(props) {
         <Link to="/signup">
           <Button primary>Signup</Button>
         </Link>
-        <Button onClick={() => setLogin(true)}>Login</Button>
+        <Button onClick={() => showLogin(true)}>Login</Button>
       </ContainerButtons>
       <ContainerHero>
         <Lottie options={defaultOptions} height={800} width={350} />
@@ -124,11 +116,6 @@ function Home(props) {
         <Icon src={heart} />
         by Eduarda, Ieva & Ivan
       </Signature>
-
-      {/* <Hidden /> */}
-
-      {/* <Box />
-      <Test onClick={show()}>asasas</Test> */}
     </Container>
   );
 }

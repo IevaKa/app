@@ -6,11 +6,12 @@ import { withStyles } from "@material-ui/core/styles";
 
 import styled, { keyframes } from "styled-components";
 
-import { Button, IronButton, ironBlue, ironRed } from "../../styles/global.js";
+import { IronButton, ironBlue, ironRed } from "../../styles/global.js";
 
 import hexa from "../../files/w-hexa.svg";
 import user from "../../files/user.svg";
 import key from "../../files/key.svg";
+import github from "../../files/github.svg";
 
 const fadeIn = keyframes`
  0% { opacity: 0 }
@@ -43,8 +44,8 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 400px;
-  height: 400px;
+  width: 500px;
+  height: 500px;
   z-index: 2;
   background-image: url(${hexa});
   background-repeat: no-repeat;
@@ -68,14 +69,23 @@ const Form = styled.form`
 `;
 
 const TinyIcon = styled.img`
-  margin: 16px 16px 0 -16px;
-  width: 20px;
+  margin: ${(props) => (props.form ? "16px 16px 0 -16px" : "-2px 3px 0 5px")};
+  width: ${(props) => (props.form ? "20px" : "25px")};
 `;
 
 const Alert = styled.div`
   color: ${ironRed};
   padding: 8px;
   font-size: 11px;
+`;
+
+const Github = styled.div`
+  padding: 24px 0 0 0;
+  font-size: 14px;
+`;
+
+const Strong = styled.span`
+  font-weight: 600
 `;
 
 const CssTextField = withStyles({
@@ -137,7 +147,7 @@ export default class Login extends React.Component {
         <Container>
           <Form autoComplete="off" onSubmit={this.handleSubmit}>
             <FormField>
-              <TinyIcon src={user} />
+              <TinyIcon form src={user} />
               <CssTextField
                 label="Username"
                 id="username"
@@ -149,7 +159,7 @@ export default class Login extends React.Component {
               />
             </FormField>
             <FormField bottom>
-              <TinyIcon src={key} />
+              <TinyIcon form src={key} />
               <CssTextField
                 label="Password"
                 id="password"
@@ -161,10 +171,11 @@ export default class Login extends React.Component {
               />
             </FormField>
             {this.state.message && <Alert>{this.state.message}</Alert>}
-            <IronButton type="submit">
-              Login
-            </IronButton>
+            <IronButton type="submit">Login</IronButton>
           </Form>
+          <Github>
+            Or login with <TinyIcon src={github} /> <Strong>Github</Strong>
+          </Github>
         </Container>
       </Overlay>
     );
