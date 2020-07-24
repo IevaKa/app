@@ -202,7 +202,8 @@ console.log('it should look like this: ', columns)
     
     axios.put(`/api/tickets/${draggableId}`, {
       status: statusMap[destination.droppableId],
-      destination: destination
+      destination: destination.droppableId,
+      source: source.droppableId
       })
       .then(response => {
         console.log(response);

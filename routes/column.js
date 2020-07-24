@@ -8,7 +8,7 @@ router.get('/', (req, res) => {
   .populate('columnProgress')
   .populate('columnDone')
   .populate('columnCancelled')
-    .then(column => {
+  .then(column => {
       res.status(200).json(column);
     })
     .catch(err => {

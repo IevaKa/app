@@ -54,7 +54,7 @@ router.post('/', (req, res) => {
 
 router.put('/:id', (req, res, next) => {
   const id = req.params.id;
-  const status = req.body;
+  const { status, destination, source } = req.body;
   Ticket.findByIdAndUpdate(id, status, { new: true })
     .then(ticket => {
       res.json(ticket);
@@ -62,8 +62,14 @@ router.put('/:id', (req, res, next) => {
     .catch(err => {
       res.json(err);
     });
-  
-  // Column.findOneAndUpdate
+   
+    Column.update(
+      { user: req.user.id }, 
+      { $pull: { [source]: id }, $push: { [destination]: id } },
+      { new: true }
+  ).then(up => {
+    console.log('this is the updated column: ', up)
+  })
 });
 
 // router.delete('/:id', (req, res, next) => {
