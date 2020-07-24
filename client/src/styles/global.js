@@ -107,11 +107,13 @@ const StyledLink = styled.a`
   color: black;
   text-decoration: none;
   transition: background-size 0.5s ease-in-out;
+  cursor: pointer;
 
   &:hover {
     background-size: 1px 30px;
     color: black;
     text-decoration: none;
+    cursor: pointer;
   }
 `;
 

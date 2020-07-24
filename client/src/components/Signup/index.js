@@ -93,6 +93,9 @@ const Github = styled.div`
   color: darkGray;
 `;
 
+const GitLink = styled.a`
+`;
+
 const Strong = styled.span`
   font-weight: 600;
 `;
@@ -228,11 +231,11 @@ export default class Signup extends Component {
             <IronButton type="submit">Signup</IronButton>
           </Form>
           <StyledLink>
-            <Link to="/api/auth/github">
+          <GitLink href="http://localhost:5555/api/auth/github">
               <Github>
                 Or signup with <TinyIcon src={github} /> <Strong>Github</Strong>
               </Github>
-            </Link>
+            </GitLink>
           </StyledLink>
         </Container>
       </Overlay>

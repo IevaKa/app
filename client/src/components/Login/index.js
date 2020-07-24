@@ -205,7 +205,7 @@ export default class Login extends React.Component {
             {this.state.message && <Alert>{this.state.message}</Alert>}
             <IronButton negative type="submit">Login</IronButton>
           </Form>
-            <GitLink to="http://localhost:5555/api/auth/github">
+            <GitLink href="http://localhost:5555/api/auth/github">
               <Github>
                 Or login with <TinyIcon src={github} /> <Strong>Github</Strong>
               </Github>
