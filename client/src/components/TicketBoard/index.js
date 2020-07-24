@@ -25,7 +25,7 @@ class TicketBoard extends React.Component {
         this.setState({
           tickets: response.data,
         });
-        this.updateTicketStates()
+        this.getColumns()
       })
       .catch((err) => {
         console.log(err);
@@ -37,9 +37,31 @@ class TicketBoard extends React.Component {
   getColumns = () => {
     axios
       .get("/api/columns")
-      .then((response) => {
+      .then(response => {
+        const columnData = response.data
+        const columnOpen = {
+          id: "columnOpen",
+          title: "Open",
+          ticketIds: columnData.columnOpen
+        }
+        const columnProgress = {
+          id: "columnProgress",
+          title: "In progress",
+          ticketIds: columnData.columnProgress
+        }
+    
+        const columnDone = {
+          id: "columnDone",
+          title: "Done",
+          ticketIds: columnData.columnDone
+        }
+        const columns = {
+          columnOpen,
+          columnProgress,
+          columnDone
+        }
         this.setState({
-          testColumns: response.data,
+          columns: columns,
         });
         console.log('my columns data: ', this.state.testColumns)
       })
@@ -48,57 +70,8 @@ class TicketBoard extends React.Component {
       });
   };
 
-  
-
-  updateTicketStates = () => {
-    const openTickets =
-      this.state.tickets
-        .filter(ticket => ticket.status === 'Opened')
-        .map(t => t._id)
-
-    const inProgressTickets =
-      this.state.tickets
-        .filter(ticket => ticket.status === 'In progress')
-        .map(t => t._id)
-
-    const solvedTickets =
-      this.state.tickets
-        .filter(ticket => ticket.status === 'Solved')
-        .map(t => t._id)
-
-    const columnOpen = {
-      id: "columnOpen",
-      title: "Open",
-      ticketIds: openTickets
-    }
-
-    const columnProgress = {
-      id: "columnProgress",
-      title: "In progress",
-      ticketIds: inProgressTickets
-    }
-
-    const columnDone = {
-      id: "columnDone",
-      title: "Done",
-      ticketIds: solvedTickets
-    }
-
-    const columns = {
-      columnOpen,
-      columnProgress,
-      columnDone
-    }
-console.log('it should look like this: ', columns)
-
-    this.setState({
-      columns: columns
-    });
-  }
-
   componentDidMount = () => {
     this.getTickets();
-    this.getColumns();
   };
 
   //   render() {
