@@ -18,7 +18,7 @@ const lightYellow = "rgba(255, 220, 97, 0.2)";
 
 const evenLighterGray = "rgba(82, 82, 82, 0.15)";
 
-const darkBlue = "rgba(18, 129, 231, 1)";
+const darkBlue = "rgba(18, 129, 231, 0.2)";
 
 
 const GlobalStyles = createGlobalStyle`
@@ -74,16 +74,16 @@ const Button = styled.button`
 const IronButton = styled.button`
   text-transform: uppercase;
   cursor: pointer;
-  background: ${ironBlue};
+  background: ${(props) => (props.negative ? ironPurple : ironBlue)};
   font-size: 16px;
   border-radius: 50px;
-  color: white;
-  border: 2px solid ${ironBlue};
+  color: ${(props) => (props.negative ? 'white' : 'white')};
+  border: ${(props) => (props.negative ? ironPurple : `2px solid ${ironBlue}`)};
   margin: 2em 0.7em 0.7em 0.7em;
   padding: 0.25em 1em;
   width: 250px;
   height: 60px;
-  box-shadow: 0px 10px 10px ${lightBlue};
+  box-shadow: ${(props) => (props.negative ? `0px 10px 10px ${darkBlue}` : `0px 10px 10px ${lightBlue}`)};
   transition: 0.2s all ease-out;
 
   &:hover {

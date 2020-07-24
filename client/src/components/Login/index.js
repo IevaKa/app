@@ -14,12 +14,13 @@ import {
   StyledLink,
   lightGray,
   darkGray,
+  ironPurple
 } from "../../styles/global.js";
 
-import hexa from "../../files/w-hexa.svg";
+import hexa from "../../files/b-hexa.svg";
 import user from "../../files/user.svg";
 import key from "../../files/key.svg";
-import github from "../../files/github.svg";
+import github from "../../files/w-github.svg";
 
 const fadeIn = keyframes`
  0% { opacity: 0 }
@@ -52,8 +53,8 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 500px;
-  height: 500px;
+  width: 470px;
+  height: 470px;
   z-index: 2;
   background-image: url(${hexa});
   background-repeat: no-repeat;
@@ -88,7 +89,7 @@ const Alert = styled.div`
 `;
 
 const Github = styled.div`
-  color: darkGray;
+  color: white;
   padding: 24px 0 0 0;
   font-size: 14px;
 `;
@@ -97,20 +98,39 @@ const Strong = styled.span`
   font-weight: 600;
 `;
 
+// MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-formControl MuiInput-formControl
+// MuiInputBase-input MuiInput-input
+
 const CssTextField = withStyles({
   root: {
+    color: 'white',
     width: "220px",
     "& .MuiInputLabel-root": {
       fontFamily: `'Poppins', sans-serif`,
       fontSize: "14px",
+      color: 'white',
+    },
+    "& .MuiInput-underline": {
+      fontFamily: `'Poppins', sans-serif`,
+      fontSize: "14px",
+      color: ironPurple,
+      borderBottom: 'red'
     },
     "& label.Mui-focused": {
-      color: ironBlue,
+      color: ironPurple,
     },
-    "& .MuiInput-underline:after": {
-      borderBottomColor: ironBlue,
+    '& .MuiInput-underline:before': {
+      borderBottomColor: '#fff8', // Semi-transparent underline
+    },
+    '& .MuiInput-underline:hover:before': {
+      borderBottomColor: '#fff', // Solid underline on hover
+    },
+    '& .MuiInput-underline:after': {
+      borderBottomColor: '#fff', // Solid underline on focus
     },
   },
+  
+  
 })(TextField);
 
 export default class Login extends React.Component {
@@ -180,15 +200,13 @@ export default class Login extends React.Component {
               />
             </FormField>
             {this.state.message && <Alert>{this.state.message}</Alert>}
-            <IronButton type="submit">Login</IronButton>
+            <IronButton negative type="submit">Login</IronButton>
           </Form>
-          <StyledLink>
             <Link to="/api/auth/github">
               <Github>
                 Or login with <TinyIcon src={github} /> <Strong>Github</Strong>
               </Github>
             </Link>
-          </StyledLink>
         </Container>
       </Overlay>
     );

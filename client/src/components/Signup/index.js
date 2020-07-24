@@ -26,8 +26,8 @@ const fadeIn = keyframes`
  100% { opacity: 1 }
 `;
 
-const slideUp = keyframes`
- 0% { transform: translateY(1000px); opacity: 0; }
+const slideDown = keyframes`
+ 0% { transform: translateY(-1000px); opacity: 0; }
  50% { opacity: 0.2; }
  100% { transform: translateY(0); opacity: 1; }
 `;
@@ -58,7 +58,7 @@ const Container = styled.div`
   background-image: url(${hexa});
   background-repeat: no-repeat;
   background-size: 100% 100%;
-  animation: ${slideUp} 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  animation: ${slideDown} 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
 `;
 
 const FormField = styled.div`
@@ -104,6 +104,11 @@ const CssTextField = withStyles({
     "& .MuiInputLabel-root": {
       fontFamily: `'Poppins', sans-serif`,
       fontSize: "14px",
+    },
+    "& .MuiInput-underline": {
+      fontFamily: `'Poppins', sans-serif`,
+      fontSize: "14px",
+      color: ironBlue,
     },
     "& label.Mui-focused": {
       color: ironBlue,
