@@ -7,7 +7,6 @@ import {
   ironBlue
 
 } from "../../styles/global.js";
-import { Link } from 'react-router-dom';
 
 const Container = styled.div`
   border: 1px solid black;

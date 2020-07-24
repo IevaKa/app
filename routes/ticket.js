@@ -1,28 +1,31 @@
 const express = require('express');
 const Ticket = require('../models/Ticket');
 const Column = require('../models/Column');
+const User = require('../models/User');
 const router = express.Router();
 
-// router.get('/:id', (req, res) => {
-//   const id = req.params.id;
+router.get('/:id', (req, res) => {
+  const id = req.params.id;
 
-//   Ticket.findById(id)
-//     .then(task => {
-//       res.status(200).json(task);
-//     })
-//     .catch(err => {
-//       res.json(err);
-//     });
-// });
+  Ticket.findById(id)
+    .populate('createdBy')
+    .then(ticket => {
+      res.status(200).json(ticket);
+    })
+    .catch(err => {
+      res.json(err);
+    });
+});
+
 router.get('/', (req, res) => {
   Ticket.find({ createdBy: req.user.id })
-  // .populate('assignee')
-  // .populate('createdBy')
+    // .populate('assignee')
+    // .populate('createdBy')
     .then(tickets => {
       res.status(200).json(tickets);
     })
     .catch(err => {
-      res.json(err);0
+      res.json(err); 0
     });
 });
 
@@ -32,18 +35,18 @@ router.post('/', (req, res) => {
   const { lab, title, description, status } = req.body;
   Ticket.create({
     createdBy: req.user.id,
-    lab : lab, 
-    title : title, 
-    description : description, 
-    status : status
+    lab: lab,
+    title: title,
+    description: description,
+    status: status
   })
     .then(task => {
       Column.update(
-        { user: req.user.id }, 
+        { user: req.user.id },
         { $push: { columnOpen: task._id } },
-    ).then(column => {
-      console.log('column is updated ', column)
-    })
+      ).then(column => {
+        console.log('column is updated ', column)
+      })
       res.json(task)
     })
     .catch(err => {
@@ -63,11 +66,11 @@ router.put('/:id', (req, res, next) => {
     .catch(err => {
       res.json(err);
     });
-   
-    Column.update(
-      { user: req.user.id }, 
-      { [destination]: destinationArray, [source]: sourceArray },
-      { new: true }
+
+  Column.update(
+    { user: req.user.id },
+    { [destination]: destinationArray, [source]: sourceArray },
+    { new: true }
   ).then(up => {
     console.log('this is the updated column: ', up)
   })

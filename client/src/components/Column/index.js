@@ -57,18 +57,18 @@ export default class Column extends React.Component {
             )}
           </Droppable>
         ) : (
-          <Droppable droppableId={this.props.column.id}>
-            {(provided, snapshot) => (
-              <TicketList
-                ref={provided.innerRef}
-                {...provided.droppableProps}
-                isDraggingOver={snapshot.isDraggingOver}
-              >
-                {provided.placeholder}
-              </TicketList>
-            )}
-          </Droppable>
-        )}
+            <Droppable droppableId={this.props.column.id}>
+              {(provided, snapshot) => (
+                <TicketList
+                  ref={provided.innerRef}
+                  {...provided.droppableProps}
+                  isDraggingOver={snapshot.isDraggingOver}
+                >
+                  {provided.placeholder}
+                </TicketList>
+              )}
+            </Droppable>
+          )}
       </Container>
     );
   }
