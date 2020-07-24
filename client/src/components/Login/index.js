@@ -164,10 +164,11 @@ export default class Login extends React.Component {
             <IronButton type="submit">
               Login
             </IronButton>
-            <a href="http://localhost:5555/api/auth/github">
-              <button onSubmit>Login with Github</button>
-            </a>
+
           </Form>
+          <a href="http://localhost:5555/api/auth/github">
+            <button onSubmit>Login with Github</button>
+          </a>
         </Container>
       </Overlay>
     );
