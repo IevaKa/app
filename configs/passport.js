@@ -49,13 +49,21 @@ passport.use(
       callbackURL: 'http://localhost:5555/api/auth/github/callback'
     },
     (accessToken, refreshToken, profile, done) => {
+      console.log(profile)
       User.findOne({ githubId: profile.id })
         .then(found => {
           if (found !== null) {
             done(null, found);
           } else {
-            console.log(profile)
-            return User.create({ githubId: profile.id, username: profile.username, name: profile.displayName, role: 'Student' }).then(dbUser => {
+            return User.create({ 
+              githubId: profile.id, 
+              username: profile.username, 
+              location: profile._json.location,
+              image: profile._json.avatar_url,
+              name: profile.displayName,
+              bio: profile._json.bio,
+              role: 'Student' }).then(dbUser => {
+
               done(null, dbUser);
             })
           }
