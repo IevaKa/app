@@ -13,7 +13,6 @@ const Container = styled.div`
 class TicketBoard extends React.Component {
   state = {
     columns: null,
-    testColumns: null,
     tickets: [],
     order: ["columnOpen", "columnProgress", "columnDone"]
   };
@@ -63,7 +62,6 @@ class TicketBoard extends React.Component {
         this.setState({
           columns: columns,
         });
-        console.log('my columns data: ', this.state.testColumns)
       })
       .catch((err) => {
         console.log(err);
@@ -131,6 +129,7 @@ class TicketBoard extends React.Component {
         ticketIds: newTicketIds,
       };
 
+      console.log(newColumn)
       const newState = {
         ...this.state.columns,
         [newColumn.id]: newColumn,
@@ -139,6 +138,18 @@ class TicketBoard extends React.Component {
       this.setState({
         columns: newState,
       });
+
+      axios.put('/api/columns', {
+        property: newColumn.id,
+          array: newColumn.ticketIds
+        })
+        .then(response => {
+          console.log(response);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+
       return;
     }
 
