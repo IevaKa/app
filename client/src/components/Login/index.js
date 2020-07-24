@@ -6,7 +6,7 @@ import { withStyles } from "@material-ui/core/styles";
 
 import styled, { keyframes } from "styled-components";
 
-import { Button, lightGray, ironBlue, ironRed } from "../../styles/global.js";
+import { Button, IronButton, ironBlue, ironRed } from "../../styles/global.js";
 
 import hexa from "../../files/w-hexa.svg";
 import user from "../../files/user.svg";
@@ -161,9 +161,9 @@ export default class Login extends React.Component {
               />
             </FormField>
             {this.state.message && <Alert>{this.state.message}</Alert>}
-            <Button iron type="submit">
+            <IronButton type="submit">
               Login
-            </Button>
+            </IronButton>
           </Form>
         </Container>
       </Overlay>

@@ -34,7 +34,7 @@ const Button = styled.button`
   border-radius: 50px;
   color: ${(props) => (props.primary ? "white" : "black")};
   border: ${(props) =>
-    props.primary ? `1px solid ${ironRed}` : `1px solid ${"black"}`};
+    props.primary ? `2px solid ${ironRed}` : `2px solid ${"black"}`};
   margin: 0.7em;
   padding: 0.25em 1em;
   width: 250px;
@@ -48,7 +48,35 @@ const Button = styled.button`
   &:hover {
     color: white;
     background-color: black;
-    border: 1px solid black;
+    border: 2px solid black;
+    width: 260px;
+    box-shadow: 0px 10px 10px ${evenLighterGray};
+  }
+
+  &:focus {
+    outline: none;
+  }
+`;
+
+const IronButton = styled.button`
+  text-transform: uppercase;
+  cursor: pointer;
+  background: ${ironBlue};
+  font-size: 16px;
+  border-radius: 50px;
+  color: white;
+  border: 2px solid ${ironBlue};
+  margin: 0.7em;
+  padding: 0.25em 1em;
+  width: 250px;
+  height: 60px;
+  box-shadow: 0px 10px 10px ${lightBlue};
+  transition: 0.2s all ease-out;
+
+  &:hover {
+    color: white;
+    background-color: black;
+    border: 2px solid black;
     width: 260px;
     box-shadow: 0px 10px 10px ${evenLighterGray};
   }
@@ -68,4 +96,5 @@ export {
   ironYellow,
   ironGreen,
   Button,
+  IronButton
 };
