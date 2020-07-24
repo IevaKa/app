@@ -1,6 +1,6 @@
-import React from "react";
-// import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, Route } from "react-router-dom";
+
 import {
   Button,
   lightGray,
@@ -13,6 +13,8 @@ import animationData from "../../files/animation.json";
 import bg from "../../files/back.svg";
 import heart from "../../files/heart.svg";
 import code from "../../files/code.svg";
+
+import Login from "../Login";
 
 // import { Box, Test, Hidden } from './style.js';
 
@@ -73,12 +75,21 @@ const Signature = styled.div`
   right: 20px;
 `;
 
-function Home() {
-  // let [visibility, setVisibility] = useState(false);
+const Close = styled.div`
+  font-size: 30px;
+  color: white;
+  text-align: right;
+  position: absolute;
+  ${'' /* width: 20px;
+  height: 20px; */}
+  top: 10px;
+  right: 20px;
+  z-index: 4;
+  cursor: pointer
+`;
 
-  // const show = () =>{
-  //   setVisibility = true
-  // }
+function Home(props) {
+  let [login, setLogin] = useState(false);
 
   const defaultOptions = {
     loop: true,
@@ -91,6 +102,9 @@ function Home() {
 
   return (
     <Container>
+      {login && <Login setUser={props.setUser} {...props} />}
+      {login && <Close onClick={() => setLogin(false)}>CLOSEEE</Close>}
+
       <ContainerButtons>
         <Title>
           Welcome <br />
@@ -99,9 +113,7 @@ function Home() {
         <Link to="/signup">
           <Button primary>Signup</Button>
         </Link>
-        <Link to="/login">
-          <Button>Login</Button>
-        </Link>
+        <Button onClick={() => setLogin(true)}>Login</Button>
       </ContainerButtons>
       <ContainerHero>
         <Lottie options={defaultOptions} height={800} width={350} />
