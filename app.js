@@ -25,6 +25,7 @@ const debug = require('debug')(`${app_name}:${path.basename(__filename).split('.
 const app = express();
 const session = require('express-session');
 const passport = require('passport');
+const User = require('./models/User');
 
 require('./configs/passport');
 
@@ -55,9 +56,37 @@ app.use(require('node-sass-middleware')({
   sourceMap: true
 }));
 
-
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
+
+// Github Social Login
+const GitHubStrategy = require('passport-github').Strategy
+
+passport.use(
+  new GitHubStrategy(
+    {
+      clientID: process.env.GITHUB_ID,
+      clientSecret: process.env.GITHUB_SECRET,
+      callbackURL: 'http://localhost:5555/auth/github/callback'
+    },
+    (accessToken, refreshToken, profile, done) => {
+      User.findOne({ githubId: profile.id })
+        .them(found => {
+          if (found !== null) {
+            done(null, found);
+          } else {
+            return User.create({ githubId: profile.id }).then(dbUser => {
+              done(null, dbUser);
+            })
+          }
+        })
+        .catch(err => {
+          done(err);
+        })
+    }
+  )
+)
+
 
 
 app.use('/api/tickets', require('./routes/ticket'));

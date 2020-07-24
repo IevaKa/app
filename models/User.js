@@ -24,7 +24,8 @@ const userSchema = new Schema({
     imgPath: String,
     publicId: String
   },
-  description: String
+  description: String,
+  githubId: String
 })
 
 const User = model('User', userSchema);

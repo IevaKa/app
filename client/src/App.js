@@ -1,6 +1,6 @@
 import React from "react";
 import "./App.css";
-import { Route } from "react-router-dom";
+import { Route, Link } from "react-router-dom";
 import Signup from "./components/Signup";
 import Login from "./components/Login";
 import Home from "./components/Home/";
@@ -11,6 +11,7 @@ import TicketAdd from "./components/TicketAdd";
 // import MainDash from "./components/MainDash";
 import Profile from "./components/Profile";
 import ProfileEdit from "./components/ProfileEdit";
+import axios from 'axios';
 
 class App extends React.Component {
   state = {
@@ -22,6 +23,27 @@ class App extends React.Component {
       user: user,
     });
   };
+
+  // Social Login Github
+  // socialUser = () => {
+  //   axios
+  //     .get("/api/auth")
+  //     .then((response) => {
+  //       console.log(response)
+  //       this.setState({
+  //         user: response.data,
+  //       });
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+
+  // }
+
+  // componentDidMount = () => {
+  //   this.socialUser();
+  // };
+
   render() {
     // console.log('this is App.js', this.props.user)
     return (
@@ -50,6 +72,15 @@ class App extends React.Component {
           path="/login"
           render={(props) => <Login setUser={this.setUser} {...props} />}
         />
+        <Route
+          exact
+          path="/ticket/board"
+          render={(props) => <Login setUser={this.setUser} {...props} />}
+        />
+        <a href="http://localhost:5555/auth/github">
+          <button onSubmit>Login with Github</button>
+        </a>
+
       </div>
     );
   }

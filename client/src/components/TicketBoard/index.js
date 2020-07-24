@@ -216,7 +216,7 @@ class TicketBoard extends React.Component {
                 <Column key={column.id} column={column} tickets={tickets} />
               );
             })
-            };
+            }
           </Container>
         </DragDropContext>
       </>

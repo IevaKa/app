@@ -93,4 +93,15 @@ router.put('/loggedin/:id', (req, res) => {
     });
 });
 
+// Social Login
+router.get('/github', passport.authenticate('github'));
+
+router.get(
+  '/github/callback',
+  passport.authenticate('github', {
+    successRedirect: '/ticket/board',
+    failureRedirect: '/',
+  })
+);
+
 module.exports = router;
