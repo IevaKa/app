@@ -14,26 +14,27 @@ const router = express.Router();
 //       res.json(err);
 //     });
 // });
-
 router.get('/', (req, res) => {
-    Ticket.find()
-    // .populate('assignee')
-    // .populate('createdBy')
-      .then(tickets => {
-        res.status(200).json(tickets);
-      })
-      .catch(err => {
-        res.json(err);0
-      });
-  });
+  Ticket.find()
+  // .populate('assignee')
+  // .populate('createdBy')
+    .then(tickets => {
+      res.status(200).json(tickets);
+    })
+    .catch(err => {
+      res.json(err);0
+    });
+});
+
 
 router.post('/', (req, res) => {
   const { lab, title, description, status } = req.body;
   Ticket.create({
-    lab, 
-    title, 
-    description, 
-    status
+    createdBy: req.user.id,
+    lab : lab, 
+    title : title, 
+    description : description, 
+    status : status
   })
     .then(task => {
       Column.update(

@@ -20,7 +20,9 @@ export default class AddTicket extends Component {
   handleSubmit = event => {
     event.preventDefault();
     axios
-      .post('/api/tickets', {
+      // .post(`/api/user/${this.props.user._id}/tickets`, {
+      .post(`/api/tickets`, {
+        // createdBy: this.props.user._id,
         lab: this.state.lab,
         title: this.state.title,
         description: this.state.description,

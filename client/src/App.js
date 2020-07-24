@@ -30,7 +30,12 @@ class App extends React.Component {
 
         <Route exact path="/ticket/board" component={TicketBoard} />
 
-        <Route exact path="/ticket/add" component={TicketAdd} />
+        {/* <Route exact path="/ticket/add" component={TicketAdd} /> */}
+        <Route
+          exact
+          path="/ticket/add"
+          render={(props) => <TicketAdd {...props} />}
+        />
 
         {/* <Route exact path="/ticket/:id" component={TicketDetail} /> */}
 

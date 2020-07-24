@@ -70,6 +70,8 @@ class TicketBoard extends React.Component {
       columnProgress,
       columnDone
     }
+console.log('it should look like this: ', columns)
+
     this.setState({
       columns: columns
     });
