@@ -69,9 +69,11 @@ export default class index extends Component {
       <div>
         <Navbar />
         {this.state.user.role === 'Student' ? <h1>Hello Ironhacker</h1> : <h1>Dear TA Welcome back</h1>}
+        <div><img src={this.state.user.image} /></div>
         <h3>Username: {this.state.user.username}</h3>
         <h3>Name: {this.state.user.name}</h3>
-        <h3>{this.state.user.role}</h3>
+        <h3>{this.state.user.location}</h3>
+        <h3>{this.state.user.bio}</h3>
 
         <h3>
           <Link to={`/ticket/board`}>Navigate back to the Board</Link>
