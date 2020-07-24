@@ -61,6 +61,8 @@ router.put('/:id', (req, res, next) => {
     .catch(err => {
       res.json(err);
     });
+  
+  // Column.findOneAndUpdate
 });
 
 // router.delete('/:id', (req, res, next) => {
