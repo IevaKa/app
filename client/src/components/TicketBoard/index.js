@@ -13,6 +13,7 @@ const Container = styled.div`
 class TicketBoard extends React.Component {
   state = {
     columns: null,
+    testColumns: null,
     tickets: [],
     order: ["columnOpen", "columnProgress", "columnDone"]
   };
@@ -30,6 +31,24 @@ class TicketBoard extends React.Component {
         console.log(err);
       });
   };
+
+  // getting the data from the column model
+  // will eventually replace the get tickets function
+  getColumns = () => {
+    axios
+      .get("/api/columns")
+      .then((response) => {
+        this.setState({
+          testColumns: response.data,
+        });
+        console.log('my columns data: ', this.state.testColumns)
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  
 
   updateTicketStates = () => {
     const openTickets =
@@ -79,6 +98,7 @@ console.log('it should look like this: ', columns)
 
   componentDidMount = () => {
     this.getTickets();
+    this.getColumns();
   };
 
   //   render() {
@@ -183,7 +203,8 @@ console.log('it should look like this: ', columns)
     }
     
     axios.put(`/api/tickets/${draggableId}`, {
-      status: statusMap[destination.droppableId]
+      status: statusMap[destination.droppableId],
+      destination: destination
       })
       .then(response => {
         console.log(response);

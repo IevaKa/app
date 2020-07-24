@@ -1,22 +1,18 @@
 const express = require('express');
-const Ticket = require('../models/Column');
+const Column = require('../models/Column');
 const router = express.Router();
 
-router.post('/', (req, res) => {
-  const { id, title } = req.body;
-  console.log('this is the body: ', req.body)
-  Column.create({
-    id,
-    title
-  })
+router.get('/', (req, res) => {
+  Column.findOne({ user: req.user.id })
+  .populate('columnOpen')
+  .populate('columnProgress')
+  .populate('columnDone')
+  .populate('columnCancelled')
     .then(column => {
-      console.log('backend2:', column)
-      res.json(column)
+      res.status(200).json(column);
     })
     .catch(err => {
-      console.log('catch:', err)
-
-      res.json(err);
+      res.json(err);0
     });
 });
 
