@@ -4,7 +4,7 @@ import Navbar from '../Navbar';
 
 export default class AddTicket extends Component {
   state = {
-    lab: '',
+    lab: 'React | Ironbeers',
     title: '',
     description: ''
   };

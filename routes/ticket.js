@@ -15,7 +15,7 @@ const router = express.Router();
 //     });
 // });
 router.get('/', (req, res) => {
-  Ticket.find()
+  Ticket.find({ createdBy: req.user.id })
   // .populate('assignee')
   // .populate('createdBy')
     .then(tickets => {
