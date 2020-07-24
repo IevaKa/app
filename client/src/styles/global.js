@@ -1,13 +1,7 @@
 import { createGlobalStyle } from "styled-components";
+import reset from 'styled-reset-advanced';
 import styled, { keyframes } from "styled-components";
 
-const GlobalStyles = createGlobalStyle`
-  body {
-    font-family: 'Poppins', sans-serif;
-        font-size: 16px;
-    font-weight: 400;
-  }
-`;
 
 const darkGray = "rgba(82, 82, 82, 1)";
 const lightGray = "rgba(156, 160, 163, 1)";
@@ -25,6 +19,25 @@ const lightYellow = "rgba(255, 220, 97, 0.2)";
 const evenLighterGray = "rgba(82, 82, 82, 0.15)";
 
 const darkBlue = "rgba(18, 129, 231, 1)";
+
+
+const GlobalStyles = createGlobalStyle`
+  body {
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+  }
+
+  a {
+  color: black;
+  text-decoration: none;
+  }
+
+  a:hover {
+    color: black;
+    text-decoration: none;
+  }
+`;
 
 const Button = styled.button`
   text-transform: uppercase;
@@ -86,6 +99,22 @@ const IronButton = styled.button`
   }
 `;
 
+const StyledLink = styled.a`
+  background: linear-gradient(to bottom, lightYellow 0%, lightYellow 100%);
+  background-position: 0 100%;
+  background-repeat: repeat-x;
+  background-size: 1px 1px;
+  color: black;
+  text-decoration: none;
+  transition: background-size 0.5s ease-in-out;
+
+  &:hover {
+    background-size: 1px 30px;
+    color: black;
+    text-decoration: none;
+  }
+`;
+
 export {
   GlobalStyles,
   darkGray,
@@ -96,5 +125,6 @@ export {
   ironYellow,
   ironGreen,
   Button,
-  IronButton
+  IronButton,
+  StyledLink
 };

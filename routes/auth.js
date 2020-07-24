@@ -104,4 +104,16 @@ router.put('/loggedin/:id', (req, res) => {
     });
 });
 
+// Social Login
+router.get('/github', passport.authenticate('github'));
+
+router.get(
+  '/github/callback',
+  passport.authenticate('github', {
+    // successRedirect: '/ticket/board',
+    successRedirect: 'http://localhost:3000/ticket/board',
+    failureRedirect: '/',
+  })
+);
+
 module.exports = router;

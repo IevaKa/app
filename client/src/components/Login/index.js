@@ -1,12 +1,20 @@
 import React from "react";
 import { login } from "../../services/auth";
+import { Link } from "react-router-dom";
 
 import TextField from "@material-ui/core/TextField";
 import { withStyles } from "@material-ui/core/styles";
 
 import styled, { keyframes } from "styled-components";
 
-import { IronButton, ironBlue, ironRed } from "../../styles/global.js";
+import {
+  IronButton,
+  ironBlue,
+  ironRed,
+  StyledLink,
+  lightGray,
+  darkGray,
+} from "../../styles/global.js";
 
 import hexa from "../../files/w-hexa.svg";
 import user from "../../files/user.svg";
@@ -80,12 +88,13 @@ const Alert = styled.div`
 `;
 
 const Github = styled.div`
+  color: darkGray;
   padding: 24px 0 0 0;
   font-size: 14px;
 `;
 
 const Strong = styled.span`
-  font-weight: 600
+  font-weight: 600;
 `;
 
 const CssTextField = withStyles({
@@ -173,9 +182,13 @@ export default class Login extends React.Component {
             {this.state.message && <Alert>{this.state.message}</Alert>}
             <IronButton type="submit">Login</IronButton>
           </Form>
-          <Github>
-            Or login with <TinyIcon src={github} /> <Strong>Github</Strong>
-          </Github>
+          <StyledLink>
+            <Link to="/api/auth/github">
+              <Github>
+                Or login with <TinyIcon src={github} /> <Strong>Github</Strong>
+              </Github>
+            </Link>
+          </StyledLink>
         </Container>
       </Overlay>
     );

@@ -10,6 +10,8 @@ import heart from "../../files/heart.svg";
 import code from "../../files/code.svg";
 
 import Login from "../Login";
+import Signup from "../Signup";
+
 
 const Animation = keyframes`
  0% { background-position: -20vw 120vh; opacity: 0 }
@@ -97,14 +99,15 @@ function Home(props) {
       {login && <Login setUser={props.setUser} {...props} />}
       {login && <Close onClick={() => showLogin(false)}>CLOSE</Close>}
 
+      {signup && <Signup setUser={props.setUser} {...props} />}
+      {signup && <Close onClick={() => showSignup(false)}>CLOSE</Close>}
+
       <ContainerButtons>
         <Title>
           Welcome <br />
           to IronTickets.{" "}
         </Title>
-        <Link to="/signup">
-          <Button primary>Signup</Button>
-        </Link>
+          <Button primary onClick={() => showSignup(true)}>Signup</Button>
         <Button onClick={() => showLogin(true)}>Login</Button>
       </ContainerButtons>
       <ContainerHero>

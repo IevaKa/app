@@ -1,20 +1,24 @@
 import React, { Component } from "react";
 import { signup } from "../../services/auth.js";
+import { Link } from "react-router-dom";
 
 import TextField from "@material-ui/core/TextField";
 import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 
-import { withStyles, makeStyles } from "@material-ui/core/styles";
+import { withStyles } from "@material-ui/core/styles";
 
 import styled, { keyframes } from "styled-components";
 
-import { IronButton, ironBlue, ironRed } from "../../styles/global.js";
+import {
+  IronButton,
+  ironBlue,
+  ironRed,
+  StyledLink,
+} from "../../styles/global.js";
 
 import hexa from "../../files/w-hexa.svg";
-import user from "../../files/user.svg";
-import key from "../../files/key.svg";
 import github from "../../files/github.svg";
 
 const fadeIn = keyframes`
@@ -48,8 +52,8 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 500px;
-  height: 500px;
+  width: 550px;
+  height: 550px;
   z-index: 2;
   background-image: url(${hexa});
   background-repeat: no-repeat;
@@ -86,6 +90,7 @@ const Alert = styled.div`
 const Github = styled.div`
   padding: 24px 0 0 0;
   font-size: 14px;
+  color: darkGray;
 `;
 
 const Strong = styled.span`
@@ -109,49 +114,14 @@ const CssTextField = withStyles({
   },
 })(TextField);
 
-const useStyles = makeStyles({
+const CssRadio = withStyles({
   root: {
-    "&:hover": {
-      backgroundColor: "transparent",
-    },
+    color: ironBlue,
   },
-  icon: {
-    borderRadius: "50%",
-    width: 16,
-    height: 16,
-    boxShadow:
-      "inset 0 0 0 1px rgba(16,22,26,.2), inset 0 -1px 0 rgba(16,22,26,.1)",
-    backgroundColor: "#f5f8fa",
-    backgroundImage:
-      "linear-gradient(180deg,hsla(0,0%,100%,.8),hsla(0,0%,100%,0))",
-    "$root.Mui-focusVisible &": {
-      outline: "2px auto rgba(19,124,189,.6)",
-      outlineOffset: 2,
-    },
-    "input:hover ~ &": {
-      backgroundColor: "#ebf1f5",
-    },
-    "input:disabled ~ &": {
-      boxShadow: "none",
-      background: "rgba(206,217,224,.5)",
-    },
+  checked: {
+    color: ironBlue,
   },
-  checkedIcon: {
-    backgroundColor: "#137cbd",
-    backgroundImage:
-      "linear-gradient(180deg,hsla(0,0%,100%,.1),hsla(0,0%,100%,0))",
-    "&:before": {
-      display: "block",
-      width: 16,
-      height: 16,
-      backgroundImage: "radial-gradient(#fff,#fff 28%,transparent 32%)",
-      content: '""',
-    },
-    "input:hover ~ &": {
-      backgroundColor: "#106ba3",
-    },
-  },
-});
+})(Radio);
 
 export default class Signup extends Component {
   state = {
@@ -197,25 +167,23 @@ export default class Signup extends Component {
           <Form autoComplete="off" onSubmit={this.handleSubmit}>
             <RadioGroup row>
               <FormControlLabel
-                className={useStyles}
                 checked={this.state.role === "Student"}
                 onChange={this.handleChange}
                 type="radio"
                 value="Student"
                 name="role"
                 inputProps={{ "aria-label": "A" }}
-                control={<Radio />}
+                control={<CssRadio />}
                 label="Student"
               />
               <FormControlLabel
-                className={useStyles}
                 checked={this.state.role === "Teacher"}
                 onChange={this.handleChange}
                 type="radio"
                 value="Teacher"
                 name="role"
                 inputProps={{ "aria-label": "A" }}
-                control={<Radio />}
+                control={<CssRadio />}
                 label="Teacher"
               />
             </RadioGroup>
@@ -250,11 +218,17 @@ export default class Signup extends Component {
               onChange={this.handleChange}
             />
 
-            {this.state.message && (
-              <Alert variant="danger">{this.state.message}</Alert>
-            )}
+            {this.state.message && <Alert>{this.state.message}</Alert>}
+
             <IronButton type="submit">Signup</IronButton>
           </Form>
+          <StyledLink>
+            <Link to="/api/auth/github">
+              <Github>
+                Or signup with <TinyIcon src={github} /> <Strong>Github</Strong>
+              </Github>
+            </Link>
+          </StyledLink>
         </Container>
       </Overlay>
     );

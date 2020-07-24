@@ -8,7 +8,6 @@ const userSchema = new Schema({
   },
   password: {
     type: String,
-    required: true
   },
   role: {
     type: String,
@@ -24,7 +23,8 @@ const userSchema = new Schema({
     imgPath: String,
     publicId: String
   },
-  description: String
+  description: String,
+  githubId: String
 })
 
 const User = model('User', userSchema);
