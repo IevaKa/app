@@ -27,6 +27,7 @@ router.get('/', (req, res) => {
   });
 
 router.post('/', (req, res) => {
+  console.log(req.body)
   const { lab, title, description, status } = req.body;
   console.log('backend1:', lab, title, description, status)
   Ticket.create({
