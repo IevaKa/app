@@ -6,6 +6,7 @@ import {
   ironBlue
 
 } from "../../styles/global.js";
+import { Link } from 'react-router-dom';
 
 const Container = styled.div`
   border: 1px solid black;
@@ -25,12 +26,13 @@ export default class TicketPreview extends React.Component {
             {...provided.dragHandleProps}
             ref={provided.innerRef}
             isDragging={snapshot.isDragging}
-          >
-            {this.props.ticket.lab} <br/>
-            {this.props.ticket.description}
+                
+                <Link to={`/ticket/${this.props.ticket._id}`}>{this.props.ticket.lab}</Link> <br />
+
+              {this.props.ticket.description}
           </Container>
         )}
       </Draggable>
-    );
+        );
   }
 }
