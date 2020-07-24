@@ -1,5 +1,4 @@
 import React from "react";
-// import { data, order } from "./data.js";
 import styled from "styled-components";
 import { DragDropContext } from "react-beautiful-dnd";
 import Navbar from "../Navbar";
@@ -14,6 +13,7 @@ const Container = styled.div`
 class TicketBoard extends React.Component {
   state = {
     columns: null,
+    testColumns: null,
     tickets: [],
     order: ["columnOpen", "columnProgress", "columnDone"]
   };
@@ -31,6 +31,24 @@ class TicketBoard extends React.Component {
         console.log(err);
       });
   };
+
+  // getting the data from the column model
+  // will eventually replace the get tickets function
+  getColumns = () => {
+    axios
+      .get("/api/columns")
+      .then((response) => {
+        this.setState({
+          testColumns: response.data,
+        });
+        console.log('my columns data: ', this.state.testColumns)
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  
 
   updateTicketStates = () => {
     const openTickets =
@@ -71,27 +89,16 @@ class TicketBoard extends React.Component {
       columnProgress,
       columnDone
     }
+console.log('it should look like this: ', columns)
+
     this.setState({
       columns: columns
     });
-    console.log('update state', this.state.columns)
   }
-
-  // getColumns = () => {
-  //   axios
-  //     .get("/api/columns")
-  //     .then((response) => {
-  //       this.setState({
-  //         columns: response.data,
-  //       });
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // };
 
   componentDidMount = () => {
     this.getTickets();
+    this.getColumns();
   };
 
   //   render() {
@@ -122,7 +129,6 @@ class TicketBoard extends React.Component {
     document.body.style.color = "inherit";
 
     const { destination, source, draggableId } = result;
-    console.log('on drag ', result)
     if (!destination) {
       return;
     }
@@ -141,8 +147,6 @@ class TicketBoard extends React.Component {
     const start = this.state.columns[source.droppableId];
     const finish = this.state.columns[destination.droppableId];
 
-    console.log(start)
-    console.log(finish)
 
     if (start === finish) {
       const newTicketIds = Array.from(start.ticketIds);
@@ -156,10 +160,7 @@ class TicketBoard extends React.Component {
 
       const newState = {
         ...this.state.columns,
-        columns: {
-          ...this.state.columns,
-          [newColumn.id]: newColumn,
-        },
+        [newColumn.id]: newColumn,
       };
 
       this.setState({
@@ -185,16 +186,31 @@ class TicketBoard extends React.Component {
 
     const newState = {
       ...this.state.columns,
-      columns: {
-        ...this.state.columns,
         [newStart.id]: newStart,
-        [newFinish.id]: newFinish,
-      },
+        [newFinish.id]: newFinish
     };
+
     this.setState({
       columns: newState,
     });
-  };
+
+    const statusMap = {
+      columnOpen: 'Opened',
+      columnProgress: 'In progress', 
+      columnDone: 'Solved'
+    }
+    
+    axios.put(`/api/tickets/${draggableId}`, {
+      status: statusMap[destination.droppableId],
+      destination: destination
+      })
+      .then(response => {
+        console.log(response);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+    };
 
   render() {
     return (

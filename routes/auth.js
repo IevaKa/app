@@ -3,6 +3,7 @@ const router = express.Router();
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
 const passport = require('passport');
+const Column = require('../models/Column');
 
 router.post('/signup', (req, res) => {
   const { username, password, name, role } = req.body;
@@ -38,12 +39,22 @@ router.post('/signup', (req, res) => {
             }
             res.json(dbUser);
           });
+
+          Column.create({ user: dbUser._id}).then(column => {
+            if (err) {
+              return res
+                .status(500)
+                .json({ message: 'Error while creating the board' });
+            }
+          })
         }
       );
     })
     .catch(err => {
       res.json(err);
     });
+  
+    
 });
 
 router.post('/login', (req, res) => {

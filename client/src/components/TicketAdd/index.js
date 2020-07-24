@@ -4,7 +4,7 @@ import Navbar from '../Navbar';
 
 export default class AddTicket extends Component {
   state = {
-    lab: '',
+    lab: 'React | Ironbeers',
     title: '',
     description: ''
   };
@@ -20,7 +20,7 @@ export default class AddTicket extends Component {
   handleSubmit = event => {
     event.preventDefault();
     axios
-      .post('/api/tickets', {
+      .post(`/api/tickets`, {
         lab: this.state.lab,
         title: this.state.title,
         description: this.state.description,
@@ -34,7 +34,6 @@ export default class AddTicket extends Component {
             description: ''
         });
         this.props.history.push('/ticket/board');
-        console.log('after the push', this.state)
       })
       .catch(err => {
         console.log(err);

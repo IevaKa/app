@@ -8,7 +8,7 @@ import {
   ironYellow,
   ironGreen,
   Button
-} from "../../styles/global.js";
+} from "../../theme/global.js";
 
 export const Box = styled.div`
   display: inline-block;
