@@ -77,7 +77,7 @@ class App extends React.Component {
           path="/ticket/board"
           render={(props) => <Login setUser={this.setUser} {...props} />}
         />
-        <a href="http://localhost:5555/auth/github">
+        <a href="http://localhost:5555/api/auth/github">
           <button onSubmit>Login with Github</button>
         </a>
 
