@@ -55,9 +55,11 @@ router.post('/', (req, res) => {
 router.put('/:id', (req, res, next) => {
   const id = req.params.id;
   const { status, destination, source } = req.body;
-  Ticket.findByIdAndUpdate(id, status, { new: true })
+  console.log('status: ', status, 'destination: ', destination, 'source: ', source)
+  Ticket.findByIdAndUpdate(id, { status: status }, { new: true })
     .then(ticket => {
       res.json(ticket);
+      console.log('this is the updated ticket: ', ticket)
     })
     .catch(err => {
       res.json(err);
