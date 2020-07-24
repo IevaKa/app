@@ -13,7 +13,6 @@ const Container = styled.div`
 class TicketBoard extends React.Component {
   state = {
     columns: null,
-    testColumns: null,
     tickets: [],
     order: ["columnOpen", "columnProgress", "columnDone"]
   };
@@ -25,7 +24,7 @@ class TicketBoard extends React.Component {
         this.setState({
           tickets: response.data,
         });
-        this.updateTicketStates()
+        this.getColumns()
       })
       .catch((err) => {
         console.log(err);
@@ -37,68 +36,40 @@ class TicketBoard extends React.Component {
   getColumns = () => {
     axios
       .get("/api/columns")
-      .then((response) => {
+      .then(response => {
+        const columnData = response.data
+        const columnOpen = {
+          id: "columnOpen",
+          title: "Open",
+          ticketIds: columnData.columnOpen
+        }
+        const columnProgress = {
+          id: "columnProgress",
+          title: "In progress",
+          ticketIds: columnData.columnProgress
+        }
+    
+        const columnDone = {
+          id: "columnDone",
+          title: "Done",
+          ticketIds: columnData.columnDone
+        }
+        const columns = {
+          columnOpen,
+          columnProgress,
+          columnDone
+        }
         this.setState({
-          testColumns: response.data,
+          columns: columns,
         });
-        console.log('my columns data: ', this.state.testColumns)
       })
       .catch((err) => {
         console.log(err);
       });
   };
 
-  
-
-  updateTicketStates = () => {
-    const openTickets =
-      this.state.tickets
-        .filter(ticket => ticket.status === 'Opened')
-        .map(t => t._id)
-
-    const inProgressTickets =
-      this.state.tickets
-        .filter(ticket => ticket.status === 'In progress')
-        .map(t => t._id)
-
-    const solvedTickets =
-      this.state.tickets
-        .filter(ticket => ticket.status === 'Solved')
-        .map(t => t._id)
-
-    const columnOpen = {
-      id: "columnOpen",
-      title: "Open",
-      ticketIds: openTickets
-    }
-
-    const columnProgress = {
-      id: "columnProgress",
-      title: "In progress",
-      ticketIds: inProgressTickets
-    }
-
-    const columnDone = {
-      id: "columnDone",
-      title: "Done",
-      ticketIds: solvedTickets
-    }
-
-    const columns = {
-      columnOpen,
-      columnProgress,
-      columnDone
-    }
-console.log('it should look like this: ', columns)
-
-    this.setState({
-      columns: columns
-    });
-  }
-
   componentDidMount = () => {
     this.getTickets();
-    this.getColumns();
   };
 
   //   render() {
@@ -158,6 +129,7 @@ console.log('it should look like this: ', columns)
         ticketIds: newTicketIds,
       };
 
+      console.log(newColumn)
       const newState = {
         ...this.state.columns,
         [newColumn.id]: newColumn,
@@ -166,6 +138,18 @@ console.log('it should look like this: ', columns)
       this.setState({
         columns: newState,
       });
+
+      axios.put('/api/columns', {
+        property: newColumn.id,
+        array: newColumn.ticketIds
+        })
+        .then(response => {
+          console.log(response);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+
       return;
     }
 
@@ -183,6 +167,12 @@ console.log('it should look like this: ', columns)
       ...finish,
       ticketIds: finishTicketIds,
     };
+
+    console.log('destination ', destination.droppableId)
+    console.log('source ', source.droppableId)
+    // arrays to pass in the column
+    console.log('start tickets ', startTicketIds)
+    console.log('finish tickets ', finishTicketIds)
 
     const newState = {
       ...this.state.columns,
@@ -202,7 +192,10 @@ console.log('it should look like this: ', columns)
     
     axios.put(`/api/tickets/${draggableId}`, {
       status: statusMap[destination.droppableId],
-      destination: destination
+      destination: destination.droppableId, // progress
+      source: source.droppableId, // open
+      sourceArray: startTicketIds,
+      destinationArray: finishTicketIds
       })
       .then(response => {
         console.log(response);

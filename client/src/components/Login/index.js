@@ -94,6 +94,9 @@ const Github = styled.div`
   font-size: 14px;
 `;
 
+const GitLink = styled.a`
+`;
+
 const Strong = styled.span`
   font-weight: 600;
 `;
@@ -202,11 +205,11 @@ export default class Login extends React.Component {
             {this.state.message && <Alert>{this.state.message}</Alert>}
             <IronButton negative type="submit">Login</IronButton>
           </Form>
-            <Link to="/api/auth/github">
+            <GitLink to="http://localhost:5555/api/auth/github">
               <Github>
                 Or login with <TinyIcon src={github} /> <Strong>Github</Strong>
               </Github>
-            </Link>
+            </GitLink>
         </Container>
       </Overlay>
     );

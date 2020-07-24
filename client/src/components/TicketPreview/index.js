@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { Link } from 'react-router-dom';
 import { Draggable } from "react-beautiful-dnd";
 import {
 
@@ -26,7 +27,7 @@ export default class TicketPreview extends React.Component {
             ref={provided.innerRef}
             isDragging={snapshot.isDragging}
           >
-            {this.props.ticket.lab} <br/>
+              <Link to={ `/ticket/${this.props.ticket._id}` }>{this.props.ticket.lab}</Link> <br/>
             {this.props.ticket.description}
           </Container>
         )}

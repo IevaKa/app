@@ -54,16 +54,23 @@ router.post('/', (req, res) => {
 
 router.put('/:id', (req, res, next) => {
   const id = req.params.id;
-  const status = req.body;
-  Ticket.findByIdAndUpdate(id, status, { new: true })
+  const { status, destination, source, sourceArray, destinationArray } = req.body;
+  Ticket.findByIdAndUpdate(id, { status: status }, { new: true })
     .then(ticket => {
       res.json(ticket);
+      console.log('this is the updated ticket: ', ticket)
     })
     .catch(err => {
       res.json(err);
     });
-  
-  // Column.findOneAndUpdate
+   
+    Column.update(
+      { user: req.user.id }, 
+      { [destination]: destinationArray, [source]: sourceArray },
+      { new: true }
+  ).then(up => {
+    console.log('this is the updated column: ', up)
+  })
 });
 
 // router.delete('/:id', (req, res, next) => {

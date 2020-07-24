@@ -19,9 +19,15 @@ const userSchema = new Schema({
     // required: true
   },
   image: {
-    imgName: String,
-    imgPath: String,
-    publicId: String
+    type: String,
+    // imgPath: String,
+    // publicId: String
+  },
+  location: {
+    type: String
+  },
+  bio: {
+    type: String
   },
   description: String,
   githubId: String

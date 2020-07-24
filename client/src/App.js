@@ -80,11 +80,6 @@ class App extends React.Component {
           path="/login"
           render={(props) => <Login setUser={this.setUser} {...props} />}
         />
-
-        {/* <a href="http://localhost:5555/api/auth/github">
-          <button onSubmit>Login with Github</button>
-        </a> */}
-
       </>
     );
   }
