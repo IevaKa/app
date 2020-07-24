@@ -171,13 +171,11 @@ console.log('it should look like this: ', columns)
 
     // moving between columns
     const startTicketIds = Array.from(start.ticketIds);
-
     startTicketIds.splice(source.index, 1);
     const newStart = {
       ...start,
       ticketIds: startTicketIds,
     };
-
 
     const finishTicketIds = Array.from(finish.ticketIds);
     finishTicketIds.splice(destination.index, 0, draggableId); // inserts in the new column

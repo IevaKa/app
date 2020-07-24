@@ -1,6 +1,8 @@
 import React from "react";
-import "./App.css";
 import { Route } from "react-router-dom";
+
+import { GlobalStyles } from "../src/styles/global.js";
+
 import Signup from "./components/Signup";
 import Login from "./components/Login";
 import Home from "./components/Home/";
@@ -25,9 +27,14 @@ class App extends React.Component {
   render() {
     // console.log('this is App.js', this.props.user)
     return (
-      <div className="App">
-        <Route exact path="/" component={Home} />
-
+      <>
+        <GlobalStyles />
+        <Route
+          exact
+          path="/"
+          render={(props) => <Home setUser={this.setUser} {...props} />}
+        />
+        {/* <Route exact path="/" component={Home} /> */}
         <Route exact path="/ticket/board" component={TicketBoard} />
 
         {/* <Route exact path="/ticket/add" component={TicketAdd} /> */}
@@ -38,13 +45,9 @@ class App extends React.Component {
         />
 
         {/* <Route exact path="/ticket/:id" component={TicketDetail} /> */}
-
         {/* <Route exact path="/ticket/:id/edit" component={TicketEdit} /> */}
-
         <Route exact path="/profile/:id" component={Profile} />
-
         <Route exact path="/profile/:id/edit" component={ProfileEdit} />
-
         <Route
           exact
           path="/signup"
@@ -55,7 +58,7 @@ class App extends React.Component {
           path="/login"
           render={(props) => <Login setUser={this.setUser} {...props} />}
         />
-      </div>
+      </>
     );
   }
 }

@@ -63,6 +63,6 @@ app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
 app.use('/api/tickets', require('./routes/ticket'));
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/user', require('./routes/user'));
-app.use('/api/columns', require('./routes/columns'));
+app.use('/api/columns', require('./routes/column'));
 
 module.exports = app;

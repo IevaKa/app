@@ -8,7 +8,7 @@ export default class index extends Component {
         <h2>Edit profile: </h2>
         <Form onSubmit={this.props.handleSubmit}>
           <Form.Group>
-            <Form.Label>User:</Form.Label>
+            <Form.Label>Name:</Form.Label>
             <Form.Control
               type='text'
               name='user'

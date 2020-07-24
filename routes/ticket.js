@@ -28,6 +28,7 @@ router.get('/', (req, res) => {
 
 
 router.post('/', (req, res) => {
+  console.log(req.body)
   const { lab, title, description, status } = req.body;
   Ticket.create({
     createdBy: req.user.id,
