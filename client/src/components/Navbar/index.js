@@ -6,6 +6,7 @@ import axios from "axios";
 import styled, { keyframes } from "styled-components";
 
 import plus from "../../files/plus.svg";
+import bell from "../../files/bell.svg";
 
 import {
   IronButton,
@@ -14,6 +15,7 @@ import {
   ironPurple,
   lightGray,
   StyledLink,
+  ironYellow,
 } from "../../styles/global.js";
 
 const Nav = styled.nav`
@@ -33,8 +35,8 @@ const Nav = styled.nav`
 `;
 
 const PlusPic = styled.img`
-  height: ${(props) => (props.addhover ? "45px" : "30px")};
-  width: ${(props) => (props.addhover ? "45px" : "30px")};
+  height: ${(props) => (props.addhover ? "35px" : "25px")};
+  width: ${(props) => (props.addhover ? "35px" : "25px")};
   border-radius: 100px;
   transition: all 300ms ease-in-out;
 `;
@@ -64,17 +66,23 @@ const UserGreeting = styled.p`
 
 const AddTicket = styled.div`
   border-radius: 100px;
-  ${'' /* border:   ${(props) => (props.addhover ? "2px solid white" : "2px solid ironRed" )}; */}
-  height: 80px;
-  width: 80px;
-  background: linear-gradient(43deg, rgba(252,220,102,1) 11%, rgba(239,100,101,1) 63%);
+  ${"" /* border:   ${(props) => (props.addhover ? "2px solid white" : "2px solid ironRed" )}; */}
+  height: 50px;
+  width: 50px;
+  background: black;
+  ${"" /* background: linear-gradient(43deg, rgba(252,220,102,1) 11%, rgba(239,100,101,1) 63%); */}
   display: flex;
   justify-content: center;
   align-content: center;
   align-items: center;
-  transform:  ${(props) => (props.addhover ? "rotate(180deg)" : "rotate(0deg)" )};
+  transform: ${(props) => (props.addhover ? "rotate(180deg)" : "rotate(0deg)")};
   transition: all 1s ease-in-out;
+`;
 
+const Notification = styled.img`
+  height: ${(props) => (props.addhover ? "45px" : "30px")};
+  width: ${(props) => (props.addhover ? "45px" : "30px")};
+  margin: 30px 0;
 `;
 
 const ImgContainer = styled.div`
@@ -105,8 +113,6 @@ const Navbar = (props) => {
   //   });
   // };
 
-  if (user) console.log(user.image);
-
   if (!user) return <></>;
   return (
     <Nav>
@@ -128,6 +134,7 @@ const Navbar = (props) => {
         ) : (
           <Link to="/ticket/board">Dashboard</Link>
         )}
+        <Notification src={bell} alt="Notification" />
       </NavContainer>
 
       {/* <Link to="/" onClick={() => handleLogout(props)}>
