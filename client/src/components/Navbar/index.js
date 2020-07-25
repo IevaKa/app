@@ -1,60 +1,162 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Navbar as Nav } from "react-bootstrap";
-import { logout } from "../../services/auth.js";
+// import { logout } from "../../services/auth.js";
 import axios from "axios";
 
 import styled, { keyframes } from "styled-components";
 
+import plus from "../../files/plus.svg";
 
-export default class Navbar extends React.Component {
-  state = {
-    user: null,
-  };
+import {
+  IronButton,
+  ironBlue,
+  ironRed,
+  ironPurple,
+  lightGray,
+  StyledLink,
+} from "../../styles/global.js";
 
-  getUser = () => {
+const Nav = styled.nav`
+  background: linear-gradient(
+    8deg,
+    rgba(47, 199, 255, 1) 19%,
+    rgba(135, 79, 255, 1) 96%
+  );
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  height: 100vh;
+  width: 135px;
+  padding: 10px;
+  font-size: 12px;
+`;
+
+const PlusPic = styled.img`
+  height: ${(props) => (props.addhover ? "45px" : "30px")};
+  width: ${(props) => (props.addhover ? "45px" : "30px")};
+  border-radius: 100px;
+  transition: all 300ms ease-in-out;
+`;
+
+const UserPic = styled.img`
+  width: ${(props) => (props.imghover ? "85px" : "80px")};
+  border-radius: 100px;
+  transition: all 300ms ease-in-out;
+`;
+
+const NavContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 10px;
+  width: 100px;
+  ${"" /* background-color: red; */}
+  transform-origin: center;
+`;
+
+const UserGreeting = styled.p`
+  color: white;
+  padding: 0 20px 0 20px;
+  margin: 0 0 8px 0;
+`;
+
+const AddTicket = styled.div`
+  border-radius: 100px;
+  ${'' /* border:   ${(props) => (props.addhover ? "2px solid white" : "2px solid ironRed" )}; */}
+  height: 80px;
+  width: 80px;
+  background: linear-gradient(43deg, rgba(252,220,102,1) 11%, rgba(239,100,101,1) 63%);
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  transform:  ${(props) => (props.addhover ? "rotate(180deg)" : "rotate(0deg)" )};
+  transition: all 1s ease-in-out;
+
+`;
+
+const ImgContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  height: 90px;
+  ${"" /* background-color: yellow; */}
+  transform-origin: center;
+`;
+
+const Navbar = (props) => {
+  let [user, setUser] = useState(null);
+  let [imghover, setImghover] = useState(false);
+  let [addhover, setAddhover] = useState(false);
+
+  useEffect(() => {
     axios.get("/api/auth/loggedin").then((response) => {
       const user = response.data;
-      this.setState({
-        user: user,
-      });
+      setUser(user);
     });
-  };
+  }, []);
 
-  componentDidMount = () => {
-    this.getUser();
-  };
+  // const handleLogout = () => {
+  //   logout().then(() => {
+  //     setUser(null);
+  //   });
+  // };
 
-  setUser = (user) => {
-    this.setState({
-      user: user,
-    });
-  };
+  if (user) console.log(user.image);
 
-  handleLogout = () => {
-    logout().then(() => {
-      this.setUser(null);
-    });
-  };
+  if (!user) return <></>;
+  return (
+    <Nav>
+      <NavContainer>
+        {user.role === "Student" ? (
+          <Link to="/ticket/add">
+            <AddTicket
+              onMouseOver={() => {
+                setAddhover(true);
+              }}
+              onMouseOut={() => {
+                setAddhover(false);
+              }}
+              addhover={addhover}
+            >
+              <PlusPic src={plus} alt="Plus" addhover={addhover} />
+            </AddTicket>
+          </Link>
+        ) : (
+          <Link to="/ticket/board">Dashboard</Link>
+        )}
+      </NavContainer>
 
-  render() {
-    // console.log('this is navbar ', this.state.user)
-    if (!this.state.user) return <></>;
-    return (
-      <Nav className="navbar ">
-        <>
-          {this.state.user.role === "Student" ? (
-              <Link to="/ticket/add">Add Ticket</Link>
-          ) : (
-              <Link to="/ticket/board">Dashboard</Link>
-          )}
+      {/* <Link to="/" onClick={() => handleLogout(props)}>
+          Logout
+        </Link> */}
+      <Link to={`/profile/${user._id}`}>
+        <NavContainer>
+          <UserGreeting>
+            Hey {user.name.split(" ").slice(0, -1).join(" ")}!
+          </UserGreeting>
+          <ImgContainer>
+            <UserPic
+              src={user.image}
+              alt="User Pic"
+              onMouseOver={() => {
+                setImghover(true);
+              }}
+              onMouseOut={() => {
+                setImghover(false);
+              }}
+              imghover={imghover}
+            />
+          </ImgContainer>
+        </NavContainer>
+      </Link>
+    </Nav>
+  );
+};
 
-            <Link to={`/profile/${this.state.user._id}`}>Profile</Link>
-            <Link to="/" onClick={() => this.handleLogout(this.props)}>
-              Logout
-            </Link>
-        </>
-      </Nav>
-    );
-  }
-}
+export default Navbar;
+
+// do an if statement if the user has no pic

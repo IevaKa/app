@@ -4,6 +4,13 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
 import Navbar from '../Navbar/index';
+import styled from "styled-components";
+
+const MainContainer = styled.div`
+  display: flex;
+  justify-content: left;
+`;
+
 
 export default class index extends Component {
 
@@ -66,10 +73,10 @@ export default class index extends Component {
     if (!this.state.user) return (<></>)
     console.log(this.state.user)
     return (
-      <div>
+      <MainContainer>
         <Navbar />
         {this.state.user.role === 'Student' ? <h1>Hello Ironhacker</h1> : <h1>Dear TA Welcome back</h1>}
-        <div><img src={this.state.user.image} /></div>
+        <div><img src={this.state.user.image} alt="Pic"/></div>
         <h3>Username: {this.state.user.username}</h3>
         <h3>Name: {this.state.user.name}</h3>
         <h3>{this.state.user.location}</h3>
@@ -89,7 +96,7 @@ export default class index extends Component {
           />
         )}
 
-      </div>
+      </MainContainer>
     )
   }
 } 

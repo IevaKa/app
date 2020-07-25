@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Button } from "../../styles/global.js";
 import styled, { keyframes } from "styled-components";
 import Lottie from "react-lottie";
-import animationData from "../../files/animation.json";
+import animation from "../../files/animation.json";
 import bg from "../../files/back.svg";
 import heart from "../../files/heart.svg";
 import code from "../../files/code.svg";
@@ -86,7 +86,7 @@ function Home(props) {
   const defaultOptions = {
     loop: true,
     autoplay: true,
-    animationData: animationData,
+    animationData: animation,
     rendererSettings: {
       preserveAspectRatio: "xMidYMid slice",
     },
@@ -94,12 +94,10 @@ function Home(props) {
 
   return (
     <Container>
-   
         {login && <Login setUser={props.setUser} {...props} />}
         {login && <Close onClick={() => showLogin(false)}>CLOSE</Close>}
         {signup && <Signup setUser={props.setUser} {...props} />}
         {signup && <Close onClick={() => showSignup(false)}>CLOSE</Close>}
-
       <ContainerButtons>
         <Title>
           Welcome <br />

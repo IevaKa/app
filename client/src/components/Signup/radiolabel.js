@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import Radio from "@material-ui/core/Radio";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 
@@ -37,6 +37,7 @@ const CssFormControlLabel = withStyles({
   },
   label: {
     fontFamily: `'Poppins', sans-serif`,
+    fontSize: '14px',
     color: "white",
   },
 })(FormControlLabel);
@@ -95,20 +96,6 @@ function SyncRadioLabel(props) {
           label: classes.label,
         }}
       />
-
-      {/* <FormControlLabel
-        classes={{
-          label: classes.label,
-        }}
-        control={
-          <Radio
-            classes={{
-              checked: classes.checked,
-            }}
-          />
-        }
-        label="TESTTTT"
-      /> */}
     </>
   );
 }

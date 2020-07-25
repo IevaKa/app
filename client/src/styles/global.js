@@ -1,5 +1,4 @@
 import { createGlobalStyle } from "styled-components";
-import reset from 'styled-reset-advanced';
 import styled, { keyframes } from "styled-components";
 
 

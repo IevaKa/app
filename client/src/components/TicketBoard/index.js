@@ -5,9 +5,17 @@ import Navbar from "../Navbar";
 import Column from "../Column";
 import axios from "axios";
 
+const MainContainer = styled.div`
+  display: flex;
+  justify-content: left;
+`;
+
 const Container = styled.div`
   display: flex;
+  align-items: center;
   justify-content: center;
+  ${'' /* background-color: blue; */}
+  width: 100vw;
 `;
 
 class TicketBoard extends React.Component {
@@ -207,7 +215,7 @@ class TicketBoard extends React.Component {
 
   render() {
     return (
-      <>
+      <MainContainer>
         <Navbar />
         <DragDropContext
           // onDragStart={this.onDragStart}
@@ -228,7 +236,7 @@ class TicketBoard extends React.Component {
             }
           </Container>
         </DragDropContext>
-      </>
+      </MainContainer>
     );
   }
 }

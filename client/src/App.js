@@ -13,7 +13,6 @@ import TicketAdd from "./components/TicketAdd";
 // import MainDash from "./components/MainDash";
 import Profile from "./components/Profile";
 import ProfileEdit from "./components/ProfileEdit";
-import axios from 'axios';
 
 class App extends React.Component {
   state = {

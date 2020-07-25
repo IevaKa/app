@@ -1,6 +1,5 @@
 import React from "react";
 import { login } from "../../services/auth";
-import { Link } from "react-router-dom";
 
 import TextField from "@material-ui/core/TextField";
 import { withStyles } from "@material-ui/core/styles";
@@ -99,9 +98,6 @@ const Strong = styled.span`
   font-weight: 600;
 `;
 
-// MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-formControl MuiInput-formControl
-// MuiInputBase-input MuiInput-input
-
 const CssTextField = withStyles({
   root: {
     margin: "6px",
@@ -170,7 +166,7 @@ export default class Login extends React.Component {
         <Container>
           <Form autoComplete="off" onSubmit={this.handleSubmit}>
             <FormField>
-              <TinyIcon form src={user} />
+              <TinyIcon form src={user} alt="User Icon"/>
               <CssTextField
                 label="Username"
                 id="username"
@@ -182,7 +178,7 @@ export default class Login extends React.Component {
               />
             </FormField>
             <FormField bottom>
-              <TinyIcon form src={key} />
+              <TinyIcon form src={key} alt="Key Icon"/>
               <CssTextField
                 label="Password"
                 id="password"
@@ -199,7 +195,7 @@ export default class Login extends React.Component {
           <StyledLink>
             <GitLink href="http://localhost:5555/api/auth/github">
               <Github>
-                Or login with <TinyIcon src={github} /> <Strong>Github</Strong>
+                Or login with <TinyIcon src={github} alt="GitHub Icon"/> <Strong>Github</Strong>
               </Github>
             </GitLink>
           </StyledLink>
