@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
 
 import { Button } from "../../styles/global.js";
 import styled, { keyframes } from "styled-components";
@@ -11,7 +10,6 @@ import code from "../../files/code.svg";
 
 import Login from "../Login";
 import Signup from "../Signup";
-
 
 const Animation = keyframes`
  0% { background-position: -20vw 120vh; opacity: 0 }
@@ -27,7 +25,7 @@ const Container = styled.div`
   justify-content: center;
   height: 100vh;
   width: 100vw;
-  animation: ${Animation} 1.5s 1 ease-in-out;
+  animation: ${Animation} 1.5s 1 ease-in-out;   
 `;
 
 const Title = styled.h1`
@@ -96,18 +94,20 @@ function Home(props) {
 
   return (
     <Container>
-      {login && <Login setUser={props.setUser} {...props} />}
-      {login && <Close onClick={() => showLogin(false)}>CLOSE</Close>}
-
-      {signup && <Signup setUser={props.setUser} {...props} />}
-      {signup && <Close onClick={() => showSignup(false)}>CLOSE</Close>}
+   
+        {login && <Login setUser={props.setUser} {...props} />}
+        {login && <Close onClick={() => showLogin(false)}>CLOSE</Close>}
+        {signup && <Signup setUser={props.setUser} {...props} />}
+        {signup && <Close onClick={() => showSignup(false)}>CLOSE</Close>}
 
       <ContainerButtons>
         <Title>
           Welcome <br />
           to IronTickets.{" "}
         </Title>
-          <Button primary onClick={() => showSignup(true)}>Signup</Button>
+        <Button primary onClick={() => showSignup(true)}>
+          Signup
+        </Button>
         <Button onClick={() => showLogin(true)}>Login</Button>
       </ContainerButtons>
       <ContainerHero>

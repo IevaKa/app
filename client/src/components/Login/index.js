@@ -11,16 +11,15 @@ import {
   IronButton,
   ironBlue,
   ironRed,
-  StyledLink,
+  ironPurple,
   lightGray,
-  darkGray,
-  ironPurple
+  StyledLink,
 } from "../../styles/global.js";
 
-import hexa from "../../files/b-hexa.svg";
+import hexa from "../../files/w-hexa.svg";
 import user from "../../files/user.svg";
 import key from "../../files/key.svg";
-import github from "../../files/w-github.svg";
+import github from "../../files/github.svg";
 
 const fadeIn = keyframes`
  0% { opacity: 0 }
@@ -66,8 +65,8 @@ const FormField = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 12px;
-  margin: ${(props) => (props.bottom ? "0 0 10px 0" : "0px")};
+  padding: 3px;
+  margin: ${(props) => (props.bottom ? "0 0 8px 0" : "0px")};
 `;
 
 const Form = styled.form`
@@ -84,18 +83,17 @@ const TinyIcon = styled.img`
 
 const Alert = styled.div`
   color: ${ironRed};
-  padding: 8px;
   font-size: 11px;
+  padding: 10px 0 0 0;
 `;
 
 const Github = styled.div`
-  color: white;
+  color: ${lightGray};
   padding: 24px 0 0 0;
   font-size: 14px;
 `;
 
-const GitLink = styled.a`
-`;
+const GitLink = styled.a``;
 
 const Strong = styled.span`
   font-weight: 600;
@@ -106,34 +104,27 @@ const Strong = styled.span`
 
 const CssTextField = withStyles({
   root: {
-    color: 'white',
+    margin: "6px",
     width: "220px",
     "& .MuiInputLabel-root": {
       fontFamily: `'Poppins', sans-serif`,
       fontSize: "14px",
-      color: 'white',
     },
     "& .MuiInput-underline": {
       fontFamily: `'Poppins', sans-serif`,
       fontSize: "14px",
-      color: ironPurple,
-      borderBottom: 'red'
+      color: ironBlue,
     },
     "& label.Mui-focused": {
-      color: ironPurple,
+      color: ironBlue,
     },
-    '& .MuiInput-underline:before': {
-      borderBottomColor: '#fff8', // Semi-transparent underline
+    "& .MuiInput-underline:after": {
+      borderBottomColor: ironBlue,
     },
-    '& .MuiInput-underline:hover:before': {
-      borderBottomColor: '#fff', // Solid underline on hover
-    },
-    '& .MuiInput-underline:after': {
-      borderBottomColor: '#fff', // Solid underline on focus
+    "& .MuiInput-underline:hover:before": {
+      borderBottomColor: ironRed, // Solid underline on hover
     },
   },
-  
-  
 })(TextField);
 
 export default class Login extends React.Component {
@@ -203,13 +194,15 @@ export default class Login extends React.Component {
               />
             </FormField>
             {this.state.message && <Alert>{this.state.message}</Alert>}
-            <IronButton negative type="submit">Login</IronButton>
+            <IronButton type="submit">Login</IronButton>
           </Form>
+          <StyledLink>
             <GitLink href="http://localhost:5555/api/auth/github">
               <Github>
                 Or login with <TinyIcon src={github} /> <Strong>Github</Strong>
               </Github>
             </GitLink>
+          </StyledLink>
         </Container>
       </Overlay>
     );

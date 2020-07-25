@@ -1,11 +1,9 @@
 import React, { Component } from "react";
 import { signup } from "../../services/auth.js";
-import { Link } from "react-router-dom";
+import CssSyncRadioLabel from "./radiolabel";
 
 import TextField from "@material-ui/core/TextField";
-import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
 
 import { withStyles } from "@material-ui/core/styles";
 
@@ -13,13 +11,11 @@ import styled, { keyframes } from "styled-components";
 
 import {
   IronButton,
-  ironBlue,
   ironRed,
-  StyledLink,
 } from "../../styles/global.js";
 
-import hexa from "../../files/w-hexa.svg";
-import github from "../../files/github.svg";
+import hexa from "../../files/b-hexa.svg";
+import github from "../../files/w-github.svg";
 
 const fadeIn = keyframes`
  0% { opacity: 0 }
@@ -61,19 +57,19 @@ const Container = styled.div`
   animation: ${slideDown} 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
 `;
 
-const FormField = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 12px;
-  margin: ${(props) => (props.bottom ? "0 0 10px 0" : "0px")};
-`;
-
 const Form = styled.form`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+`;
+
+const FormField = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  margin: ${(props) => (props.bottom ? "0 0 8px 0" : "0px")};
 `;
 
 const TinyIcon = styled.img`
@@ -83,18 +79,17 @@ const TinyIcon = styled.img`
 
 const Alert = styled.div`
   color: ${ironRed};
-  padding: 8px;
+  padding: 10px 0 0 0;
   font-size: 11px;
 `;
 
 const Github = styled.div`
   padding: 24px 0 0 0;
   font-size: 14px;
-  color: darkGray;
+  color: white;
 `;
 
-const GitLink = styled.a`
-`;
+const GitLink = styled.a``;
 
 const Strong = styled.span`
   font-weight: 600;
@@ -102,34 +97,33 @@ const Strong = styled.span`
 
 const CssTextField = withStyles({
   root: {
-    margin: "6px",
+    color: "white",
     width: "220px",
     "& .MuiInputLabel-root": {
       fontFamily: `'Poppins', sans-serif`,
       fontSize: "14px",
+      color: "white",
     },
     "& .MuiInput-underline": {
       fontFamily: `'Poppins', sans-serif`,
       fontSize: "14px",
-      color: ironBlue,
+      color: "white",
+      borderBottom: "red",
     },
     "& label.Mui-focused": {
-      color: ironBlue,
+      color: ironRed,
+    },
+    "& .MuiInput-underline:before": {
+      borderBottomColor: "#fff8", // Semi-transparent underline
+    },
+    "& .MuiInput-underline:hover:before": {
+      borderBottomColor: "#fff", // Solid underline on hover
     },
     "& .MuiInput-underline:after": {
-      borderBottomColor: ironBlue,
+      borderBottomColor: "#fff", // Solid underline on focus
     },
   },
 })(TextField);
-
-const CssRadio = withStyles({
-  root: {
-    color: ironBlue,
-  },
-  checked: {
-    color: ironBlue,
-  },
-})(Radio);
 
 export default class Signup extends Component {
   state = {
@@ -174,69 +168,56 @@ export default class Signup extends Component {
         <Container>
           <Form autoComplete="off" onSubmit={this.handleSubmit}>
             <RadioGroup row>
-              <FormControlLabel
-                checked={this.state.role === "Student"}
-                onChange={this.handleChange}
-                type="radio"
-                value="Student"
-                name="role"
-                inputProps={{ "aria-label": "A" }}
-                control={<CssRadio />}
-                label="Student"
-              />
-              <FormControlLabel
-                checked={this.state.role === "Teacher"}
-                onChange={this.handleChange}
-                type="radio"
-                value="Teacher"
-                name="role"
-                inputProps={{ "aria-label": "A" }}
-                control={<CssRadio />}
-                label="Teacher"
-              />
+              <CssSyncRadioLabel
+                handleChange={this.handleChange}
+                role={this.state.role}
+              ></CssSyncRadioLabel>
             </RadioGroup>
-
-            <CssTextField
-              label="Full Name"
-              id="name"
-              variant="standard"
-              type="text"
-              name="name"
-              value={this.state.name}
-              onChange={this.handleChange}
-            />
-
-            <CssTextField
-              label="Username"
-              id="username"
-              variant="standard"
-              type="text"
-              name="username"
-              value={this.state.username}
-              onChange={this.handleChange}
-            />
-
-            <CssTextField
-              label="Password"
-              id="password"
-              variant="standard"
-              type="password"
-              name="password"
-              value={this.state.password}
-              onChange={this.handleChange}
-            />
+            <FormField>
+              <CssTextField
+                label="Full Name"
+                id="name"
+                variant="standard"
+                type="text"
+                name="name"
+                value={this.state.name}
+                onChange={this.handleChange}
+              />
+            </FormField>
+            <FormField>
+              <CssTextField
+                label="Username"
+                id="username"
+                variant="standard"
+                type="text"
+                name="username"
+                value={this.state.username}
+                onChange={this.handleChange}
+              />
+            </FormField>
+            <FormField>
+              <CssTextField
+                label="Password"
+                id="password"
+                variant="standard"
+                type="password"
+                name="password"
+                value={this.state.password}
+                onChange={this.handleChange}
+              />
+            </FormField>
 
             {this.state.message && <Alert>{this.state.message}</Alert>}
 
-            <IronButton type="submit">Signup</IronButton>
+            <IronButton negative type="submit">
+              Signup
+            </IronButton>
           </Form>
-          <StyledLink>
           <GitLink href="http://localhost:5555/api/auth/github">
-              <Github>
-                Or signup with <TinyIcon src={github} /> <Strong>Github</Strong>
-              </Github>
-            </GitLink>
-          </StyledLink>
+            <Github>
+              Or signup with <TinyIcon src={github} /> <Strong>Github</Strong>
+            </Github>
+          </GitLink>
         </Container>
       </Overlay>
     );

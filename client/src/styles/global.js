@@ -74,13 +74,13 @@ const Button = styled.button`
 const IronButton = styled.button`
   text-transform: uppercase;
   cursor: pointer;
-  background: ${(props) => (props.negative ? ironPurple : ironBlue)};
+  background: ${(props) => (props.negative ? ironRed : ironBlue)};
   font-size: 16px;
   border-radius: 50px;
   color: ${(props) => (props.negative ? 'white' : 'white')};
-  border: ${(props) => (props.negative ? ironPurple : `2px solid ${ironBlue}`)};
+  border: ${(props) => (props.negative ? ironRed : `2px solid ${ironBlue}`)};
   margin: 2em 0.7em 0.7em 0.7em;
-  padding: 0.25em 1em;
+  padding: 0.15em 1em;
   width: 250px;
   height: 60px;
   box-shadow: ${(props) => (props.negative ? `0px 10px 10px ${darkBlue}` : `0px 10px 10px ${lightBlue}`)};
@@ -126,6 +126,8 @@ export {
   ironRed,
   ironYellow,
   ironGreen,
+  lightRed,
+  lightBlue,
   Button,
   IronButton,
   StyledLink

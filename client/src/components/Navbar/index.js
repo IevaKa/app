@@ -1,71 +1,60 @@
-import React from 'react'
-import { Link } from 'react-router-dom';
-import { Navbar as Nav } from 'react-bootstrap';
-import { logout } from '../../services/auth.js';
-import axios from 'axios'
+import React from "react";
+import { Link } from "react-router-dom";
+import { Navbar as Nav } from "react-bootstrap";
+import { logout } from "../../services/auth.js";
+import axios from "axios";
+
+import styled, { keyframes } from "styled-components";
 
 
 export default class Navbar extends React.Component {
-
   state = {
-    user: null
-  }
+    user: null,
+  };
 
   getUser = () => {
-    axios.get('/api/auth/loggedin')
-      .then(response => {
-        const user = response.data;
-        this.setState({
-          user: user,
-        });
-      })
-  }
+    axios.get("/api/auth/loggedin").then((response) => {
+      const user = response.data;
+      this.setState({
+        user: user,
+      });
+    });
+  };
 
   componentDidMount = () => {
-    this.getUser()
-  }
+    this.getUser();
+  };
 
-  setUser = user => {
+  setUser = (user) => {
     this.setState({
-      user: user
-    })
-  }
+      user: user,
+    });
+  };
 
   handleLogout = () => {
     logout().then(() => {
       this.setUser(null);
     });
-  }
+  };
 
   render() {
     // console.log('this is navbar ', this.state.user)
-    if (!this.state.user) return (<></>)
+    if (!this.state.user) return <></>;
     return (
-      <Nav className='navbar navbar-expand-lg navbar-light bg-light justify-content-end '>
-        {/* {this.props.user && 
-      <Nav.Brand>Welcome {this.props.user.username} 
-      </Nav.Brand>} */}
-        {/* <Nav.Brand>
-        <Link to='/'>Home</Link>
-      </Nav.Brand> */}
-        <>{this.state.user.role === 'Student' ?
-          <Nav.Brand>
-            <Link to='/ticket/add'>Add Ticket</Link>
-          </Nav.Brand> : 
-          <Nav.Brand>
-            <Link to='/ticket/board'>Dashboard</Link>
-          </Nav.Brand>
-        }
+      <Nav className="navbar ">
+        <>
+          {this.state.user.role === "Student" ? (
+              <Link to="/ticket/add">Add Ticket</Link>
+          ) : (
+              <Link to="/ticket/board">Dashboard</Link>
+          )}
 
-          <Nav.Brand>
-            {/* <Link to={`/profile/${this.props.user.id}`}>Profile</Link> */}
             <Link to={`/profile/${this.state.user._id}`}>Profile</Link>
-          </Nav.Brand>
-          <Nav.Brand>
-            <Link to='/' onClick={() => this.handleLogout(this.props)}>Logout</Link>
-          </Nav.Brand>
+            <Link to="/" onClick={() => this.handleLogout(this.props)}>
+              Logout
+            </Link>
         </>
       </Nav>
-    )
+    );
   }
 }
