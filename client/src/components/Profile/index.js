@@ -6,9 +6,7 @@ import { Button } from "react-bootstrap";
 import Navbar from "../Navbar/index";
 import styled, { keyframes } from "styled-components";
 
-const Close = styled.div`
-  cursor: pointer;
-`;
+import x from "../../files/x.svg";
 
 const fadeIn = keyframes`
  0% { opacity: 0 }
@@ -34,17 +32,39 @@ const MainContainer = styled.div`
 `;
 
 const Container = styled.div`
+  position: relative;
+  display: inline-block;
+  border-radius: 10px;
+  background-color: white;
+  box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.1);
+  animation: ${slideUp} 2s ease-in-out;
+`;
+
+const FormContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 350px;
-  height: 400px;
-  border-radius: 10px;
+  height: 100%;
+`;
+
+const Close = styled.div`
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: -25px;
+  right: -25px;
+  width: 50px;
+  height: 50px;
+  border-radius: 100%;
   background-color: white;
   box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+`;
 
-  animation: ${slideUp} 2s ease-in-out;
+const X = styled.img`
+  width: 40px;
 `;
 
 export default class index extends Component {
@@ -108,34 +128,33 @@ export default class index extends Component {
       <MainContainer>
         <Container>
           {/* <Navbar /> */}
-          <Close onClick={() => this.props.showProfile(false)}>X</Close>
-
-          {this.state.user.role === "Student" ? (
-            <h1>Hello Ironhacker</h1>
-          ) : (
-            <h1>Dear TA Welcome back</h1>
-          )}
-          <div>
-            <img src={this.state.user.image} alt="Pic" />
-          </div>
-          <h3>Username: {this.state.user.username}</h3>
-          <h3>Name: {this.state.user.name}</h3>
-          <h3>{this.state.user.location}</h3>
-          <h3>{this.state.user.bio}</h3>
-
-          <h3>
-            <Link to={`/ticket/board`}>Navigate back to the Board</Link>
-          </h3>
-
-          {/* Editing */}
-          <Button onClick={this.toggleEditForm}>Edit your name</Button>
-          {this.state.editForm && (
-            <ProfileEdit
-              {...this.state}
-              handleChange={this.handleChange}
-              handleSubmit={this.handleSubmit}
-            />
-          )}
+          <Close onClick={() => this.props.showProfile(false)}>
+            {" "}
+            <X src={x} alt="Close" />{" "}
+          </Close>
+          <FormContainer>
+            {this.state.user.role === "Student" ? (
+              <p>Hello Ironhacker</p>
+            ) : (
+              <p>Dear TA Welcome back</p>
+            )}
+            <div>
+              <img src={this.state.user.image} alt="Pic" />
+            </div>
+            Username: {this.state.user.username}
+            Name: {this.state.user.name}
+            {this.state.user.location}
+            {this.state.user.bio}
+            {/* Editing */}
+            <Button onClick={this.toggleEditForm}>Edit your name</Button>
+            {this.state.editForm && (
+              <ProfileEdit
+                {...this.state}
+                handleChange={this.handleChange}
+                handleSubmit={this.handleSubmit}
+              />
+            )}
+          </FormContainer>
         </Container>
       </MainContainer>
     );

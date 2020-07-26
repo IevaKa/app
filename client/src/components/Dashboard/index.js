@@ -39,6 +39,7 @@ const WrapperTicketBoard = styled.div`
 `;
 
 const WrapperNavbar = styled.div`
+z-index: 3;
   position: absolute;
   animation: ${loadIn} 1s ease-in-out;
 `;

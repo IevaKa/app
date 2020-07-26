@@ -3,6 +3,9 @@ import axios from "axios";
 import Navbar from "../Navbar";
 import styled, { keyframes } from "styled-components";
 
+import x from "../../files/x.svg";
+
+
 import {
   IronButton,
   ironBlue,
@@ -37,20 +40,40 @@ const MainContainer = styled.div`
 `;
 
 const Container = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  position: relative;
+  display: inline-block;
   width: 350px;
   height: 400px;
   border-radius: 10px;
   background-color: white;
   box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.1);
-
   animation: ${slideUp} 2s ease-in-out;
 `;
 
+const FormContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+`;
+
 const Close = styled.div`
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: -25px;
+  right: -25px;
+  width: 50px;
+  height: 50px;
+  border-radius: 100%;
+  background-color: white;
+  box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.1);
   cursor: pointer;
+`;
+
+const X = styled.img`
+  width: 40px;
 `;
 
 export default class AddTicket extends Component {
@@ -96,54 +119,56 @@ export default class AddTicket extends Component {
       <MainContainer>
         <Container>
           {/* <Navbar /> */}
-          <Close onClick={() => this.props.showTicketadd(false)}>X</Close>
-          <form onSubmit={this.handleSubmit}>
-            <div className="form-group">
-              <label htmlFor="Lab">Lab</label>
-              <select
-                className="form-control"
-                id="lab"
-                name="lab"
-                onChange={this.handleChange}
+          <Close onClick={() => this.props.showTicketadd(false)}><X src={x} alt="Close"/></Close>
+          <FormContainer>
+            <form onSubmit={this.handleSubmit}>
+              <div className="form-group">
+                <label htmlFor="Lab">Lab</label>
+                <select
+                  className="form-control"
+                  id="lab"
+                  name="lab"
+                  onChange={this.handleChange}
+                >
+                  <option value="React | Ironbeers">React | Ironbeers</option>
+                  <option value="React | Wiki Countries">
+                    React | Wiki Countries
+                  </option>
+                  <option value="React | IronBook">React | IronBook</option>
+                </select>
+              </div>
+              <div className="form-group">
+                <label htmlFor="title">Title</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="title"
+                  name="title"
+                  aria-describedby="title"
+                  onChange={this.handleChange}
+                  value={this.state.title}
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="description">description</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="description"
+                  name="description"
+                  aria-describedby="description"
+                  onChange={this.handleChange}
+                  value={this.state.description}
+                />
+              </div>
+              <button
+                type="submit"
+                onClick={() => this.props.showTicketadd(false)}
               >
-                <option value="React | Ironbeers">React | Ironbeers</option>
-                <option value="React | Wiki Countries">
-                  React | Wiki Countries
-                </option>
-                <option value="React | IronBook">React | IronBook</option>
-              </select>
-            </div>
-            <div className="form-group">
-              <label htmlFor="title">Title</label>
-              <input
-                type="text"
-                className="form-control"
-                id="title"
-                name="title"
-                aria-describedby="title"
-                onChange={this.handleChange}
-                value={this.state.title}
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="description">description</label>
-              <input
-                type="text"
-                className="form-control"
-                id="description"
-                name="description"
-                aria-describedby="description"
-                onChange={this.handleChange}
-                value={this.state.description}
-              />
-            </div>
-            <button
-              type="submit"
-              onClick={() => this.props.showTicketadd(false)}
-            >
-              Submit
-            </button>
-          </form>
+                Submit
+              </button>
+            </form>
+          </FormContainer>
         </Container>
       </MainContainer>
     );
