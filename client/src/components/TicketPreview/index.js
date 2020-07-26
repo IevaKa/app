@@ -32,6 +32,6 @@ export default class TicketPreview extends React.Component {
           </Container>
         )}
       </Draggable>
-    );
+        );
   }
 }
