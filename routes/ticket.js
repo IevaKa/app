@@ -41,12 +41,15 @@ router.post('/', (req, res) => {
     status: status
   })
     .then(task => {
-      Column.update(
-        { user: req.user.id },
-        { $push: { columnOpen: task._id } },
+      const query = { $or:[ { user: req.user.id }, { role : 'Teacher' } ] }
+      const fields = { $push: { columnOpen: task._id } }
+      Column.updateMany(
+        query,
+        fields
       ).then(column => {
         console.log('column is updated ', column)
       })
+      
       res.json(task)
     })
     .catch(err => {
@@ -67,6 +70,8 @@ router.put('/:id', (req, res, next) => {
       res.json(err);
     });
 
+// shiftin things betwwen columns
+// user is a student
   Column.update(
     { user: req.user.id },
     { [destination]: destinationArray, [source]: sourceArray },
@@ -74,7 +79,17 @@ router.put('/:id', (req, res, next) => {
   ).then(up => {
     console.log('this is the updated column: ', up)
   })
+
+// student changes stuff, adjust view for teacher
+  Column.updateMany(
+    { role: 'Teacher' },
+    { $pull: { [source]: id  }, $push: { [destination]: id  } }
+    ).then(col => {
+      console.log('this is the updated teacher columns: ', col)
+    })
+    
 });
+
 
 // router.delete('/:id', (req, res, next) => {
 //   const id = req.params.id;

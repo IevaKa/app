@@ -17,50 +17,53 @@ class TicketBoard extends React.Component {
     order: ["columnOpen", "columnProgress", "columnDone"]
   };
 
-  getTickets = () => {
-    axios
-      .get("/api/tickets")
-      .then((response) => {
-        this.setState({
-          tickets: response.data,
-        });
-        this.getColumns()
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
+  // getTickets = () => {
+  //   axios
+  //     .get("/api/tickets")
+  //     .then((response) => {
+  //       this.setState({
+  //         tickets: response.data,
+  //       });
+  //       this.getColumns()
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // };
 
   // getting the data from the column model
   // will eventually replace the get tickets function
-  getColumns = () => {
+  getTickets = () => {
     axios
       .get("/api/columns")
       .then(response => {
         const columnData = response.data
+        const tickets = columnData.columnOpen.concat(columnData.columnProgress, columnData.columnDone);
         const columnOpen = {
           id: "columnOpen",
           title: "Open",
-          ticketIds: columnData.columnOpen
+          ticketIds: columnData.columnOpen.map(ticket => ticket._id)
         }
         const columnProgress = {
           id: "columnProgress",
           title: "In progress",
-          ticketIds: columnData.columnProgress
+          ticketIds: columnData.columnProgress.map(ticket => ticket._id)
         }
     
         const columnDone = {
           id: "columnDone",
           title: "Done",
-          ticketIds: columnData.columnDone
+          ticketIds: columnData.columnDone.map(ticket => ticket._id)
         }
         const columns = {
           columnOpen,
           columnProgress,
           columnDone
         }
+        console.log('this is columns', columns)
         this.setState({
-          columns: columns,
+          tickets,
+          columns
         });
       })
       .catch((err) => {
