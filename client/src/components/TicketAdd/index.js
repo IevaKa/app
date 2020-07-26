@@ -7,13 +7,7 @@ import x from "../../files/x.svg";
 
 
 import {
-  IronButton,
-  ironBlue,
-  ironRed,
-  ironPurple,
-  lightBlue,
-  lightGray,
-  StyledLink,
+  IronButton
 } from "../../styles/global.js";
 
 const fadeIn = keyframes`

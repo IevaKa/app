@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-// import { logout } from "../../services/auth.js";
 import axios from "axios";
 
 import styled, { keyframes } from "styled-components";
@@ -10,13 +9,7 @@ import bell from "../../files/bell.svg";
 import profile from "../../files/b-user.svg";
 
 import {
-  IronButton,
-  ironBlue,
   ironRed,
-  ironPurple,
-  lightGray,
-  StyledLink,
-  ironYellow,
 } from "../../styles/global.js";
 
 const Nav = styled.nav`
@@ -111,7 +104,6 @@ const ImgContainer = styled.div`
   justify-content: space-around;
   align-items: center;
   height: 90px;
-  ${"" /* background-color: yellow; */}
   transform-origin: center;
 `;
 
@@ -126,14 +118,6 @@ const Navbar = (props) => {
       setUser(user);
     });
   }, []);
-
-  // const handleLogout = () => {
-  //   logout().then(() => {
-  //     setUser(null);
-  //   });
-  // };
-
-  // console.log(user);
 
   if (!user) return <></>;
   return (
@@ -160,11 +144,6 @@ const Navbar = (props) => {
           <Icon src={bell} alt="Notification" />
         </Notification>
       </NavContainer>
-
-      {/* <Link to="/" onClick={() => handleLogout(props)}>
-          Logout
-        </Link> */}
-
       <NavContainer>
         <UserGreeting>
           Hey
@@ -176,7 +155,6 @@ const Navbar = (props) => {
             : "Ironhacker"}
           !
         </UserGreeting>
-        {/* <Link to={`/profile/${user._id}`}> */}
         <ImgContainer>
           {user.image ? (
             <UserPic
@@ -206,12 +184,9 @@ const Navbar = (props) => {
             />
           )}
         </ImgContainer>
-        {/* </Link> */}
       </NavContainer>
     </Nav>
   );
 };
 
 export default Navbar;
-
-// do an if statement if the user has no pic

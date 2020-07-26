@@ -59,7 +59,6 @@ const WrapperTicketAdd = styled.div`
 `;
 
 const Dashboard = (props) => {
-  // let [user, setUser] = useState(null);
   // let [ticketboard, showTicketboard] = useState(false);
   let [ticketadd, showTicketadd] = useState(false);
   let [profile, showProfile] = useState(false);
@@ -87,7 +86,7 @@ const Dashboard = (props) => {
       </WrapperTicketAdd>
 
       <WrapperProfile profile={profile}>
-        <Profile showProfile={showProfile} />
+        <Profile showProfile={showProfile} setUser={props.setUser}/>
       </WrapperProfile>
 
       <WrapperTicketBoard>

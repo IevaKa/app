@@ -6,6 +6,8 @@ import { Button } from "react-bootstrap";
 import Navbar from "../Navbar/index";
 import styled, { keyframes } from "styled-components";
 
+import { logout } from "../../services/auth.js";
+
 import x from "../../files/x.svg";
 
 const fadeIn = keyframes`
@@ -121,6 +123,14 @@ export default class index extends Component {
     });
   };
 
+  handleLogout = () => {
+    logout().then(() => {
+      this.props.setUser(null);
+    });
+  };
+
+  // console.log(user);
+
   render() {
     if (!this.state.user) return <></>;
     console.log(this.state.user);
@@ -154,6 +164,9 @@ export default class index extends Component {
                 handleSubmit={this.handleSubmit}
               />
             )}
+            <Link to="/" onClick={this.handleLogout}>
+              Logout
+            </Link>
           </FormContainer>
         </Container>
       </MainContainer>
