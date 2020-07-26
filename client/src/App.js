@@ -8,6 +8,8 @@ import Login from "./components/Login";
 import Home from "./components/Home/";
 import TicketBoard from "./components/TicketBoard";
 import TicketAdd from "./components/TicketAdd";
+import Dashboard from "./components/Dashboard";
+
 // import TicketDetail from "./components/TicketDetail";
 // import TicketEdit from "./components/TicketEdit";
 // import MainDash from "./components/MainDash";
@@ -56,9 +58,18 @@ class App extends React.Component {
           render={(props) => <Home setUser={this.setUser} {...props} />}
         />
         {/* <Route exact path="/" component={Home} /> */}
-        <Route exact path="/ticket/board" component={TicketBoard} />
+        {/* <Route exact path="/ticket/board" component={TicketBoard} /> */}
 
-        {/* <Route exact path="/ticket/add" component={TicketAdd} /> */}
+        <Route
+          exact
+          path="/dashboard"
+          render={(props) => <Dashboard setUser={this.setUser} {...props} />} / >
+
+        {/* <Route
+          exact
+          path="/ticket/board"
+          render={(props) => <TicketBoard setUser={this.setUser} {...props} />} / > */}
+
         <Route
           exact
           path="/ticket/add"

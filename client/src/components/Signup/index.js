@@ -157,7 +157,7 @@ export default class Signup extends Component {
         });
       } else {
         this.props.setUser(data);
-        this.props.history.push("/ticket/board");
+        this.props.history.push("/dashboard");
       }
     });
   };

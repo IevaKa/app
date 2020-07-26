@@ -8,6 +8,7 @@ import axios from "axios";
 const MainContainer = styled.div`
   display: flex;
   justify-content: left;
+  margin: 0 0 0 -70px;
 `;
 
 const Container = styled.div`
@@ -16,6 +17,7 @@ const Container = styled.div`
   justify-content: center;
   ${'' /* background-color: blue; */}
   width: 100vw;
+  height: 100vh
 `;
 
 class TicketBoard extends React.Component {
@@ -216,7 +218,7 @@ class TicketBoard extends React.Component {
   render() {
     return (
       <MainContainer>
-        <Navbar />
+        {/* <Navbar /> */}
         <DragDropContext
           // onDragStart={this.onDragStart}
           // onDragUpdate={this.onDragUpdate}

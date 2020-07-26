@@ -1,102 +1,143 @@
-import React, { Component } from 'react';
-import ProfileEdit from '../ProfileEdit';
-import axios from 'axios';
-import { Link } from 'react-router-dom';
-import { Button } from 'react-bootstrap';
-import Navbar from '../Navbar/index';
-import styled from "styled-components";
+import React, { Component } from "react";
+import ProfileEdit from "../ProfileEdit";
+import axios from "axios";
+import { Link } from "react-router-dom";
+import { Button } from "react-bootstrap";
+import Navbar from "../Navbar/index";
+import styled, { keyframes } from "styled-components";
+
+const Close = styled.div`
+  cursor: pointer;
+`;
+
+const fadeIn = keyframes`
+ 0% { opacity: 0 }
+ 70% { opacity: 0   }
+ 100% { opacity: 1 }
+`;
+
+const slideUp = keyframes`
+ 0% { transform: translateY(1000px); opacity: 0; }
+ 50% { opacity: 0.2; }
+ 100% { transform: translateY(0); opacity: 1; }
+`;
 
 const MainContainer = styled.div`
   display: flex;
-  justify-content: left;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.8);
+  animation: ${fadeIn} 0.4s ease-in-out;
 `;
 
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 350px;
+  height: 400px;
+  border-radius: 10px;
+  background-color: white;
+  box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.1);
+
+  animation: ${slideUp} 2s ease-in-out;
+`;
 
 export default class index extends Component {
-
   state = {
-    user: '',
+    user: "",
     editForm: false,
-  }
+  };
 
   getUser = () => {
-    axios.get('/api/auth/loggedin')
-      .then(response => {
-        const user = response.data;
-        this.setState({
-          user: user,
-        });
-      })
-  }
-
-  componentDidMount = () => {
-    this.getUser()
-  }
-
-  // Editing
-
-  handleChange = event => {
-    console.log(event.target)
-    const { name, value } = event.target;
-    this.setState({
-      [name]: value
+    axios.get("/api/auth/loggedin").then((response) => {
+      const user = response.data;
+      this.setState({
+        user: user,
+      });
     });
   };
 
-  handleSubmit = event => {
+  componentDidMount = () => {
+    this.getUser();
+  };
+
+  // Editing
+
+  handleChange = (event) => {
+    console.log(event.target);
+    const { name, value } = event.target;
+    this.setState({
+      [name]: value,
+    });
+  };
+
+  handleSubmit = (event) => {
     event.preventDefault();
     const id = this.props.match.params.id;
-    axios.put(`/api/auth/loggedin/${id}`, {
-      user: this.state.user,
-    })
-      .then(response => {
-        console.log(response.data.name)
+    axios
+      .put(`/api/auth/loggedin/${id}`, {
+        user: this.state.user,
+      })
+      .then((response) => {
+        console.log(response.data.name);
         this.setState({
           user: response.data,
-          editForm: false
-        })
+          editForm: false,
+        });
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
-      })
-  }
+      });
+  };
 
   toggleEditForm = () => {
     this.setState({
-      editForm: !this.state.editForm
-    })
-  }
-
+      editForm: !this.state.editForm,
+    });
+  };
 
   render() {
-
-    if (!this.state.user) return (<></>)
-    console.log(this.state.user)
+    if (!this.state.user) return <></>;
+    console.log(this.state.user);
     return (
       <MainContainer>
-        <Navbar />
-        {this.state.user.role === 'Student' ? <h1>Hello Ironhacker</h1> : <h1>Dear TA Welcome back</h1>}
-        <div><img src={this.state.user.image} alt="Pic"/></div>
-        <h3>Username: {this.state.user.username}</h3>
-        <h3>Name: {this.state.user.name}</h3>
-        <h3>{this.state.user.location}</h3>
-        <h3>{this.state.user.bio}</h3>
+        <Container>
+          {/* <Navbar /> */}
+          <Close onClick={() => this.props.showProfile(false)}>X</Close>
 
-        <h3>
-          <Link to={`/ticket/board`}>Navigate back to the Board</Link>
-        </h3>
+          {this.state.user.role === "Student" ? (
+            <h1>Hello Ironhacker</h1>
+          ) : (
+            <h1>Dear TA Welcome back</h1>
+          )}
+          <div>
+            <img src={this.state.user.image} alt="Pic" />
+          </div>
+          <h3>Username: {this.state.user.username}</h3>
+          <h3>Name: {this.state.user.name}</h3>
+          <h3>{this.state.user.location}</h3>
+          <h3>{this.state.user.bio}</h3>
 
-        {/* Editing */}
-        <Button onClick={this.toggleEditForm}>Edit your name</Button>
-        {this.state.editForm && (
-          <ProfileEdit
-            {...this.state}
-            handleChange={this.handleChange}
-            handleSubmit={this.handleSubmit}
-          />
-        )}
+          <h3>
+            <Link to={`/ticket/board`}>Navigate back to the Board</Link>
+          </h3>
 
+          {/* Editing */}
+          <Button onClick={this.toggleEditForm}>Edit your name</Button>
+          {this.state.editForm && (
+            <ProfileEdit
+              {...this.state}
+              handleChange={this.handleChange}
+              handleSubmit={this.handleSubmit}
+            />
+          )}
+        </Container>
       </MainContainer>
-    )
+    );
   }
-} 
+}
