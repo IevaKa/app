@@ -22,10 +22,10 @@ import {
   StyledLink,
 } from "../../styles/global.js";
 
-// const TicketAddAnm = keyframes`
-//  50% { opacity: 0 }
-//  100% { opacity: 0 }
-// `;
+const loadIn = keyframes`
+ 0% { opacity: 0; transform: translate(-50%, 0);}
+ 100% { opacity: 1; transform: translate(0, 0);}
+`;
 
 // const Animation = `${TicketAddAnm} 1.5s 1 ease-in-out`
 
@@ -35,7 +35,12 @@ const MainContainer = styled.div`
 `;
 
 const WrapperTicketBoard = styled.div`
-  ${"" /* background-color: red; */}
+  ${'' /* animation: ${loadIn} 1s ease-in-out; */}
+`;
+
+const WrapperNavbar = styled.div`
+  position: absolute;
+  animation: ${loadIn} 1s ease-in-out;
 `;
 
 const WrapperProfile = styled.div`
@@ -52,7 +57,6 @@ const WrapperTicketAdd = styled.div`
   transition: all 0.5s ease-in-out;
 `;
 
-
 const Dashboard = (props) => {
   // let [user, setUser] = useState(null);
   // let [ticketboard, showTicketboard] = useState(false);
@@ -60,18 +64,23 @@ const Dashboard = (props) => {
   let [profile, showProfile] = useState(false);
 
   const handleTicketAdd = () => {
-    showTicketadd(true)
-    showProfile(false)
-  }
+    showTicketadd(true);
+    showProfile(false);
+  };
 
   const handleProfile = () => {
-    showTicketadd(false)
-    showProfile(true)
-  }
+    showTicketadd(false);
+    showProfile(true);
+  };
 
   return (
     <MainContainer>
-      <Navbar handleTicketAdd={handleTicketAdd} handleProfile={handleProfile} />
+      <WrapperNavbar>
+        <Navbar
+          handleTicketAdd={handleTicketAdd}
+          handleProfile={handleProfile}
+        />
+      </WrapperNavbar>
       <WrapperTicketAdd ticketadd={ticketadd}>
         <TicketAdd showTicketadd={showTicketadd} />
       </WrapperTicketAdd>
