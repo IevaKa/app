@@ -1,5 +1,5 @@
 import React from "react";
-import { Route } from "react-router-dom";
+import { Route, Switch as RouterSwitch } from "react-router-dom";
 
 import { GlobalStyles } from "../src/styles/global.js";
 
@@ -8,7 +8,7 @@ import Login from "./components/Login";
 import Home from "./components/Home/";
 import TicketBoard from "./components/TicketBoard";
 import TicketAdd from "./components/TicketAdd";
-// import TicketDetail from "./components/TicketDetail";
+import TicketDetail from "./components/TicketDetail";
 // import TicketEdit from "./components/TicketEdit";
 // import MainDash from "./components/MainDash";
 import Profile from "./components/Profile";
@@ -51,6 +51,7 @@ class App extends React.Component {
     return (
       <>
         <GlobalStyles />
+        <RouterSwitch>
         <Route
           exact
           path="/"
@@ -66,7 +67,7 @@ class App extends React.Component {
           render={(props) => <TicketAdd {...props} />}
         />
 
-        {/* <Route exact path="/ticket/:id" component={TicketDetail} /> */}
+        <Route exact path="/ticket/:id" component={TicketDetail} />
         {/* <Route exact path="/ticket/:id/edit" component={TicketEdit} /> */}
         <Route exact path="/profile/:id" component={Profile} />
         <Route exact path="/profile/:id/edit" component={ProfileEdit} />
@@ -80,6 +81,7 @@ class App extends React.Component {
           path="/login"
           render={(props) => <Login setUser={this.setUser} {...props} />}
         />
+        </RouterSwitch>
       </>
     );
   }

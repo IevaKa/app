@@ -168,12 +168,6 @@ class TicketBoard extends React.Component {
       ticketIds: finishTicketIds,
     };
 
-    console.log('destination ', destination.droppableId)
-    console.log('source ', source.droppableId)
-    // arrays to pass in the column
-    console.log('start tickets ', startTicketIds)
-    console.log('finish tickets ', finishTicketIds)
-
     const newState = {
       ...this.state.columns,
         [newStart.id]: newStart,
