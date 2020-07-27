@@ -23,7 +23,7 @@ class TicketBoard extends React.Component {
   state = {
     columns: null,
     tickets: [],
-    order: ["columnOpen", "columnProgress", "columnDone"]
+    order: []
   };
 
 
@@ -32,8 +32,10 @@ class TicketBoard extends React.Component {
     axios
       .get("/api/columns")
       .then(response => {
-        const columnData = response.data
-        const tickets = columnData.columnOpen.concat(columnData.columnProgress, columnData.columnDone);
+        const columnData = response.data;
+        const userRole = columnData.role;
+        const tickets = columnData.columnOpen.concat(columnData.columnProgress, 
+          columnData.columnDone, columnData.columnCancelled);
         const columnOpen = {
           id: "columnOpen",
           title: "Open",
@@ -50,15 +52,23 @@ class TicketBoard extends React.Component {
           title: "Done",
           ticketIds: columnData.columnDone.map(ticket => ticket._id)
         }
+
+        const columnCancelled = {
+          id: "columnCancelled",
+          title: "Cancelled",
+          ticketIds: columnData.columnCancelled.map(ticket => ticket._id)
+        }
+        
         const columns = {
           columnOpen,
           columnProgress,
-          columnDone
+          columnDone,
+          columnCancelled
         }
-        console.log('this is columns', columns)
         this.setState({
           tickets,
-          columns
+          columns,
+          order: userRole === 'Student' ? ["columnOpen", "columnProgress", "columnCancelled"] : ["columnOpen", "columnProgress", "columnDone"]
         });
       })
       .catch((err) => {
@@ -155,7 +165,8 @@ class TicketBoard extends React.Component {
     const statusMap = {
       columnOpen: 'Opened',
       columnProgress: 'In progress', 
-      columnDone: 'Solved'
+      columnDone: 'Solved',
+      columnCancelled: 'Cancelled'
     }
     
     axios.put(`/api/tickets/${draggableId}`, {
