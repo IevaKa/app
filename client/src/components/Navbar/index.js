@@ -8,9 +8,7 @@ import plus from "../../files/plus.svg";
 import bell from "../../files/bell.svg";
 import profile from "../../files/b-user.svg";
 
-import {
-  ironRed,
-} from "../../styles/global.js";
+import { ironRed, ironBlue } from "../../styles/global.js";
 
 const Nav = styled.nav`
   background: linear-gradient(
@@ -93,6 +91,24 @@ const NotificationBubble = styled.span`
   display: block;
 `;
 
+const NotificationDetails = styled.span`
+  position: absolute;
+  top: -8px;
+  left: 50px;
+  padding: 20px;
+  width: 200px;
+  ${'' /* width: ${(props) => (props.notifications ? "200px" : "0px")}; */}
+  background-color: black;
+  color: white;
+  font-size: 10px;
+  border-radius: 10px;
+  display: block;
+  box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.1);
+  opacity: ${(props) => (props.notifications ? 1 : 0)};
+  pointer-events: ${(props) => (props.notifications ? "block" : "none")};
+  transition: all 0.5s ease-in-out;
+`;
+
 const Icon = styled.img`
   height: ${(props) => (props.addhover ? "45px" : "30px")};
   width: ${(props) => (props.addhover ? "45px" : "30px")};
@@ -107,10 +123,18 @@ const ImgContainer = styled.div`
   transform-origin: center;
 `;
 
+const Timestamp = styled.p`
+  font-size: 9px;
+  color: ${ironBlue};
+  margin: 0;
+`;
+
 const Navbar = (props) => {
   let [user, setUser] = useState(null);
   let [imghover, setImghover] = useState(false);
   let [addhover, setAddhover] = useState(false);
+
+  let [notifications, showNotifications] = useState(false);
 
   useEffect(() => {
     axios.get("/api/auth/loggedin").then((response) => {
@@ -118,6 +142,12 @@ const Navbar = (props) => {
       setUser(user);
     });
   }, []);
+
+  const toggleNotification = () => {
+    showNotifications(!notifications);
+  };
+
+  if (notifications) setTimeout(() => { showNotifications(false) }, 3000);
 
   if (!user) return <></>;
   return (
@@ -139,8 +169,12 @@ const Navbar = (props) => {
         ) : (
           <Link to="/dashboard">Dashboard</Link>
         )}
-        <Notification>
+        <Notification onClick={toggleNotification}>
           <NotificationBubble>2</NotificationBubble>
+          <NotificationDetails notifications={notifications}>
+            Jeff has picked up your ticket!
+            <Timestamp>12 minutes ago</Timestamp>
+          </NotificationDetails>
           <Icon src={bell} alt="Notification" />
         </Notification>
       </NavContainer>
