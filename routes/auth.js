@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../models/User');
+const Ticket = require('../models/Ticket');
 const bcrypt = require('bcrypt');
 const passport = require('passport');
 const Column = require('../models/Column');
@@ -40,13 +41,32 @@ router.post('/signup', (req, res) => {
             res.json(dbUser);
           });
 
-          Column.create({ user: dbUser._id}).then(column => {
-            if (err) {
-              return res
-                .status(500)
-                .json({ message: 'Error while creating the board' });
+          Ticket.find({ status: { $in: ['Opened', 'In progress'] } }).then(tickets => {
+            console.log('these are the tickets: ', tickets)
+            let openArr = tickets.filter(ticket => ticket.status === 'Opened');
+            let progressArr = tickets.filter(ticket => ticket.status === 'In progress');
+            if(dbUser.role === 'Teacher') {
+              openTickets = openArr.map(ticket => ticket._id);
+              progressTickets = progressArr.map(ticket => ticket._id);
+            } else {
+              openTickets = []
+              progressTickets = []
             }
+            console.log('these are the open: ', openTickets)
+            console.log('these are the in progress: ', progressTickets)
+            Column.create({ 
+              user: dbUser._id, 
+              role: dbUser.role, 
+              columnOpen: openTickets, 
+              columnProgress: progressTickets }).then(column => {
+              if (err) {
+                return res
+                  .status(500)
+                  .json({ message: 'Error while creating the board' });
+              }
+            })
           })
+
         }
       );
     })

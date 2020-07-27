@@ -6,6 +6,11 @@ const columnSchema = new Schema({
       type: Schema.Types.ObjectId, 
       ref: 'User' 
   },
+  role: {
+    type: String,
+    enum: ['Teacher', 'Student'],
+    required: true
+  },
   columnOpen: [ {      
     type: Schema.Types.ObjectId, 
     ref: 'Ticket' 
