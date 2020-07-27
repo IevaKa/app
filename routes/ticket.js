@@ -98,13 +98,17 @@ router.put('/:id', (req, res, next) => {
   // updating the state of the tickets
       Ticket.findByIdAndUpdate(id, { status: status }, { new: true })
         .then(ticket => {
-          res.json(ticket);
-          console.log('this is the updated ticket: ', ticket)
+          // update the state for a TA that has the ticket assigned
+          Column.updateOne(
+            { user: ticket.assignee }, 
+            { $pull: { [source]: id  }, $push: { [destination]: id  } }
+          ).then(col => {
+            res.json(col);
+            console.log('column for TA assigned: ', col)
+          }).catch(err => {
+            res.json(err);
+          });
         })
-        .catch(err => {
-          res.json(err);
-        });
-
 
     } else {
         Ticket.findByIdAndUpdate(id, { status: status, assignee: req.user.id }, { new: true })
