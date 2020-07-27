@@ -13,20 +13,20 @@ import TicketDetail from "./components/TicketDetail";
 // import MainDash from "./components/MainDash";
 import Profile from "./components/Profile";
 import ProfileEdit from "./components/ProfileEdit";
-// import { Typography } from "@material-ui/core";
+import { Typography } from "@material-ui/core";
 
 
-import { w3cwebsocket as W3CWebSocket } from 'websocket';
-import { Card, Avatar, Input, Typography } from 'antd';
-const client = new W3CWebSocket('ws://localhost:5555');
-const { Text } = Typography;
-const { Search } = Input;
-const { Meta } = Card;
+// import { w3cwebsocket as W3CWebSocket } from 'websocket';
+// import { Card, Avatar, Input, Typography } from 'antd';
+// const client = new W3CWebSocket('ws://localhost:5555');
+// const { Text } = Typography;
+// const { Search } = Input;
+// const { Meta } = Card;
 
 class App extends React.Component {
   state = {
     user: this.props.user,
-    messages: []
+    // messages: []
   };
 
   setUser = (user) => {
@@ -37,33 +37,33 @@ class App extends React.Component {
 
   // Web Socket
 
-  onButtonClicked = (value) => {
-    client.send(JSON.stringify({
-      type: 'message',
-      msg: value,
-      user: this.state.user
-    }));
-    this.setState({ searchVal: ''})
-  }
+  // onButtonClicked = (value) => {
+  //   client.send(JSON.stringify({
+  //     type: 'message',
+  //     msg: value,
+  //     user: this.state.user
+  //   }));
+  //   this.setState({ searchVal: ''})
+  // }
 
-  componentDidMount() {
-    client.onopen = () => {
-      console.log('WebSocket Client Connected')
-    };
-    client.onmessage = (message) => {
-      const dataFromServer = JSON.parse(message.data);
-      console.log('got reply! ', dataFromServer);
-      if (dataFromServer.type === 'message') {
-        this.setState((state) => ({
-          messages: [...state.messages,
-          {
-            msg: dataFromServer.msg,
-            user: dataFromServer.user
-          }]
-        }))
-      }
-    };
-  }
+  // componentDidMount() {
+  //   client.onopen = () => {
+  //     console.log('WebSocket Client Connected')
+  //   };
+  //   client.onmessage = (message) => {
+  //     const dataFromServer = JSON.parse(message.data);
+  //     console.log('got reply! ', dataFromServer);
+  //     if (dataFromServer.type === 'message') {
+  //       this.setState((state) => ({
+  //         messages: [...state.messages,
+  //         {
+  //           msg: dataFromServer.msg,
+  //           user: dataFromServer.user
+  //         }]
+  //       }))
+  //     }
+  //   };
+  // }
 
   render() {
     // console.log('this is App.js', this.props.user)
@@ -76,7 +76,7 @@ class App extends React.Component {
         {this.state.messages.map(msg => <p>message: {msg.msg}, user:{msg.user}</p>)}
         </div> */}
 
-        <div className='title'>
+        {/* <div className='title'>
           <Text type='secondary' style={{ fontSize: '36px' }}>Web Socket</Text>
         </div>
 
@@ -100,7 +100,7 @@ class App extends React.Component {
             onChange={(e) => this.setState({ searchVal: e.target.value })}
             onSearch={value => this.onButtonClicked(value)}
           />
-        </div>
+        </div> */}
 
         <RouterSwitch>
           <Route
@@ -123,8 +123,13 @@ class App extends React.Component {
             path="/ticket/add"
             render={(props) => <TicketAdd {...props} />}
           />
+          <Route
+            exact
+            path="/ticket/:id"
+            render={(props) => <TicketDetail {...props}  user={this.state.user} />}
+          />
 
-          <Route exact path="/ticket/:id" component={TicketDetail} />
+          {/* <Route exact path="/ticket/:id" component={TicketDetail} /> */}
           {/* <Route exact path="/ticket/:id/edit" component={TicketEdit} /> */}
           <Route exact path="/profile/:id" component={Profile} />
           <Route exact path="/profile/:id/edit" component={ProfileEdit} />
