@@ -66,11 +66,6 @@ passport.use(
               bio: profile._json.bio,
               role: 'Student'
             }).then(dbUser => {
-              const openTickets = Ticket.find({ status: 'Opened' }).map(ticket => ticket._id)
-              console.log('First open tickets', openTickets)
-              if(dbUser.role === 'Student') openTickets = [];
-              console.log('Second open tickets', openTickets)
-
               Ticket.find({ status: 'Opened' }).then(tickets => {
                 let openTickets = [];
                 if(dbUser.role === 'Teacher') openTickets = tickets.map(ticket => ticket._id);
