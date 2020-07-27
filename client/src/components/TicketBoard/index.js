@@ -23,7 +23,8 @@ class TicketBoard extends React.Component {
   state = {
     columns: null,
     tickets: [],
-    order: []
+    order: [],
+    role: 'Student'
   };
 
 
@@ -68,6 +69,7 @@ class TicketBoard extends React.Component {
         this.setState({
           tickets,
           columns,
+          role: userRole,
           order: userRole === 'Student' ? ["columnOpen", "columnProgress", "columnCancelled"] : ["columnOpen", "columnProgress", "columnDone"]
         });
       })
@@ -92,6 +94,9 @@ class TicketBoard extends React.Component {
       destination.index === source.index
     ) {
       return;
+    }
+    if (this.state.role === 'Student' && destination.droppableId === 'columnProgress') {
+      return
     }
 
     // moving inside the same column
