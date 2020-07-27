@@ -61,17 +61,9 @@ router.post('/', (req, res) => {
 router.put('/:id', (req, res, next) => {
   const id = req.params.id;
   const { status, destination, source, sourceArray, destinationArray } = req.body;
-  Ticket.findByIdAndUpdate(id, { status: status }, { new: true })
-    .then(ticket => {
-      res.json(ticket);
-      console.log('this is the updated ticket: ', ticket)
-    })
-    .catch(err => {
-      res.json(err);
-    });
 
-// shiftin things betwwen columns
-// user is a student
+  // shiftin things between columns
+  // updating the order for your own board
   Column.update(
     { user: req.user.id },
     { [destination]: destinationArray, [source]: sourceArray },
@@ -80,13 +72,44 @@ router.put('/:id', (req, res, next) => {
     console.log('this is the updated column: ', up)
   })
 
-// student changes stuff, adjust view for teacher
-  Column.updateMany(
-    { role: 'Teacher' },
-    { $pull: { [source]: id  }, $push: { [destination]: id  } }
-    ).then(col => {
-      console.log('this is the updated teacher columns: ', col)
-    })
+  // finding the user first, since they will have different actions
+  // they can take
+  User.findById(req.user.id).then(user => {
+    if(user.role === "Student") {
+  // updating the state of the tickets
+      Ticket.findByIdAndUpdate(id, { status: status }, { new: true })
+        .then(ticket => {
+          res.json(ticket);
+          console.log('this is the updated ticket: ', ticket)
+        })
+        .catch(err => {
+          res.json(err);
+        });
+    
+      // student changes stuff, adjust view for teacher
+      // updating the order for all teachers
+      Column.updateMany(
+        { role: 'Teacher' },
+        { $pull: { [source]: id  }, $push: { [destination]: id  } }
+        ).then(col => {
+          console.log('this is the updated teacher columns: ', col)
+        })
+
+    } else {
+        Ticket.findByIdAndUpdate(id, { status: status, assignee: req.user.id }, { new: true })
+          .then(ticket => {
+            res.json(ticket);
+          })
+          .catch(err => {
+            res.json(err);
+          });
+
+        // missing to update the student column documents
+    }
+  })
+
+
+
     
 });
 

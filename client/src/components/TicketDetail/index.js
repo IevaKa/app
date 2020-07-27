@@ -21,6 +21,18 @@ export default class TicketDetail extends Component {
       });
   }
 
+  assignTeacher = () => {
+    axios.put(`/api/tickets/${this.props.match.params.id}`, {
+      status: 'In progress'
+    })
+      .then(response => {
+        console.log(response);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+
   componentDidMount = () => {
     this.getTicket()
   }
@@ -35,7 +47,7 @@ export default class TicketDetail extends Component {
         <h3>{this.state.ticket.title}</h3>
         <h3>{this.state.ticket.description}</h3>
         <h3>{this.state.ticket.status}</h3>
-        <button>This is a button</button>
+        <button onClick={this.assignTeacher}>This is a button</button>
       </div>
     )
   }
