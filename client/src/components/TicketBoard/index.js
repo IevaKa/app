@@ -173,13 +173,20 @@ class TicketBoard extends React.Component {
       columnDone: 'Solved',
       columnCancelled: 'Cancelled'
     }
+
+    const timestampMap = {
+      columnProgress: 'assignedAt', 
+      columnDone: 'solvedAt',
+      columnCancelled: 'cancelledAt'
+    }
     
     axios.put(`/api/tickets/${draggableId}`, {
       status: statusMap[destination.droppableId],
-      destination: destination.droppableId, // progress
-      source: source.droppableId, // open
+      destination: destination.droppableId,
+      source: source.droppableId,
       sourceArray: startTicketIds,
-      destinationArray: finishTicketIds
+      destinationArray: finishTicketIds,
+      timestamp: timestampMap[destination.droppableId]
       })
       .then(response => {
         console.log(response);

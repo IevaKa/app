@@ -60,8 +60,7 @@ router.post('/', (req, res) => {
 
 router.put('/:id', (req, res, next) => {
   const id = req.params.id;
-  const { status, destination, source, sourceArray, destinationArray } = req.body;
-  console.log('source: ', source, 'destination: ', destination)
+  const { status, destination, source, sourceArray, destinationArray, timestamp } = req.body;
 
   // shiftin things between columns
   // updating the order for your own board
@@ -96,7 +95,7 @@ router.put('/:id', (req, res, next) => {
   User.findById(req.user.id).then(user => {
     if(user.role === "Student") {
   // updating the state of the tickets
-      Ticket.findByIdAndUpdate(id, { status: status }, { new: true })
+      Ticket.findByIdAndUpdate(id, { status: status, [timestamp]: Date.now() }, { new: true })
         .then(ticket => {
           // update the state for a TA that has the ticket assigned
           Column.updateOne(
@@ -111,8 +110,9 @@ router.put('/:id', (req, res, next) => {
         })
 
     } else {
-        Ticket.findByIdAndUpdate(id, { status: status, assignee: req.user.id }, { new: true })
+        Ticket.findByIdAndUpdate(id, { status: status, assignee: req.user.id, [timestamp]: Date.now() }, { new: true })
           .then(ticket => {
+            console.log('this is the assigned ticket ', ticket)
             // find the student's document
             Column.findOneAndUpdate(
               { user: ticket.createdBy}, 
