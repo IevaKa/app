@@ -41,24 +41,17 @@ router.post('/signup', (req, res) => {
             res.json(dbUser);
           });
 
-          Ticket.find({ status: { $in: ['Opened', 'In progress'] } }).then(tickets => {
-            console.log('these are the tickets: ', tickets)
+          Ticket.find({ status: 'Opened' }).then(tickets => {
             let openArr = tickets.filter(ticket => ticket.status === 'Opened');
-            let progressArr = tickets.filter(ticket => ticket.status === 'In progress');
             if(dbUser.role === 'Teacher') {
               openTickets = openArr.map(ticket => ticket._id);
-              progressTickets = progressArr.map(ticket => ticket._id);
             } else {
               openTickets = []
-              progressTickets = []
             }
-            console.log('these are the open: ', openTickets)
-            console.log('these are the in progress: ', progressTickets)
             Column.create({ 
               user: dbUser._id, 
               role: dbUser.role, 
-              columnOpen: openTickets, 
-              columnProgress: progressTickets }).then(column => {
+              columnOpen: openTickets }).then(column => {
               if (err) {
                 return res
                   .status(500)

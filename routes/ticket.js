@@ -61,6 +61,7 @@ router.post('/', (req, res) => {
 router.put('/:id', (req, res, next) => {
   const id = req.params.id;
   const { status, destination, source, sourceArray, destinationArray } = req.body;
+  console.log('source: ', source, 'destination: ', destination)
 
   // shiftin things between columns
   // updating the order for your own board
@@ -72,13 +73,23 @@ router.put('/:id', (req, res, next) => {
     console.log('this is the updated column: ', up)
   })
 
-  // updating the order for all teachers
-  Column.updateMany(
-    { role: 'Teacher', user: { "$ne": req.user.id } },
-    { $pull: { [source]: id  }, $push: { [destination]: id  } }
-    ).then(col => {
-      console.log('this is the updated teachers columns: ', col)
-    })
+  // updating the order for OTHER teachers
+  if(destination !== "columnOpen" && source === "columnOpen") {
+    Column.updateMany(
+      { role: 'Teacher', user: { "$ne": req.user.id } },
+      { $pull: { "columnOpen": id  } }
+      ).then(col => {
+        console.log('remove assign tickets for other teachers ', col)
+      })
+  } else if(destination === "columnOpen" && source !== "columnOpen") {
+    Column.updateMany(
+      { role: 'Teacher', user: { "$ne": req.user.id } },
+      { $push: { "columnOpen": id  } }
+      ).then(col => {
+        console.log('remove assign tickets for other teachers ', col)
+      })
+  }
+
 
   // finding the user first, since they will have different actions
   // they can take
@@ -109,11 +120,7 @@ router.put('/:id', (req, res, next) => {
               });
           })
     }
-  })
-
-
-
-    
+  })   
 });
 
 
