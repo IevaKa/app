@@ -1,9 +1,9 @@
 #!/usr/bin/env node
-
 const http = require('http');
-
 let app = require('../app');
-
+const { connection } = require('mongoose');
+const webSocketServer = require("websocket").server;
+const webSocketServerPort = 5555;
 // catch 404 and render a not-found.hbs template
 app.use((req, res, next) => {
   res.status(404);
@@ -41,6 +41,47 @@ server.on('error', error => {
   }
 });
 
-server.listen(process.env.PORT, () => {
-  console.log(`Listening on http://localhost:${process.env.PORT}`);
+// let myServer = server.listen(process.env.PORT, () => {
+//   console.log(`Listening on http://localhost:${process.env.PORT}`);
+// });
+let myServer = server.listen(webSocketServerPort, () => {
+  console.log(`Listening on http://localhost:${webSocketServerPort}`);
 });
+
+// Socket setup
+
+const wsServer = new webSocketServer({
+  httpServer: myServer
+});
+
+const clients = {};
+
+const getUniqueID = () => {
+  const s4 = () => Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
+  return s4() + s4() + '-' + s4();
+}
+
+wsServer.on('request', function (request) {
+  let userID = getUniqueID();
+  console.log((new Date()) + 'Recieved a new connection from origin' + http.request.origin + '.');
+
+  const connection = request.accept(null, request.origin);
+  clients[userID] = connection;
+  console.log('connected' + userID + ' in ' + Object.getOwnPropertyNames(clients));
+
+
+  connection.on('message', function (message) {
+    if (message.type === 'utf8') {
+      console.log('Received Massage', message.utf8Data)
+
+      // broadcasting message to all connected clients
+      for (key in clients) {
+        clients[key].sendUTF(message.utf8Data);
+        console.log('sent Message to: ', clients[key]);
+      }
+    }
+  })
+});
+
+
+
