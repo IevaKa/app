@@ -97,7 +97,6 @@ router.put('/:id', (req, res, next) => {
   // updating the state of the tickets
       Ticket.findByIdAndUpdate(id, { status: status, [timestamp]: Date.now() }, { new: true })
         .then(ticket => {
-          // update the state for a TA that has the ticket assigned
           Column.updateOne(
             { user: ticket.assignee }, 
             { $pull: { [source]: id  }, $push: { [destination]: id  } }
