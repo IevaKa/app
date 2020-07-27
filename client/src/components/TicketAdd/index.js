@@ -255,7 +255,7 @@ export default class AddTicket extends Component {
                 type="submit"
                 onClick={() => this.props.showTicketadd(false)}
               >
-                Add Ticket
+                Create Ticket
               </IronButton>
             </Form>
           </FormContainer>

@@ -70,12 +70,14 @@ const AddTicket = styled.div`
   align-items: center;
   transform: ${(props) => (props.addhover ? "rotate(180deg)" : "rotate(0deg)")};
   transition: all 1s ease-in-out;
+  cursor: pointer
 `;
 
 const Notification = styled.div`
   position: relative;
   display: inline-block;
   margin-top: 30px;
+  cursor: pointer
 `;
 
 const NotificationBubble = styled.span`
@@ -121,6 +123,8 @@ const ImgContainer = styled.div`
   align-items: center;
   height: 90px;
   transform-origin: center;
+  cursor: pointer
+
 `;
 
 const Timestamp = styled.p`

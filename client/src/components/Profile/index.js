@@ -2,13 +2,24 @@ import React, { Component } from "react";
 import ProfileEdit from "../ProfileEdit";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import { Button } from "react-bootstrap";
 import Navbar from "../Navbar/index";
 import styled, { keyframes } from "styled-components";
 
 import { logout } from "../../services/auth.js";
 
+import {
+  IronButton,
+  ironBlue,
+  ironRed,
+  ironPurple,
+  lightGray,
+  StyledLink,
+  Button,
+} from "../../styles/global.js";
+
 import x from "../../files/x.svg";
+import profile from "../../files/b-user.svg";
+import pencil from "../../files/pencil.svg";
 
 const fadeIn = keyframes`
  0% { opacity: 0 }
@@ -38,6 +49,8 @@ const Container = styled.div`
   display: inline-block;
   border-radius: 10px;
   background-color: white;
+  width: 350px;
+  height: 450px;
   box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.1);
   animation: ${slideUp} 2s ease-in-out;
 `;
@@ -55,18 +68,31 @@ const Close = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  top: -25px;
-  right: -25px;
+  top: 5px;
+  right: 5px;
   width: 50px;
   height: 50px;
   border-radius: 100%;
-  background-color: white;
-  box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.1);
   cursor: pointer;
 `;
 
 const X = styled.img`
   width: 40px;
+`;
+
+const Icon = styled.img`
+  width: 15px;
+  margin: 0 0 0 10px;
+`;
+
+const UserPic = styled.img`
+  width: ${(props) => (props.imghover ? "65px" : "120px")};
+  border-radius: 100px;
+  transition: all 300ms ease-in-out;
+`;
+
+const Name = styled.h1`
+  font-size: 24px;
 `;
 
 export default class index extends Component {
@@ -97,6 +123,7 @@ export default class index extends Component {
       [name]: value,
     });
   };
+
 
   handleSubmit = (event) => {
     event.preventDefault();
@@ -129,43 +156,38 @@ export default class index extends Component {
     });
   };
 
-  // console.log(user);
-
   render() {
+
     if (!this.state.user) return <></>;
-    console.log(this.state.user);
     return (
       <MainContainer>
         <Container>
-          {/* <Navbar /> */}
           <Close onClick={() => this.props.showProfile(false)}>
-            {" "}
-            <X src={x} alt="Close" />{" "}
+            <X src={x} alt="Close" />
           </Close>
           <FormContainer>
-            {this.state.user.role === "Student" ? (
-              <p>Hello Ironhacker</p>
+            {this.state.user.image ? (
+              <UserPic src={this.state.user.image} alt="User Pic" />
             ) : (
-              <p>Dear TA Welcome back</p>
+              <UserPic src={profile} alt="User Pic" />
             )}
-            <div>
-              <img src={this.state.user.image} alt="Pic" />
-            </div>
-            Username: {this.state.user.username}
-            Name: {this.state.user.name}
-            {this.state.user.location}
-            {this.state.user.bio}
-            {/* Editing */}
-            <Button onClick={this.toggleEditForm}>Edit your name</Button>
-            {this.state.editForm && (
+            {this.state.editForm ? (
               <ProfileEdit
                 {...this.state}
                 handleChange={this.handleChange}
                 handleSubmit={this.handleSubmit}
               />
+            ) : (
+              <Name>
+                {this.state.user.name}
+                <Icon src={pencil} alt="Edit" onClick={this.toggleEditForm} />
+              </Name>
             )}
+            @{this.state.user.username}
+            {this.state.user.location}
+            {this.state.user.bio}
             <Link to="/" onClick={this.handleLogout}>
-              Logout
+              <Button>Logout</Button>
             </Link>
           </FormContainer>
         </Container>

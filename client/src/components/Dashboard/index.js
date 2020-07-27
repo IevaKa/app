@@ -86,7 +86,7 @@ const Dashboard = (props) => {
       </WrapperTicketAdd>
 
       <WrapperProfile profile={profile}>
-        <Profile showProfile={showProfile} setUser={props.setUser}/>
+        <Profile showProfile={showProfile} setUser={props.setUser} {...props}/>
       </WrapperProfile>
 
       <WrapperTicketBoard>

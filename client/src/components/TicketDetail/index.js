@@ -11,7 +11,7 @@ export default class TicketDetail extends Component {
     axios
       .get(`/api/tickets/${this.props.match.params.id}`)
       .then((response) => {
-        console.log(response)
+        // console.log(response)
         this.setState({
           ticket: response.data,
         });
@@ -26,7 +26,7 @@ export default class TicketDetail extends Component {
       status: 'In progress'
     })
       .then(response => {
-        console.log(response);
+        // console.log(response);
       })
       .catch(err => {
         console.log(err);
