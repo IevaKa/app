@@ -7,6 +7,8 @@ import animation from "../../files/animation.json";
 import bg from "../../files/back.svg";
 import heart from "../../files/heart.svg";
 import code from "../../files/code.svg";
+import x from "../../files/w-x.svg";
+
 
 import Login from "../Login";
 import Signup from "../Signup";
@@ -79,6 +81,11 @@ const Close = styled.div`
   cursor: pointer;
 `;
 
+const X = styled.img`
+  width: 40px;
+`;
+
+
 function Home(props) {
   let [login, showLogin] = useState(false);
   let [signup, showSignup] = useState(false);
@@ -95,9 +102,9 @@ function Home(props) {
   return (
     <Container>
         {login && <Login setUser={props.setUser} {...props} />}
-        {login && <Close onClick={() => showLogin(false)}>CLOSE</Close>}
+        {login && <Close onClick={() => showLogin(false)}> <X src={x} alt="Close" /></Close>}
         {signup && <Signup setUser={props.setUser} {...props} />}
-        {signup && <Close onClick={() => showSignup(false)}>CLOSE</Close>}
+        {signup && <Close onClick={() => showSignup(false)}> <X src={x} alt="Close" /></Close>}
       <ContainerButtons>
         <Title>
           Welcome <br />

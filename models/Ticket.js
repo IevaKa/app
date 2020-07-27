@@ -45,11 +45,6 @@ const ticketSchema = new Schema({
         // required: true, 
         // default: Date.now 
     },
-    inProgressAt: { 
-        type: Date
-        // required: true, 
-        // default: Date.now 
-    },
     cancelledAt: { 
         type: Date
         // required: true, 

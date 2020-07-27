@@ -23,31 +23,20 @@ class TicketBoard extends React.Component {
   state = {
     columns: null,
     tickets: [],
-    order: ["columnOpen", "columnProgress", "columnDone"]
+    order: [],
+    role: 'Student'
   };
 
-  // getTickets = () => {
-  //   axios
-  //     .get("/api/tickets")
-  //     .then((response) => {
-  //       this.setState({
-  //         tickets: response.data,
-  //       });
-  //       this.getColumns()
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     }); hey
-  // };
 
   // getting the data from the column model
-  // will eventually replace the get tickets function
   getTickets = () => {
     axios
       .get("/api/columns")
       .then(response => {
-        const columnData = response.data
-        const tickets = columnData.columnOpen.concat(columnData.columnProgress, columnData.columnDone);
+        const columnData = response.data;
+        const userRole = columnData.role;
+        const tickets = columnData.columnOpen.concat(columnData.columnProgress, 
+          columnData.columnDone, columnData.columnCancelled);
         const columnOpen = {
           id: "columnOpen",
           title: "Open",
@@ -64,15 +53,24 @@ class TicketBoard extends React.Component {
           title: "Done",
           ticketIds: columnData.columnDone.map(ticket => ticket._id)
         }
+
+        const columnCancelled = {
+          id: "columnCancelled",
+          title: "Cancelled",
+          ticketIds: columnData.columnCancelled.map(ticket => ticket._id)
+        }
+        
         const columns = {
           columnOpen,
           columnProgress,
-          columnDone
+          columnDone,
+          columnCancelled
         }
-        console.log('this is columns', columns)
         this.setState({
           tickets,
-          columns
+          columns,
+          role: userRole,
+          order: userRole === 'Student' ? ["columnOpen", "columnProgress", "columnCancelled"] : ["columnOpen", "columnProgress", "columnDone"]
         });
       })
       .catch((err) => {
@@ -83,30 +81,6 @@ class TicketBoard extends React.Component {
   componentDidMount = () => {
     this.getTickets();
   };
-
-  //   render() {
-  //     console.log(this.state.columns);
-  //     console.log(this.state.columns.columns);
-
-  //     return (
-  //       <>
-  //         <Navbar />
-  //         <ul>
-  //           {this.state.tickets.map((ticket) => {
-  //             return <li key={ticket._id}>{ticket.title}</li>;
-  //           })}
-  //           {this.state.columns.columnOrder.map((column, i) => {
-  //             return <li key={i}>{column}</li>;
-  //           })}
-  //         </ul>
-  //       </>
-  //     );
-  //   }
-  // }
-
-  // onDragStart = () => {
-  //   document.body.style.color = 'orange'    // directly changing dom is kinda shitty in react
-  // }
 
   onDragEnd = (result) => {
     document.body.style.color = "inherit";
@@ -120,6 +94,9 @@ class TicketBoard extends React.Component {
       destination.index === source.index
     ) {
       return;
+    }
+    if (this.state.role === 'Student' && destination.droppableId === 'columnProgress') {
+      return
     }
 
     // moving inside the same column
@@ -193,15 +170,23 @@ class TicketBoard extends React.Component {
     const statusMap = {
       columnOpen: 'Opened',
       columnProgress: 'In progress', 
-      columnDone: 'Solved'
+      columnDone: 'Solved',
+      columnCancelled: 'Cancelled'
+    }
+
+    const timestampMap = {
+      columnProgress: 'assignedAt', 
+      columnDone: 'solvedAt',
+      columnCancelled: 'cancelledAt'
     }
     
     axios.put(`/api/tickets/${draggableId}`, {
       status: statusMap[destination.droppableId],
-      destination: destination.droppableId, // progress
-      source: source.droppableId, // open
+      destination: destination.droppableId,
+      source: source.droppableId,
       sourceArray: startTicketIds,
-      destinationArray: finishTicketIds
+      destinationArray: finishTicketIds,
+      timestamp: timestampMap[destination.droppableId]
       })
       .then(response => {
         console.log(response);
