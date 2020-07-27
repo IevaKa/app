@@ -18,6 +18,7 @@ const Container = styled.div`
 
 export default class TicketPreview extends React.Component {
   render() {
+    console.log("DESCRIPTION HERE" + this.props.ticket.description)
     return (
       <Draggable draggableId={this.props.ticket._id} index={this.props.index}>
         {(provided, snapshot) => (

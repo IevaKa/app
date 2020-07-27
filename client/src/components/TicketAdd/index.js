@@ -1,13 +1,23 @@
 import React, { Component } from "react";
 import axios from "axios";
-import Navbar from "../Navbar";
 import styled, { keyframes } from "styled-components";
+
+import InputLabel from "@material-ui/core/InputLabel";
+import FormControl from "@material-ui/core/FormControl";
+import TextField from "@material-ui/core/TextField";
+import Select from "@material-ui/core/Select";
+
+import { withStyles } from "@material-ui/core/styles";
 
 import x from "../../files/x.svg";
 
-
 import {
-  IronButton
+  IronButton,
+  ironBlue,
+  ironRed,
+  ironPurple,
+  lightGray,
+  StyledLink,
 } from "../../styles/global.js";
 
 const fadeIn = keyframes`
@@ -35,9 +45,11 @@ const MainContainer = styled.div`
 
 const Container = styled.div`
   position: relative;
-  display: inline-block;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 350px;
-  height: 400px;
+  height: 450px;
   border-radius: 10px;
   background-color: white;
   box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.1);
@@ -45,30 +57,102 @@ const Container = styled.div`
 `;
 
 const FormContainer = styled.div`
+padding: 45px 0 0 0;
   display: flex;
   align-items: center;
   justify-content: center;
   height: 100%;
+  
 `;
+
+// const Close = styled.div`
+//   position: absolute;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   top: -25px;
+//   right: -25px;
+//   width: 50px;
+//   height: 50px;
+//   border-radius: 100%;
+//   background-color: white;
+//   box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.1);
+//   cursor: pointer;
+// `;
+
 
 const Close = styled.div`
   position: absolute;
   display: flex;
   justify-content: center;
   align-items: center;
-  top: -25px;
-  right: -25px;
+  top: 5px;
+  right: 5px;
   width: 50px;
   height: 50px;
   border-radius: 100%;
-  background-color: white;
-  box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.1);
   cursor: pointer;
 `;
 
 const X = styled.img`
   width: 40px;
 `;
+
+const FormField = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3px;
+  margin: ${(props) => (props.bottom ? "0 0 8px 0" : "0px")};
+`;
+
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
+
+const CssTextField = withStyles({
+  root: {
+    margin: "6px",
+    width: "250px",
+    "& .MuiInputLabel-root": {
+      fontFamily: `'Poppins', sans-serif`,
+      fontSize: "14px",
+    },
+    "& .MuiInput-underline": {
+      fontFamily: `'Poppins', sans-serif`,
+      fontSize: "14px",
+      color: ironBlue,
+    },
+    "& label.Mui-focused": {
+      color: ironBlue,
+    },
+    "& .MuiInput-underline:after": {
+      borderBottomColor: ironBlue,
+    },
+    "& .MuiInput-underline:hover:before": {
+      borderBottomColor: ironRed, // Solid underline on hover
+    },
+  },
+})(TextField);
+
+const CssInputLabel = withStyles({
+  root: {
+    fontSize: 14,
+    fontFamily: `'Poppins', sans-serif`,
+  },
+})(InputLabel);
+
+const CssFormControl = withStyles({
+  root: {
+    width: '250px',
+    fontSize: 14,
+    fontFamily: `'Poppins', sans-serif`,
+    color: 'red'
+  },
+})(FormControl);
 
 export default class AddTicket extends Component {
   state = {
@@ -113,55 +197,67 @@ export default class AddTicket extends Component {
       <MainContainer>
         <Container>
           {/* <Navbar /> */}
-          <Close onClick={() => this.props.showTicketadd(false)}><X src={x} alt="Close"/></Close>
+          <Close onClick={() => this.props.showTicketadd(false)}>
+            <X src={x} alt="Close" />
+          </Close>
           <FormContainer>
-            <form onSubmit={this.handleSubmit}>
-              <div className="form-group">
-                <label htmlFor="Lab">Lab</label>
-                <select
-                  className="form-control"
-                  id="lab"
-                  name="lab"
-                  onChange={this.handleChange}
-                >
-                  <option value="React | Ironbeers">React | Ironbeers</option>
-                  <option value="React | Wiki Countries">
-                    React | Wiki Countries
-                  </option>
-                  <option value="React | IronBook">React | IronBook</option>
-                </select>
-              </div>
-              <div className="form-group">
-                <label htmlFor="title">Title</label>
-                <input
-                  type="text"
-                  className="form-control"
+            <Form onSubmit={this.handleSubmit}>
+              <FormField>
+                <CssFormControl variant="outlined">
+                  <CssInputLabel htmlFor="lab">Lab</CssInputLabel>
+                  <Select
+                    native
+                    label="lab"
+                    id="lab"
+                    value={this.state.age}
+                    onChange={this.handleChange}
+                    inputProps={{
+                      name: "lab",
+                      id: "lab",
+                    }}
+                  >
+                    <option aria-label="None" value="" />
+                    <option value="React | Ironbeers">React | Ironbeers</option>
+                    <option value="React | Wiki Countries">
+                      React | Wiki Countries
+                    </option>
+                    <option value="React | IronBook">React | IronBook</option>
+                  </Select>
+                </CssFormControl>
+              </FormField>
+
+              <FormField>
+                <CssTextField
+                  label="Title"
                   id="title"
-                  name="title"
-                  aria-describedby="title"
-                  onChange={this.handleChange}
-                  value={this.state.title}
-                />
-              </div>
-              <div className="form-group">
-                <label htmlFor="description">description</label>
-                <input
+                  variant="outlined"
                   type="text"
-                  className="form-control"
-                  id="description"
-                  name="description"
-                  aria-describedby="description"
+                  name="title"
+                  value={this.state.title}
                   onChange={this.handleChange}
-                  value={this.state.description}
                 />
-              </div>
-              <button
+              </FormField>
+              <FormField>
+                <CssTextField
+                  label="Description"
+                  id="description"
+                  variant="outlined"
+                  type="text"
+                  name="description"
+                  value={this.state.description}
+                  onChange={this.handleChange}
+                  multiline
+                  rows={4}
+                />
+              </FormField>
+
+              <IronButton
                 type="submit"
                 onClick={() => this.props.showTicketadd(false)}
               >
-                Submit
-              </button>
-            </form>
+                Add Ticket
+              </IronButton>
+            </Form>
           </FormContainer>
         </Container>
       </MainContainer>
