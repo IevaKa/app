@@ -97,7 +97,7 @@ export default class AddTicket extends Component {
       .then(() => {
         console.log("here", this.props.history);
         this.setState({
-          lab: "",
+          lab: "React | Ironbeers",
           title: "",
           description: "",
         });

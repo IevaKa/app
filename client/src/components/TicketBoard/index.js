@@ -26,22 +26,8 @@ class TicketBoard extends React.Component {
     order: ["columnOpen", "columnProgress", "columnDone"]
   };
 
-  // getTickets = () => {
-  //   axios
-  //     .get("/api/tickets")
-  //     .then((response) => {
-  //       this.setState({
-  //         tickets: response.data,
-  //       });
-  //       this.getColumns()
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     }); 
-  // };
 
   // getting the data from the column model
-  // will eventually replace the get tickets function
   getTickets = () => {
     axios
       .get("/api/columns")
@@ -83,30 +69,6 @@ class TicketBoard extends React.Component {
   componentDidMount = () => {
     this.getTickets();
   };
-
-  //   render() {
-  //     console.log(this.state.columns);
-  //     console.log(this.state.columns.columns);
-
-  //     return (
-  //       <>
-  //         <Navbar />
-  //         <ul>
-  //           {this.state.tickets.map((ticket) => {
-  //             return <li key={ticket._id}>{ticket.title}</li>;
-  //           })}
-  //           {this.state.columns.columnOrder.map((column, i) => {
-  //             return <li key={i}>{column}</li>;
-  //           })}
-  //         </ul>
-  //       </>
-  //     );
-  //   }
-  // }
-
-  // onDragStart = () => {
-  //   document.body.style.color = 'orange'    // directly changing dom is kinda shitty in react
-  // }
 
   onDragEnd = (result) => {
     document.body.style.color = "inherit";

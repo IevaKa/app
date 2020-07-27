@@ -72,6 +72,14 @@ router.put('/:id', (req, res, next) => {
     console.log('this is the updated column: ', up)
   })
 
+  // updating the order for all teachers
+  Column.updateMany(
+    { role: 'Teacher', user: { "$ne": req.user.id } },
+    { $pull: { [source]: id  }, $push: { [destination]: id  } }
+    ).then(col => {
+      console.log('this is the updated teachers columns: ', col)
+    })
+
   // finding the user first, since they will have different actions
   // they can take
   User.findById(req.user.id).then(user => {
@@ -85,26 +93,21 @@ router.put('/:id', (req, res, next) => {
         .catch(err => {
           res.json(err);
         });
-    
-      // student changes stuff, adjust view for teacher
-      // updating the order for all teachers
-      Column.updateMany(
-        { role: 'Teacher' },
-        { $pull: { [source]: id  }, $push: { [destination]: id  } }
-        ).then(col => {
-          console.log('this is the updated teacher columns: ', col)
-        })
+
 
     } else {
         Ticket.findByIdAndUpdate(id, { status: status, assignee: req.user.id }, { new: true })
           .then(ticket => {
-            res.json(ticket);
+            // find the student's document
+            Column.findOneAndUpdate(
+              { user: ticket.createdBy}, 
+              { $pull: { [source]: id  }, $push: { [destination]: id  } }
+              ).then(col => {
+                res.json(ticket);
+              }).catch(err => {
+                res.json(err);
+              });
           })
-          .catch(err => {
-            res.json(err);
-          });
-
-        // missing to update the student column documents
     }
   })
 
