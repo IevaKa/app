@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import styled, { keyframes } from "styled-components";
+import TicketEdit from "../TicketEdit";
 
 import {
   IronButton,
@@ -12,7 +13,7 @@ import {
   evenLighterGray,
 } from "../../styles/global.js";
 
-import { w3cwebsocket as W3CWebSocket } from "websocket";
+// import { w3cwebsocket as W3CWebSocket } from "websocket";
 import { Card, Avatar, Input, Typography } from "antd";
 
 import x from "../../files/x.svg";
@@ -85,25 +86,6 @@ const Paragraph = styled.p`
 `;
 
 export default class TicketDetail extends Component {
-  // state = {
-  //   ticket: null,
-  //   // messages: []
-  //   // user: this.props.user.name
-  // };
-
-  // getTicket = () => {
-  //   axios
-  //     .get(`/api/tickets/${this.props.match.params.id}`)
-  //     .then((response) => {
-  //       console.log("the ticket ingo got: ", response.data);
-  //       this.setState({
-  //         ticket: response.data,
-  //       });
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // };
 
   assignTeacher = () => {
     axios
@@ -118,42 +100,9 @@ export default class TicketDetail extends Component {
       });
   };
 
-  // componentDidMount() {
-  //   this.getTicket();
-  //   client.onopen = () => {
-  //     console.log('WebSocket Client Connected')
-  //   };
-  //   client.onmessage = (message) => {
-  //     console.log('Now I am here')
-  //     const dataFromServer = JSON.parse(message.data);
-  //     console.log(message.data);
-  //     console.log(message);
-  //     console.log('got reply! ', dataFromServer);
-  //     if (dataFromServer.type === 'message') {
-  //       this.setState((state) => ({
-  //         messages: [...state.messages,
-  //         {
-  //           msg: dataFromServer.msg
-  //           // user: this.state.user
-  //         }]
-  //       }))
-  //       console.log('I am Here', this.state.messages);
-  //     }
-  //   };
-  // }
-
-  // onButtonClicked = (value) => {
-  //   // const client = new W3CWebSocket(`ws://localhost:5555/api/tickets/${this.props.match.params.id}`);
-  //   console.log(value)
-  //   client.send(JSON.stringify({
-  //     type: 'message',
-  //     msg: value,
-  //     // user: this.state.user
-  //   }));
-  //   this.setState({ searchVal: '' })
-
   render() {
-    console.log("ITSSSSS" + this.props.ticketDetail);
+    // console.log('I am here', this.props.ticketDetail)
+    // console.log("ITSSSSS" + this.props.ticketDetail);
     if (!this.props.ticketDetail) return <></>;
     return (
       <MainContainer>
@@ -166,6 +115,7 @@ export default class TicketDetail extends Component {
             <X src={x} alt="Close" />
           </Close>
           <FormContainer>
+
             <Paragraph> {this.props.ticketDetail.title}</Paragraph>
             <Paragraph>
               Created By: {this.props.ticketDetail.createdBy.name}
@@ -182,6 +132,10 @@ export default class TicketDetail extends Component {
               {this.props.ticketDetail.assignee &&
                 this.props.ticketDetail.assignee.name}
             </Paragraph>
+
+            <TicketEdit
+              ticketDetail={this.props.ticketDetail}
+            />
 
             <IronButton onClick={this.assignTeacher}>
               Take this ticket
