@@ -42,8 +42,7 @@ class App extends React.Component {
     socket.emit("logedin", {
       username: username
     });
-    return (username)
-
+    console.log ('fe socket: ', username)
   };
 
 
