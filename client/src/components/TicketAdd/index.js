@@ -11,11 +11,7 @@ import { withStyles } from "@material-ui/core/styles";
 
 import x from "../../files/x.svg";
 
-import {
-  IronButton,
-  ironBlue,
-  ironRed,
-} from "../../styles/global.js";
+import { IronButton, ironBlue, ironRed } from "../../styles/global.js";
 
 const fadeIn = keyframes`
  0% { opacity: 0 }
@@ -54,12 +50,11 @@ const Container = styled.div`
 `;
 
 const FormContainer = styled.div`
-padding: 45px 0 0 0;
+  padding: 45px 0 0 0;
   display: flex;
   align-items: center;
   justify-content: center;
   height: 100%;
-  
 `;
 
 // const Close = styled.div`
@@ -76,7 +71,6 @@ padding: 45px 0 0 0;
 //   box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.1);
 //   cursor: pointer;
 // `;
-
 
 const Close = styled.div`
   position: absolute;
@@ -144,10 +138,10 @@ const CssInputLabel = withStyles({
 
 const CssFormControl = withStyles({
   root: {
-    width: '250px',
+    width: "250px",
     fontSize: 14,
     fontFamily: `'Poppins', sans-serif`,
-    color: 'red'
+    color: "red",
   },
 })(FormControl);
 
@@ -168,25 +162,35 @@ export default class AddTicket extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
+
+    const data = {
+      lab: this.state.lab,
+      title: this.state.title,
+      description: this.state.description,
+      status: "Opened",
+    }
+
     axios
-      .post(`/api/tickets`, {
-        lab: this.state.lab,
-        title: this.state.title,
-        description: this.state.description,
-        status: "Opened",
-      })
+      .post(`/api/tickets`, data)
       .then(() => {
-        console.log("here", this.props.history);
+        // console.log("here", this.props.history);
         this.setState({
           lab: "React | Ironbeers",
           title: "",
           description: "",
         });
+        // this.props.setTickets([...this.props.tickets, data] )
+        this.props.getAllfromDb()
         this.props.history.push("/dashboard");
+
       })
       .catch((err) => {
         console.log(err);
       });
+  };
+
+  handleClick = () => {
+    this.props.showTicketadd(false);
   };
 
   render() {
@@ -248,10 +252,7 @@ export default class AddTicket extends Component {
                 />
               </FormField>
 
-              <IronButton
-                type="submit"
-                onClick={() => this.props.showTicketadd(false)}
-              >
+              <IronButton type="submit" onClick={this.handleClick}>
                 Create Ticket
               </IronButton>
             </Form>
