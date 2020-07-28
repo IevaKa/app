@@ -5,6 +5,7 @@ import Column from "../Column";
 
 import { evenLighterGray, lightGray } from "../../styles/global.js";
 
+
 const MainContainer = styled.div`
   display: flex;
   justify-content: center;

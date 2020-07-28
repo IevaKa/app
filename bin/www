@@ -2,8 +2,8 @@
 const http = require('http');
 let app = require('../app');
 const { connection } = require('mongoose');
-const webSocketServer = require("websocket").server;
-const webSocketServerPort = 5555;
+const socketIo = require("socket.io")
+
 // catch 404 and render a not-found.hbs templat
 // app.use((req, res, next) => {
 //   res.status(404);
@@ -21,7 +21,9 @@ const webSocketServerPort = 5555;
 //   }
 // });
 
+
 let server = http.createServer(app);
+// const io = socketIo(server);
 
 server.on('error', error => {
   if (error.syscall !== 'listen') { throw error }
@@ -41,44 +43,47 @@ server.on('error', error => {
   }
 });
 
-// let myServer = server.listen(process.env.PORT, () => {
-//   console.log(`Listening on http://localhost:${process.env.PORT}`);
+// Socket io 
+
+// io.on("connection", (socket) => {
+//   console.log("New client connected");
+
+//   // if (interval) {
+//   //   clearInterval(interval);
+//   // }
+//   // interval = setInterval(() => getApiAndEmit(socket), 1000);
+//   socket.on("disconnect", () => {
+//     console.log("Client disconnected");
+//     // clearInterval(interval);
+//   });
 // });
-let myServer = server.listen(webSocketServerPort, () => {
-  console.log(`Listening on http://localhost:${webSocketServerPort}`);
+
+let connectedUsers = [];
+
+// console.log(connectedStudent, connectedTa);
+
+const io = socketIo(server);
+// var nsp = io.of("/events");
+// var private = io.of("/private");
+//Change io with nsp/private on line 6
+io.on("connection", function (socket) {
+  console.log("User connected");
+
+  // join room
+  socket.on("logedin", function (data) {
+    connectedUsers.push(data.user);
+    connectedUsers = [...new Set (connectedUsers)];
+    io.emit("connected-users", {
+      connectedUsers: connectedUsers,
+    });
+  });
+
+  // disconnect
+  socket.on("disconnect", function () {
+    console.log("User disconnected");
+  });
 });
 
-// Socket setup
-
-const wsServer = new webSocketServer({
-  httpServer: myServer
-});
-
-const clients = {};
-
-const getUniqueID = () => {
-  const s4 = () => Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
-  return s4() + s4() + '-' + s4();
-}
-
-wsServer.on('request', function (request) {
-  let userID = getUniqueID();
-  console.log((new Date()) + 'Recieved a new connection from origin' + http.request.origin + '.');
-
-  const connection = request.accept(null, request.origin);
-  clients[userID] = connection;
-  console.log('connected' + userID + ' in ' + Object.getOwnPropertyNames(clients));
-
-
-  connection.on('message', function (message) {
-    if (message.type === 'utf8') {
-      console.log('Received Massage', message.utf8Data)
-
-      // broadcasting message to all connected clients
-      for (key in clients) {
-        clients[key].sendUTF(message.utf8Data);
-        console.log('sent Message to: ', clients[key]);
-      }
-    }
-  })
+server.listen(process.env.PORT, () => {
+  console.log(`Listening on http://localhost:${process.env.PORT}`);
 });

@@ -1,18 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-
 import styled, { keyframes } from "styled-components";
-
 import Navbar from "../Navbar";
 import TicketBoard from "../TicketBoard";
 import TicketAdd from "../TicketAdd";
 import Profile from "../Profile";
-
 import TicketDetail from "../TicketDetail";
 import TicketEdit from "../TicketEdit";
 
-import {} from "../../styles/global.js";
+import { } from "../../styles/global.js";
+// Socket IO
+
 
 const loadIn = keyframes`
  0% { opacity: 0; transform: translate(-50%, 0);}

@@ -127,8 +127,10 @@ export default class Login extends React.Component {
   state = {
     username: "",
     password: "",
-    message: "",
+    message: ""
   };
+
+
 
   handleChange = (event) => {
     const { name, value } = event.target;
@@ -140,7 +142,7 @@ export default class Login extends React.Component {
   handleSubmit = (event) => {
     event.preventDefault();
 
-    const { username, password } = this.state;
+    const { username, password} = this.state;
 
     login(username, password).then((data) => {
       if (data.message) {

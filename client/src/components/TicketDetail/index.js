@@ -18,9 +18,9 @@ import { Card, Avatar, Input, Typography } from "antd";
 import x from "../../files/x.svg";
 
 // const client = new W3CWebSocket('ws://localhost:5555');
-const { Text } = Typography;
-const { Search } = Input;
-const { Meta } = Card;
+// const { Text } = Typography;
+// const { Search } = Input;
+// const { Meta } = Card;
 
 const fadeIn = keyframes`
  0% { opacity: 0 }

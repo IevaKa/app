@@ -131,7 +131,7 @@ export default class Signup extends Component {
     name: "",
     password: "",
     message: "",
-    role: "Student",
+    role: "Student"
   };
 
   handleChange = (event) => {
@@ -159,6 +159,7 @@ export default class Signup extends Component {
         this.props.setUser(data);
         this.props.history.push("/dashboard");
       }
+      this.afterAuth(data)
     });
   };
 
