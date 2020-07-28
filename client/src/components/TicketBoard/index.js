@@ -99,6 +99,12 @@ class TicketBoard extends React.Component {
   componentDidMount = () => {
     this.getTickets();
   };
+  
+  // componentDidUpdate(prevProps) {
+  //   if (this.state.tickets !== prevProps.tickets) {
+  //     this.getTickets();
+  //   }
+  // }
 
   onDragEnd = (result) => {
     const { destination, source, draggableId } = result;
