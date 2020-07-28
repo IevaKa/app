@@ -55,7 +55,7 @@ class App extends React.Component {
           <Route
             exact
             path="/dashboard"
-            render={(props) => <Dashboard setUser={this.setUser} {...props} />}
+            render={(props) => <Dashboard setUser={this.setUser} user={this.state.user} {...props} />}
           />
 
           <Route
