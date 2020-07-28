@@ -5,7 +5,7 @@ import Navbar from "../Navbar";
 import Column from "../Column";
 import axios from "axios";
 
-import { evenLighterGray } from "../../styles/global.js";
+import { evenLighterGray, lightGray } from "../../styles/global.js";
 
 const MainContainer = styled.div`
   display: flex;
@@ -26,6 +26,10 @@ const Container = styled.div`
   display: flex;
   align-items: flex-start;
   justify-content: center;
+  padding: 20px;
+  border: 1px dashed ${lightGray};
+  border-radius: 20px;
+  ${'' /* background-color: rgba(156, 160, 163, 0.2) */}
 `;
 
 class TicketBoard extends React.Component {
