@@ -2,11 +2,13 @@ import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { Draggable } from "react-beautiful-dnd";
+
+import TicketAdd from "../TicketAdd";
+
 import {
   ironBlue,
   ironPurple,
   ironRed,
-
   lightBlue,
   lightGray,
 } from "../../styles/global.js";
@@ -77,36 +79,44 @@ export default class TicketPreview extends React.Component {
     let checkTA = (user) => user._id === this.props.ticket.assignee;
     const ticketTA = this.props.allUsers.find(checkTA);
 
+    const SOMETHING = (id) => {
+      alert("aaa" + id);
+    };
+
+    const handleClick = (id) => {
+      this.props.getTicketDetails(id);
+      this.props.showTicketDetail(true);
+    };
+
     // console.log("OWNER IS" + ticketOwner);
     return (
       <Draggable draggableId={this.props.ticket._id} index={this.props.index}>
         {(provided, snapshot) => (
-          <Link to={`/ticket/${this.props.ticket._id}`}>
-            <Container
-              {...provided.draggableProps}
-              {...provided.dragHandleProps}
-              ref={provided.innerRef}
-              isDragging={snapshot.isDragging}
-            >
-              <LabTag isDragging={snapshot.isDragging}>
-                {this.props.ticket.lab}
-              </LabTag>
-              <br />
-              {this.props.ticket.title}
-              <br />
-              {ticketOwner &&
-                (ticketOwner.image ? (
-                  <TicketOwner src={ticketOwner.image} />
-                ) : (
-                  <TicketOwner src={profile} />
-                ))}
-              <Timestamp isDragging={snapshot.isDragging}>
-                Created <Moment fromNow>{timestamp}</Moment>
-              </Timestamp>
+          <Container
+            {...provided.draggableProps}
+            {...provided.dragHandleProps}
+            ref={provided.innerRef}
+            isDragging={snapshot.isDragging}
+            onClick={() => handleClick(this.props.ticket._id)}
+          >
+            <LabTag isDragging={snapshot.isDragging}>
+              {this.props.ticket.lab}
+            </LabTag>
+            <br />
+            {this.props.ticket.title}
+            <br />
+            {ticketOwner &&
+              (ticketOwner.image ? (
+                <TicketOwner src={ticketOwner.image} />
+              ) : (
+                <TicketOwner src={profile} />
+              ))}
+            <Timestamp isDragging={snapshot.isDragging}>
+              Created <Moment fromNow>{timestamp}</Moment>
+            </Timestamp>
 
-              {ticketTA && <TAstatus>{ticketTA.name} is on it!</TAstatus>}
-            </Container>
-          </Link>
+            {ticketTA && <TAstatus>{ticketTA.name} is on it!</TAstatus>}
+          </Container>
         )}
       </Draggable>
     );

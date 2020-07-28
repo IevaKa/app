@@ -31,23 +31,29 @@ const WrapperTicketBoard = styled.div`
 `;
 
 const WrapperNavbar = styled.div`
-  z-index: 3;
+  z-index: 5;
   position: absolute;
   animation: ${loadIn} 1s ease-in-out;
 `;
 
 const WrapperProfile = styled.div`
   z-index: 2;
-
   position: absolute;
   opacity: ${(props) => (props.profile ? 1 : 0)};
   pointer-events: ${(props) => (props.profile ? "block" : "none")};
   transition: all 0.5s ease-in-out;
 `;
 
+const WrapperTicketDetail = styled.div`
+  z-index: 2;
+  position: absolute;
+  opacity: ${(props) => (props.ticketdeets ? 1 : 0)};
+  pointer-events: ${(props) => (props.ticketdeets ? "block" : "none")};
+  transition: all 0.5s ease-in-out;
+`;
+
 const WrapperTicketAdd = styled.div`
   z-index: 2;
-
   position: absolute;
   opacity: ${(props) => (props.ticketadd ? 1 : 0)};
   pointer-events: ${(props) => (props.ticketadd ? "block" : "none")};
@@ -62,8 +68,10 @@ const Dashboard = (props) => {
   let [order, setOrder] = useState([]);
   let [role, setRole] = useState("Student");
 
+  let [ticketDetail, setTicketDetail] = useState(false);
   let [ticketadd, showTicketadd] = useState(false);
   let [profile, showProfile] = useState(false);
+  let [ticketdeets, showTicketDetail] = useState(false);
 
   useEffect(() => {
     axios.get("/api/user").then((users) => {
@@ -120,14 +128,14 @@ const Dashboard = (props) => {
             ? ["columnOpen", "columnProgress", "columnCancelled"]
             : ["columnOpen", "columnProgress", "columnDone"]
         );
-      }).catch((err) => {
+      })
+      .catch((err) => {
         console.log(err);
       });
-  }
+  };
 
   useEffect(() => {
-    getAllTicketsFromDb()
-      
+    getAllTicketsFromDb();
   }, []);
 
   // useEffect(() => {
@@ -253,6 +261,18 @@ const Dashboard = (props) => {
     showProfile(true);
   };
 
+  const getTicketDetails = (id) => {
+    axios
+      .get(`/api/tickets/${id}`)
+      .then((response) => {
+        console.log("the ticket ingo got: ", response.data);
+        setTicketDetail(response.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   return (
     <MainContainer>
       <WrapperNavbar>
@@ -261,6 +281,11 @@ const Dashboard = (props) => {
           handleProfile={handleProfile}
         />
       </WrapperNavbar>
+
+      <WrapperTicketDetail ticketdeets={ticketdeets}>
+        <TicketDetail ticketDetail={ticketDetail} showTicketDetail={showTicketDetail}/>
+      </WrapperTicketDetail>
+
       <WrapperTicketAdd ticketadd={ticketadd}>
         <TicketAdd
           showTicketadd={showTicketadd}
@@ -282,6 +307,8 @@ const Dashboard = (props) => {
           setColumns={setColumns}
           setTickets={setTickets}
           onDragEnd={onDragEnd}
+          getTicketDetails={getTicketDetails}
+          showTicketDetail={showTicketDetail}
         />
       </WrapperTicketBoard>
     </MainContainer>

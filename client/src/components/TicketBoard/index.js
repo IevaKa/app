@@ -57,6 +57,9 @@ class TicketBoard extends React.Component {
                       tickets={tickets}
                       allUsers={this.props.allUsers}
                       setColumns={this.props.setColumns}
+                      getTicketDetails={this.props.getTicketDetails}
+                      showTicketDetail={this.props.showTicketDetail}
+                      // user={this.props.user}
                     />
                   );
                 })}
