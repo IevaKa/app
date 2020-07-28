@@ -33,6 +33,7 @@ const session = require('express-session');
 const passport = require('passport');
 
 const User = require('./models/User');
+
 const MongoStore = require('connect-mongo')(session);
 app.use(
   session({

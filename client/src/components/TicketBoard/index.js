@@ -7,6 +7,7 @@ import axios from "axios";
 
 import { evenLighterGray, lightGray } from "../../styles/global.js";
 
+
 const MainContainer = styled.div`
   display: flex;
   justify-content: center;
@@ -98,6 +99,7 @@ class TicketBoard extends React.Component {
 
   componentDidMount = () => {
     this.getTickets();
+
   };
 
   onDragEnd = (result) => {

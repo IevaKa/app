@@ -2,18 +2,17 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 // import { logout } from "../../services/auth.js";
 import axios from "axios";
-
 import styled, { keyframes } from "styled-components";
-
 import Navbar from "../Navbar";
 import TicketBoard from "../TicketBoard";
 import TicketAdd from "../TicketAdd";
 import Profile from "../Profile";
-
 import TicketDetail from "../TicketDetail";
 import TicketEdit from "../TicketEdit";
 
-import {} from "../../styles/global.js";
+import { } from "../../styles/global.js";
+// Socket IO
+
 
 const loadIn = keyframes`
  0% { opacity: 0; transform: translate(-50%, 0);}
@@ -66,7 +65,6 @@ const Dashboard = (props) => {
 
   // console.log(allUsers)
 
-  // let [ticketboard, showTicketboard] = useState(false);
   let [ticketadd, showTicketadd] = useState(false);
   let [profile, showProfile] = useState(false);
 
@@ -81,25 +79,27 @@ const Dashboard = (props) => {
   };
 
   return (
-    <MainContainer>
-      <WrapperNavbar>
-        <Navbar
-          handleTicketAdd={handleTicketAdd}
-          handleProfile={handleProfile}
-        />
-      </WrapperNavbar>
-      <WrapperTicketAdd ticketadd={ticketadd}>
-        <TicketAdd showTicketadd={showTicketadd} />
-      </WrapperTicketAdd>
+    <>
+      <MainContainer>
+        <WrapperNavbar>
+          <Navbar
+            handleTicketAdd={handleTicketAdd}
+            handleProfile={handleProfile}
+          />
+        </WrapperNavbar>
+        <WrapperTicketAdd ticketadd={ticketadd}>
+          <TicketAdd showTicketadd={showTicketadd} />
+        </WrapperTicketAdd>
 
-      <WrapperProfile profile={profile}>
-        <Profile showProfile={showProfile} setUser={props.setUser} {...props} />
-      </WrapperProfile>
+        <WrapperProfile profile={profile}>
+          <Profile showProfile={showProfile} setUser={props.setUser} {...props} />
+        </WrapperProfile>
 
-      <WrapperTicketBoard>
-        <TicketBoard allUsers={allUsers} />
-      </WrapperTicketBoard>
-    </MainContainer>
+        <WrapperTicketBoard>
+          <TicketBoard allUsers={allUsers} />
+        </WrapperTicketBoard>
+      </MainContainer>
+    </>
   );
 };
 
