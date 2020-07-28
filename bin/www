@@ -71,12 +71,15 @@ io.on("connection", function (socket) {
 
   // join room
   socket.on("logedin", function (data) {
-    connectedUsers.push(data.user);
+    console.log('socket loggin')
+    connectedUsers.push(data.username);
     connectedUsers = [...new Set (connectedUsers)];
+    console.log('socket array: ', connectedUsers)
     io.emit("connected-users", {
       connectedUsers: connectedUsers,
     });
   });
+
 
   // disconnect
   socket.on("disconnect", function () {
