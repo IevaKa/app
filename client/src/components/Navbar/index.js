@@ -171,7 +171,7 @@ const Navbar = (props) => {
             <PlusPic src={plus} alt="Plus" addhover={addhover} />
           </AddTicket>
         ) : (
-          <Link to="/dashboard">Dashboard</Link>
+          null
         )}
         <Notification onClick={toggleNotification}>
           <NotificationBubble>2</NotificationBubble>

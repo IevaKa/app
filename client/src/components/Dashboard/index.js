@@ -14,12 +14,6 @@ import TicketDetail from "../TicketDetail";
 import TicketEdit from "../TicketEdit";
 
 import {
-  IronButton,
-  ironBlue,
-  ironRed,
-  ironPurple,
-  lightGray,
-  StyledLink,
 } from "../../styles/global.js";
 
 const loadIn = keyframes`

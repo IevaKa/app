@@ -5,18 +5,27 @@ import Navbar from "../Navbar";
 import Column from "../Column";
 import axios from "axios";
 
+import { evenLighterGray } from "../../styles/global.js";
+
 const MainContainer = styled.div`
   display: flex;
   justify-content: center;
+  background-color: ${evenLighterGray};
+`;
+
+const WrapContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 0 0 135px;
+  width: calc(100vw - 135px);
+  height: 100vh;
 `;
 
 const Container = styled.div`
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
-  ${'' /* background-color: blue; */}
-  width: 100vw;
-  height: 100vh
 `;
 
 class TicketBoard extends React.Component {
@@ -24,53 +33,58 @@ class TicketBoard extends React.Component {
     columns: null,
     tickets: [],
     order: [],
-    role: 'Student'
+    role: "Student",
   };
-
 
   // getting the data from the column model
   getTickets = () => {
     axios
       .get("/api/columns")
-      .then(response => {
+      .then((response) => {
         const columnData = response.data;
         const userRole = columnData.role;
-        const tickets = columnData.columnOpen.concat(columnData.columnProgress, 
-          columnData.columnDone, columnData.columnCancelled);
+        const tickets = columnData.columnOpen.concat(
+          columnData.columnProgress,
+          columnData.columnDone,
+          columnData.columnCancelled
+        );
         const columnOpen = {
           id: "columnOpen",
           title: "Open",
-          ticketIds: columnData.columnOpen.map(ticket => ticket._id)
-        }
+          ticketIds: columnData.columnOpen.map((ticket) => ticket._id),
+        };
         const columnProgress = {
           id: "columnProgress",
           title: "In progress",
-          ticketIds: columnData.columnProgress.map(ticket => ticket._id)
-        }
-    
+          ticketIds: columnData.columnProgress.map((ticket) => ticket._id),
+        };
+
         const columnDone = {
           id: "columnDone",
           title: "Done",
-          ticketIds: columnData.columnDone.map(ticket => ticket._id)
-        }
+          ticketIds: columnData.columnDone.map((ticket) => ticket._id),
+        };
 
         const columnCancelled = {
           id: "columnCancelled",
           title: "Cancelled",
-          ticketIds: columnData.columnCancelled.map(ticket => ticket._id)
-        }
-        
+          ticketIds: columnData.columnCancelled.map((ticket) => ticket._id),
+        };
+
         const columns = {
           columnOpen,
           columnProgress,
           columnDone,
-          columnCancelled
-        }
+          columnCancelled,
+        };
         this.setState({
           tickets,
           columns,
           role: userRole,
-          order: userRole === 'Student' ? ["columnOpen", "columnProgress", "columnCancelled"] : ["columnOpen", "columnProgress", "columnDone"]
+          order:
+            userRole === "Student"
+              ? ["columnOpen", "columnProgress", "columnCancelled"]
+              : ["columnOpen", "columnProgress", "columnDone"],
         });
       })
       .catch((err) => {
@@ -83,8 +97,6 @@ class TicketBoard extends React.Component {
   };
 
   onDragEnd = (result) => {
-    document.body.style.color = "inherit";
-
     const { destination, source, draggableId } = result;
     if (!destination) {
       return;
@@ -95,8 +107,11 @@ class TicketBoard extends React.Component {
     ) {
       return;
     }
-    if (this.state.role === 'Student' && destination.droppableId === 'columnProgress') {
-      return
+    if (
+      this.state.role === "Student" &&
+      destination.droppableId === "columnProgress"
+    ) {
+      return;
     }
 
     // moving inside the same column
@@ -106,7 +121,6 @@ class TicketBoard extends React.Component {
 
     const start = this.state.columns[source.droppableId];
     const finish = this.state.columns[destination.droppableId];
-
 
     if (start === finish) {
       const newTicketIds = Array.from(start.ticketIds);
@@ -118,7 +132,7 @@ class TicketBoard extends React.Component {
         ticketIds: newTicketIds,
       };
 
-      console.log(newColumn)
+      console.log(newColumn);
       const newState = {
         ...this.state.columns,
         [newColumn.id]: newColumn,
@@ -128,14 +142,15 @@ class TicketBoard extends React.Component {
         columns: newState,
       });
 
-      axios.put('/api/columns', {
-        property: newColumn.id,
-        array: newColumn.ticketIds
+      axios
+        .put("/api/columns", {
+          property: newColumn.id,
+          array: newColumn.ticketIds,
         })
-        .then(response => {
+        .then((response) => {
           console.log(response);
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
         });
 
@@ -159,8 +174,8 @@ class TicketBoard extends React.Component {
 
     const newState = {
       ...this.state.columns,
-        [newStart.id]: newStart,
-        [newFinish.id]: newFinish
+      [newStart.id]: newStart,
+      [newFinish.id]: newFinish,
     };
 
     this.setState({
@@ -168,56 +183,60 @@ class TicketBoard extends React.Component {
     });
 
     const statusMap = {
-      columnOpen: 'Opened',
-      columnProgress: 'In progress', 
-      columnDone: 'Solved',
-      columnCancelled: 'Cancelled'
-    }
+      columnOpen: "Opened",
+      columnProgress: "In progress",
+      columnDone: "Solved",
+      columnCancelled: "Cancelled",
+    };
 
     const timestampMap = {
-      columnProgress: 'assignedAt', 
-      columnDone: 'solvedAt',
-      columnCancelled: 'cancelledAt'
-    }
-    
-    axios.put(`/api/tickets/${draggableId}`, {
-      status: statusMap[destination.droppableId],
-      destination: destination.droppableId,
-      source: source.droppableId,
-      sourceArray: startTicketIds,
-      destinationArray: finishTicketIds,
-      timestamp: timestampMap[destination.droppableId]
+      columnProgress: "assignedAt",
+      columnDone: "solvedAt",
+      columnCancelled: "cancelledAt",
+    };
+
+    axios
+      .put(`/api/tickets/${draggableId}`, {
+        status: statusMap[destination.droppableId],
+        destination: destination.droppableId,
+        source: source.droppableId,
+        sourceArray: startTicketIds,
+        destinationArray: finishTicketIds,
+        timestamp: timestampMap[destination.droppableId],
       })
-      .then(response => {
+      .then((response) => {
         console.log(response);
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
-    };
+  };
 
   render() {
     return (
       <MainContainer>
-        {/* <Navbar /> */}
         <DragDropContext
           // onDragStart={this.onDragStart}
           // onDragUpdate={this.onDragUpdate}
           onDragEnd={this.onDragEnd}
         >
-          <Container>
-            {this.state.columns && this.state.order.map((columnId) => {
-              const column = this.state.columns[columnId];
-              // map through colum order to render columns
-              const tickets = column.ticketIds.map((ticketId) => {
-                return this.state.tickets.find((ticket) => ticket._id === ticketId)
-              })
-              return (
-                <Column key={column.id} column={column} tickets={tickets} />
-              );
-            })
-            }
-          </Container>
+          <WrapContainer>
+            <Container>
+              {this.state.columns &&
+                this.state.order.map((columnId) => {
+                  const column = this.state.columns[columnId];
+                  // map through colum order to render columns
+                  const tickets = column.ticketIds.map((ticketId) => {
+                    return this.state.tickets.find(
+                      (ticket) => ticket._id === ticketId
+                    );
+                  });
+                  return (
+                    <Column key={column.id} column={column} tickets={tickets} />
+                  );
+                })}
+            </Container>
+          </WrapContainer>
         </DragDropContext>
       </MainContainer>
     );

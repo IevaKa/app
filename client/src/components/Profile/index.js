@@ -59,8 +59,14 @@ const FormContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: space-around;
   height: 100%;
+`;
+
+const FormWrap = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 const Close = styled.div`
@@ -124,7 +130,6 @@ export default class index extends Component {
     });
   };
 
-
   handleSubmit = (event) => {
     event.preventDefault();
     const id = this.props.match.params.id;
@@ -157,7 +162,6 @@ export default class index extends Component {
   };
 
   render() {
-
     if (!this.state.user) return <></>;
     return (
       <MainContainer>
@@ -166,29 +170,33 @@ export default class index extends Component {
             <X src={x} alt="Close" />
           </Close>
           <FormContainer>
-            {this.state.user.image ? (
-              <UserPic src={this.state.user.image} alt="User Pic" />
-            ) : (
-              <UserPic src={profile} alt="User Pic" />
-            )}
-            {this.state.editForm ? (
-              <ProfileEdit
-                {...this.state}
-                handleChange={this.handleChange}
-                handleSubmit={this.handleSubmit}
-              />
-            ) : (
-              <Name>
-                {this.state.user.name}
-                <Icon src={pencil} alt="Edit" onClick={this.toggleEditForm} />
-              </Name>
-            )}
-            @{this.state.user.username}
-            {this.state.user.location}
-            {this.state.user.bio}
-            <Link to="/" onClick={this.handleLogout}>
-              <Button>Logout</Button>
-            </Link>
+            <FormWrap>
+              {this.state.user.image ? (
+                <UserPic src={this.state.user.image} alt="User Pic" />
+              ) : (
+                <UserPic src={profile} alt="User Pic" />
+              )}
+              {this.state.editForm ? (
+                <ProfileEdit
+                  {...this.state}
+                  handleChange={this.handleChange}
+                  handleSubmit={this.handleSubmit}
+                />
+              ) : (
+                <Name>
+                  {this.state.user.name}
+                  <Icon src={pencil} alt="Edit" onClick={this.toggleEditForm} />
+                </Name>
+              )}
+              @{this.state.user.username}
+              {this.state.user.location}
+              {this.state.user.bio}
+            </FormWrap>
+            <FormWrap>
+              <Link to="/" onClick={this.handleLogout}>
+                <Button>Logout</Button>
+              </Link>
+            </FormWrap>
           </FormContainer>
         </Container>
       </MainContainer>

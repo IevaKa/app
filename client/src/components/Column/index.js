@@ -1,31 +1,47 @@
 import React from "react";
 import styled from "styled-components";
-import {
-  ironYellow
-} from "../../styles/global.js";
+import { ironYellow } from "../../styles/global.js";
 
 import { Droppable } from "react-beautiful-dnd";
 
 import TicketPreview from "../TicketPreview";
 
+import { lightGray, ironPurple } from "../../styles/global.js";
+
 const Container = styled.div`
-  margin: 8px;
-  border: 1px solid black;
-  border-radius: 2px;
-  width: 250px;
+  margin: 10px;
+  ${"" /* border: 1px solid ${lightGray}; */}
+  border-radius: 10px;
+  width: 200px;
   display: flex;
   flex-direction: column;
+  align-items: center;
 `;
 const Title = styled.h3`
-  padding: 8px;
+  padding: 12px;
+  text-transform: uppercase;
+  font-size: 14px;
+  background-color: ${ironPurple};
+  color: white;
+  width: 200px;
+  border-radius: 5px;
 `;
-const TicketList = styled.div`
-  min-height: 300px;
-  padding: 16px;
-  ${'' /* background-color: red; */}
 
-  background-color: ${props => (props.isDraggingOver ? ironYellow : 'white')};
+const TicketList = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 200px;
+  border-radius: 10px;
+  padding: 8px;
+  width: 200px;
+
+  background-color: ${(props) =>
+    props.isDraggingOver
+      ? "rgba(156, 160, 163, 0.2)"
+      : "rgba(156, 160, 163, 0.0)"};
   flex-grow: 1;
+  transition: all 300ms ease-in-out;
 `;
 
 export default class Column extends React.Component {
@@ -57,18 +73,18 @@ export default class Column extends React.Component {
             )}
           </Droppable>
         ) : (
-            <Droppable droppableId={this.props.column.id}>
-              {(provided, snapshot) => (
-                <TicketList
-                  ref={provided.innerRef}
-                  {...provided.droppableProps}
-                  isDraggingOver={snapshot.isDraggingOver}
-                >
-                  {provided.placeholder}
-                </TicketList>
-              )}
-            </Droppable>
-          )}
+          <Droppable droppableId={this.props.column.id}>
+            {(provided, snapshot) => (
+              <TicketList
+                ref={provided.innerRef}
+                {...provided.droppableProps}
+                isDraggingOver={snapshot.isDraggingOver}
+              >
+                {provided.placeholder}
+              </TicketList>
+            )}
+          </Droppable>
+        )}
       </Container>
     );
   }
