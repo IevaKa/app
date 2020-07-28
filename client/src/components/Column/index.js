@@ -12,7 +12,7 @@ const Container = styled.div`
   margin: 10px;
   ${"" /* border: 1px solid ${lightGray}; */}
   border-radius: 10px;
-  width: 200px;
+  width: 220px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -23,7 +23,7 @@ const Title = styled.h3`
   font-size: 14px;
   background-color: ${ironPurple};
   color: white;
-  width: 200px;
+  width: 220px;
   border-radius: 5px;
 `;
 
@@ -34,7 +34,7 @@ const TicketList = styled.div`
   min-height: 200px;
   border-radius: 10px;
   padding: 8px;
-  width: 200px;
+  width: 220px;
 
   background-color: ${(props) =>
     props.isDraggingOver

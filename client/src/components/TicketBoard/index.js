@@ -26,7 +26,7 @@ const Container = styled.div`
   display: flex;
   align-items: flex-start;
   justify-content: center;
-  padding: 20px;
+  padding: 10px;
   border: 1px dashed ${lightGray};
   border-radius: 20px;
   ${'' /* background-color: rgba(156, 160, 163, 0.2) */}

@@ -11,7 +11,7 @@ import profile from "../../files/b-user.svg";
 const Container = styled.div`
   font-size: 14px;
   border: 1px solid ${lightGray};
-  width: 190px;
+  width: 210px;
   padding: 10px;
   margin-bottom: 8px;
   border-radius: 5px;
