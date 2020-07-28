@@ -16,7 +16,7 @@ import ProfileEdit from "./components/ProfileEdit";
 import { Typography } from "@material-ui/core";
 
 import socketIOClient from "socket.io-client";
-let socket = socketIOClient('http://localhost:4000');
+let socket = socketIOClient('http://localhost:3000');
 
 
 class App extends React.Component {
@@ -30,24 +30,24 @@ class App extends React.Component {
     });
   };
 
-  componentDidMount() {
-    socket = socketIOClient();
-    socket.on('connected-users', (data) => {
-      this.setState(data.connectedUsers);
-    })
-  }
+  // componentDidMount() {
+  //   socket = socketIOClient();
+  //   socket.on('connected-users', (data) => {
+  //     this.setState(data.connectedUsers);
+  //   })
+  // }
 
   // Socket Io
-  // logedin = (user) => {
-  //   console.log(user)
-  //   socket.emit("logedin", {
-  //     user: user,
-  //   });
-  // };
+  logedin = (username) => {
+    socket.emit("logedin", {
+      username: username
+    });
+    return (username)
+
+  };
 
 
   render() {
-    console.log(this.state.connectedUsers)
     return (
       <>
         <GlobalStyles />
@@ -61,7 +61,7 @@ class App extends React.Component {
           <Route
             exact
             path="/"
-            render={(props) => <Home setUser={this.setUser} {...props} />}
+            render={(props) => <Home setUser={this.setUser} logedin={this.logedin} {...props} />}
           />
           {/* <Route exact path="/" component={Home} /> */}
           <Route exact path="/ticket/board" component={TicketBoard} />
@@ -85,12 +85,12 @@ class App extends React.Component {
           <Route
             exact
             path="/signup"
-            render={(props) => <Signup setUser={this.setUser} {...props} logedin={this.logedin} />}
+            render={(props) => <Signup setUser={this.setUser} logedin={this.logedin} {...props}  />}
           />
           <Route
             exact
             path="/login"
-            render={(props) => <Login setUser={this.setUser} {...props} logedin={this.logedin} />}
+            render={(props) => <Login setUser={this.setUser} logedin={this.logedin} {...props}  />}
           />
         </RouterSwitch>
       </>
