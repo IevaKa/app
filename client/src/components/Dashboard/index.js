@@ -13,8 +13,7 @@ import Profile from "../Profile";
 import TicketDetail from "../TicketDetail";
 import TicketEdit from "../TicketEdit";
 
-import {
-} from "../../styles/global.js";
+import {} from "../../styles/global.js";
 
 const loadIn = keyframes`
  0% { opacity: 0; transform: translate(-50%, 0);}
@@ -29,16 +28,18 @@ const MainContainer = styled.div`
 `;
 
 const WrapperTicketBoard = styled.div`
-  ${'' /* animation: ${loadIn} 1s ease-in-out; */}
+  ${"" /* animation: ${loadIn} 1s ease-in-out; */}
 `;
 
 const WrapperNavbar = styled.div`
-z-index: 3;
+  z-index: 3;
   position: absolute;
   animation: ${loadIn} 1s ease-in-out;
 `;
 
 const WrapperProfile = styled.div`
+  z-index: 2;
+
   position: absolute;
   opacity: ${(props) => (props.profile ? 1 : 0)};
   pointer-events: ${(props) => (props.profile ? "block" : "none")};
@@ -46,6 +47,8 @@ const WrapperProfile = styled.div`
 `;
 
 const WrapperTicketAdd = styled.div`
+  z-index: 2;
+
   position: absolute;
   opacity: ${(props) => (props.ticketadd ? 1 : 0)};
   pointer-events: ${(props) => (props.ticketadd ? "block" : "none")};
@@ -56,13 +59,12 @@ const Dashboard = (props) => {
   let [allUsers, setAllUsers] = useState([]);
 
   useEffect(() => {
-    axios.get('/api/user').then((users) => {
+    axios.get("/api/user").then((users) => {
       setAllUsers(users.data);
     });
   }, []);
 
   // console.log(allUsers)
-
 
   // let [ticketboard, showTicketboard] = useState(false);
   let [ticketadd, showTicketadd] = useState(false);
@@ -91,7 +93,7 @@ const Dashboard = (props) => {
       </WrapperTicketAdd>
 
       <WrapperProfile profile={profile}>
-        <Profile showProfile={showProfile} setUser={props.setUser} {...props}/>
+        <Profile showProfile={showProfile} setUser={props.setUser} {...props} />
       </WrapperProfile>
 
       <WrapperTicketBoard>

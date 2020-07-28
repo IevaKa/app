@@ -20,7 +20,7 @@ const Container = styled.div`
   border: 1px solid ${lightGray};
   width: 210px;
   padding: 12px 10px 18px 10px;
-  margin-bottom: 8px;
+  margin-bottom: 15px;
   border-radius: 5px;
   box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.05);
   color: ${(props) => (props.isDragging ? "white" : "black")};
@@ -68,7 +68,7 @@ export default class TicketPreview extends React.Component {
   render() {
     const timestamp = this.props.ticket.createdAt;
 
-    console.log(this.props.ticket);
+    // console.log(this.props.ticket);
     // console.log(this.props.allUsers);
 
     let checkUser = (user) => user._id === this.props.ticket.createdBy;
