@@ -87,6 +87,20 @@ router.put('/:id', (req, res, next) => {
       { $push: { "columnOpen": id  } }
       ).then(col => {
         console.log('remove assign tickets for other teachers ', col)
+      }) 
+      
+      Ticket.findByIdAndUpdate(id, { $unset : { assignee : 1, assignedAt: 1} }, { new: true })
+      .then(ticket => {
+        console.log('ticket unassigned', ticket)
+        // find the student's document
+        Column.findOneAndUpdate(
+          { user: ticket.createdBy}, 
+          { $pull: { [source]: id  }, $push: { [destination]: id  } }
+          ).then(col => {
+            res.json(ticket);
+          }).catch(err => {
+            res.json(err);
+          });
       })
   }
 
@@ -109,7 +123,7 @@ router.put('/:id', (req, res, next) => {
           });
         })
 
-    } else {
+    } else if(user.role === "Teacher" && status !== 'Opened') {
         Ticket.findByIdAndUpdate(id, { status: status, assignee: req.user.id, [timestamp]: Date.now() }, { new: true })
           .then(ticket => {
             console.log('this is the assigned ticket ', ticket)
