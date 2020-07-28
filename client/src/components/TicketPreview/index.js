@@ -6,10 +6,12 @@ import { ironBlue, lightBlue, lightGray } from "../../styles/global.js";
 
 import Moment from "react-moment";
 
+import profile from "../../files/b-user.svg";
+
 const Container = styled.div`
   font-size: 14px;
   border: 1px solid ${lightGray};
-  width: 180px;
+  width: 190px;
   padding: 10px;
   margin-bottom: 8px;
   border-radius: 5px;
@@ -36,11 +38,25 @@ const Timestamp = styled.div`
   margin: 8px 0 0 5px;
 `;
 
+const TicketOwner = styled.img`
+  border-radius: 100%;
+  width: 20px;
+  height: 20px;
+
+  display: inline-block;
+`;
+
 export default class TicketPreview extends React.Component {
   render() {
-    const dateToFormat = this.props.ticket.createdAt;
+    const timestamp = this.props.ticket.createdAt;
 
-    console.log(this.props.ticket);
+    // console.log(this.props.ticket.createdBy);
+    // console.log(this.props.allUsers);
+
+    let checkUser = (user) => user._id === this.props.ticket.createdBy;
+    const ticketOwner = this.props.allUsers.find(checkUser);
+
+    // console.log("OWNER IS" + ticketOwner);
     return (
       <Draggable draggableId={this.props.ticket._id} index={this.props.index}>
         {(provided, snapshot) => (
@@ -57,8 +73,14 @@ export default class TicketPreview extends React.Component {
               <br />
               {this.props.ticket.title}
               <br />
+              {ticketOwner &&
+                (ticketOwner.image ? (
+                  <TicketOwner src={ticketOwner.image} />
+                ) : (
+                  <TicketOwner src={profile} />
+                ))}
               <Timestamp isDragging={snapshot.isDragging}>
-                Created <Moment fromNow>{dateToFormat}</Moment>
+                Created <Moment fromNow>{timestamp}</Moment>
               </Timestamp>
             </Container>
           </Link>

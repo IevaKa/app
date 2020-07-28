@@ -66,6 +66,7 @@ export default class Column extends React.Component {
                     key={ticket._id}
                     ticket={ticket}
                     index={index}
+                    allUsers={this.props.allUsers} 
                   />
                 ))}
                 {provided.placeholder}

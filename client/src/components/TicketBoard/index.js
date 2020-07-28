@@ -115,7 +115,7 @@ class TicketBoard extends React.Component {
       this.state.role === "Student" &&
       destination.droppableId === "columnProgress"
     ) {
-      return;
+      return alert('Only TAs can move Tickets to Progress');
     }
 
     // moving inside the same column
@@ -236,7 +236,7 @@ class TicketBoard extends React.Component {
                     );
                   });
                   return (
-                    <Column key={column.id} column={column} tickets={tickets} />
+                    <Column key={column.id} column={column} tickets={tickets} allUsers={this.props.allUsers} />
                   );
                 })}
             </Container>

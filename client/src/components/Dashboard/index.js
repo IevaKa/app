@@ -53,6 +53,17 @@ const WrapperTicketAdd = styled.div`
 `;
 
 const Dashboard = (props) => {
+  let [allUsers, setAllUsers] = useState([]);
+
+  useEffect(() => {
+    axios.get('/api/user').then((users) => {
+      setAllUsers(users.data);
+    });
+  }, []);
+
+  // console.log(allUsers)
+
+
   // let [ticketboard, showTicketboard] = useState(false);
   let [ticketadd, showTicketadd] = useState(false);
   let [profile, showProfile] = useState(false);
@@ -84,7 +95,7 @@ const Dashboard = (props) => {
       </WrapperProfile>
 
       <WrapperTicketBoard>
-        <TicketBoard />
+        <TicketBoard allUsers={allUsers} />
       </WrapperTicketBoard>
     </MainContainer>
   );
