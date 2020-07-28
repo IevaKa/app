@@ -9,6 +9,7 @@ router.get('/:id', (req, res) => {
 
   Ticket.findById(id)
     .populate('createdBy')
+    .populate('assignee')
     .then(ticket => {
       res.status(200).json(ticket);
     })
