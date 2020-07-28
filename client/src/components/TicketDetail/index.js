@@ -1,17 +1,24 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
+// import { w3cwebsocket as W3CWebSocket } from 'websocket';
+// import { Card, Avatar, Input, Typography } from 'antd';
+// const client = new W3CWebSocket('ws://localhost:5555');
+// const { Text } = Typography;
+// const { Search } = Input;
+// const { Meta } = Card;
+
 export default class TicketDetail extends Component {
 
   state = {
-    ticket: null,
+    ticket: null
   }
 
   getTicket = () => {
     axios
       .get(`/api/tickets/${this.props.match.params.id}`)
       .then((response) => {
-        // console.log(response)
+        console.log('the ticket ingo got: ', response.data)
         this.setState({
           ticket: response.data,
         });
@@ -22,8 +29,7 @@ export default class TicketDetail extends Component {
   }
 
   assignTeacher = () => {
-    axios.put(`/api/tickets/${this.props.match.params.id}`, {
-      status: 'In progress'
+    axios.put(`/api/tickets/assignment/${this.props.match.params.id}`, {
     })
       .then(response => {
         // console.log(response);
@@ -31,6 +37,8 @@ export default class TicketDetail extends Component {
       .catch(err => {
         console.log(err);
       });
+    this.props.history.push("/dashboard");
+
   }
 
   componentDidMount = () => {
@@ -39,18 +47,18 @@ export default class TicketDetail extends Component {
 
 
   render() {
-    // console.log(this.props.user.name)
     if (!this.state.ticket) return (<></>)
-    // console.log(this.state.ticket.createdBy.name)
-    console.log("Messages", this.state.messages);
     return (
       <div>
+
         <h3>Created By: {this.state.ticket.createdBy.name}</h3>
-        <h3>{this.state.ticket.lab}</h3>
-        <h3>{this.state.ticket.title}</h3>
-        <h3>{this.state.ticket.description}</h3>
-        <h3>{this.state.ticket.status}</h3>
-        <button onClick={this.assignTeacher}>This is a button</button>
+        <h3>Lab: {this.state.ticket.lab}</h3>
+        <h3>Title: {this.state.ticket.title}</h3>
+        <h3>Problem: {this.state.ticket.description}</h3>
+        <h3>Status: {this.state.ticket.status}</h3>
+        <h3>Assignee: {this.state.ticket.assignee && this.state.ticket.assignee.name}</h3>
+        <button onClick={this.assignTeacher}>Take this ticket</button>
+
       </div>
     )
   }
