@@ -104,7 +104,6 @@ router.put('/:id', (req, res, next) => {
       })
   }
 
-
   // finding the user first, since they will have different actions
   // they can take
   User.findById(req.user.id).then(user => {
@@ -140,6 +139,29 @@ router.put('/:id', (req, res, next) => {
     }
   })   
 });
+
+  router.put('/assignment/:id', (req, res, next) => {
+    const id = req.params.id;
+    // update the ticket document
+    Ticket.findByIdAndUpdate(id, { status: 'In progress', assignee: req.user.id, assignedAt: Date.now() })
+    .then(ticket => {
+      if(!ticket.assignee) {
+      Column.updateMany({ user: { $in: [req.user.id, ticket.createdBy ] } }, { $pull: { columnOpen: id  }, $push: { columnProgress: id  } })
+      .then(() => {
+      Column.updateMany(
+        { role: 'Teacher', user: { "$ne": req.user.id } },
+        { $pull: { "columnOpen": id  } }
+        ).then(col => {
+          console.log('remove assign tickets for other teachers ', col)
+        })
+      })
+      // updating the student and TAs states when the ticket had assignee before
+      } else {
+        Column.findOneAndUpdate({ user: ticket.assignee }, { $pull: { columnProgress: id  } });
+        Column.findOneAndUpdate({ user: req.user.id }, { $push: { columnProgress: id  } });
+      }
+    })
+  })
 
 
 // router.delete('/:id', (req, res, next) => {

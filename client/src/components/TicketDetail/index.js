@@ -33,8 +33,7 @@ export default class TicketDetail extends Component {
   }
 
   assignTeacher = () => {
-    axios.put(`/api/tickets/${this.props.match.params.id}`, {
-      status: 'In progress'
+    axios.put(`/api/tickets/assignment/${this.props.match.params.id}`, {
     })
       .then(response => {
         // console.log(response);
@@ -42,6 +41,8 @@ export default class TicketDetail extends Component {
       .catch(err => {
         console.log(err);
       });
+      this.props.history.push("/dashboard");
+
   }
 
 
