@@ -103,11 +103,11 @@ function Home(props) {
     <Container>
         {login && <Login setUser={props.setUser} {...props} />}
         {login && <Close onClick={() => showLogin(false)}> <X src={x} alt="Close" /></Close>}
-        {signup && <Signup setUser={props.setUser} {...props} />}
+        {signup && <Signup setUser={props.setUser} logedin={props.logedin} {...props} />}
         {signup && <Close onClick={() => showSignup(false)}> <X src={x} alt="Close" /></Close>}
       <ContainerButtons>
         <Title>
-          Welcome <br />
+          Welcome <br /> 
           to IronTickets.{" "}
         </Title>
         <Button primary onClick={() => showSignup(true)}>

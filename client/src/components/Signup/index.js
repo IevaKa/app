@@ -134,6 +134,7 @@ export default class Signup extends Component {
     role: "Student"
   };
 
+
   handleChange = (event) => {
     const { name, value } = event.target;
 
@@ -142,6 +143,10 @@ export default class Signup extends Component {
     });
   };
 
+  afterAuth = (data) => {
+    this.props.setUser(data);
+    this.props.logedin(data.username);
+  }
   handleSubmit = (event) => {
     event.preventDefault();
     const { username, password, name, role } = this.state;
@@ -156,14 +161,16 @@ export default class Signup extends Component {
           role: "Student",
         });
       } else {
-        this.props.setUser(data);
+        this.afterAuth(data)
+        // this.props.setUser(data);
         this.props.history.push("/dashboard");
       }
-      this.afterAuth(data)
+      
     });
   };
 
   render() {
+    console.log('SIGNUP props', this.props)
     return (
       <Overlay>
         <Container>
