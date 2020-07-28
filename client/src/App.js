@@ -38,12 +38,12 @@ class App extends React.Component {
   }
 
   // Socket Io
-  // logedin = (user) => {
-  //   console.log(user)
-  //   socket.emit("logedin", {
-  //     user: user,
-  //   });
-  // };
+  logedin = (user) => {
+    console.log(user)
+    socket.emit("logedin", {
+      user: user,
+    });
+  };
 
 
   render() {
