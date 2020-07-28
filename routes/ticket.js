@@ -145,6 +145,7 @@ router.put('/:id', (req, res, next) => {
     // update the ticket document
     Ticket.findByIdAndUpdate(id, { status: 'In progress', assignee: req.user.id, assignedAt: Date.now() })
     .then(ticket => {
+      console.log('this is the ticket: ', ticket)
       if(!ticket.assignee) {
       Column.updateMany({ user: { $in: [req.user.id, ticket.createdBy ] } }, { $pull: { columnOpen: id  }, $push: { columnProgress: id  } })
       .then(() => {
@@ -157,8 +158,12 @@ router.put('/:id', (req, res, next) => {
       })
       // updating the student and TAs states when the ticket had assignee before
       } else {
-        Column.findOneAndUpdate({ user: ticket.assignee }, { $pull: { columnProgress: id  } });
-        Column.findOneAndUpdate({ user: req.user.id }, { $push: { columnProgress: id  } });
+        Column.findOneAndUpdate({ user: ticket.assignee }, { $pull: { columnProgress: id  } }, { new: true}).then(col => {
+          console.log('updated old teacher', col)
+        });
+        Column.findOneAndUpdate({ user: req.user.id }, { $push: { columnProgress: id  } }, { new: true}).then( col => {
+          console.log('new teacher updated', col)
+        });
       }
     })
   })
