@@ -135,6 +135,7 @@ const Dashboard = (props) => {
 
   useEffect(() => {
     getAllTicketsFromDb();
+    props.socket.on('addTicket', () =>  getAllTicketsFromDb())
   }, []);
 
   // useEffect(() => {
@@ -250,7 +251,7 @@ const Dashboard = (props) => {
       });
   };
 
-  const handleTicketAdd = () => {
+  const handleTicketAdd = (socket) => {
     showTicketadd(true);
     showProfile(false);
   };
@@ -271,6 +272,7 @@ const Dashboard = (props) => {
         console.log(err);
       });
   };
+  // console.log('socket from dash', props.socket.id)
 
   return (
     <MainContainer>
@@ -278,6 +280,7 @@ const Dashboard = (props) => {
         <Navbar
           handleTicketAdd={handleTicketAdd}
           handleProfile={handleProfile}
+          socket={props.socket}
         />
       </WrapperNavbar>
 
@@ -289,6 +292,7 @@ const Dashboard = (props) => {
         <TicketAdd
           showTicketadd={showTicketadd}
           getAllfromDb={getAllTicketsFromDb}
+          socket={props.socket}
         />
       </WrapperTicketAdd>
 
@@ -308,6 +312,8 @@ const Dashboard = (props) => {
           onDragEnd={onDragEnd}
           getTicketDetails={getTicketDetails}
           showTicketDetail={showTicketDetail}
+          socket={props.socket}
+
         />
       </WrapperTicketBoard>
     </MainContainer>
