@@ -19,8 +19,10 @@ import profile from "../../files/b-user.svg";
 
 const Container = styled.div`
   font-size: 14px;
-  border: 1px solid ${lightGray};
-  width: 210px;
+  border: ${(props) =>
+    props.hover ? `1px solid ${ironBlue}` : `1px solid ${lightGray}`};
+  width: ${(props) =>
+    props.hover ? '220px' : '210px'};
   padding: 12px 10px 18px 10px;
   margin-bottom: 15px;
   border-radius: 5px;
@@ -67,7 +69,23 @@ const TAstatus = styled.div`
 `;
 
 export default class TicketPreview extends React.Component {
+  state = {
+    hover: false,
+  };
+
   render() {
+    const hovering = (event) => {
+      this.setState({
+        hover: true,
+      });
+    };
+
+    const notHovering = (event) => {
+      this.setState({
+        hover: false,
+      });
+    };
+
     const timestamp = this.props.ticket.createdAt;
 
     // console.log(this.props.ticket);
@@ -98,6 +116,10 @@ export default class TicketPreview extends React.Component {
             ref={provided.innerRef}
             isDragging={snapshot.isDragging}
             onClick={() => handleClick(this.props.ticket._id)}
+            onMouseOver={hovering}
+            onMouseOut={notHovering}
+
+            hover={this.state.hover}
           >
             <LabTag isDragging={snapshot.isDragging}>
               {this.props.ticket.lab}
