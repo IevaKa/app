@@ -10,8 +10,6 @@ import TicketDetail from "../TicketDetail";
 import TicketEdit from "../TicketEdit";
 
 import { } from "../../styles/global.js";
-// Socket IO
-
 
 const loadIn = keyframes`
  0% { opacity: 0; transform: translate(-50%, 0);}
@@ -63,6 +61,7 @@ const Dashboard = (props) => {
   let [allUsers, setAllUsers] = useState([]);
 
   let [columns, setColumns] = useState(null);
+  // let [result, setResult] = useState(null);
   let [tickets, setTickets] = useState([]);
   let [order, setOrder] = useState([]);
   let [role, setRole] = useState("Student");
@@ -136,6 +135,7 @@ const Dashboard = (props) => {
   useEffect(() => {
     getAllTicketsFromDb();
     props.socket.on('addTicket', () =>  getAllTicketsFromDb())
+    props.socket.on('onDrag', () =>  getAllTicketsFromDb())
   }, []);
 
   // useEffect(() => {
@@ -195,6 +195,7 @@ const Dashboard = (props) => {
           console.log(err);
         });
 
+        // props.socket.on('onDrag', () =>  getAllTicketsFromDb())
       return;
     }
 
@@ -249,6 +250,12 @@ const Dashboard = (props) => {
       .catch((err) => {
         console.log(err);
       });
+
+      // console.log('dash socket here', props.socket)
+      props.socket.emit('onDrag', {
+        message: 'IEVA --> onDrag'
+      })
+      // props.socket.on('onDrag', () =>  getAllTicketsFromDb())
   };
 
   const handleTicketAdd = (socket) => {
@@ -272,8 +279,12 @@ const Dashboard = (props) => {
         console.log(err);
       });
   };
-  // console.log('socket from dash', props.socket.id)
 
+  // const getSocket = socket => {
+  //       socket.emit('onDrag', {
+  //     message: 'this socket works --> onDrag'
+  //   })
+  // }
   return (
     <MainContainer>
       <WrapperNavbar>
@@ -313,7 +324,7 @@ const Dashboard = (props) => {
           getTicketDetails={getTicketDetails}
           showTicketDetail={showTicketDetail}
           socket={props.socket}
-
+          // getSocket={getSocket}
         />
       </WrapperTicketBoard>
     </MainContainer>

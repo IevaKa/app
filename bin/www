@@ -82,6 +82,12 @@ io.on("connection", function (socket) {
   socket.on('addTicket', data => {
     io.sockets.emit('addTicket', data)
   })
+
+  socket.on('onDrag', data => {
+    // io.sockets.emit('addTicket', data)
+    io.sockets.emit('onDrag', data)
+    // console.log('on drag ', data)
+  })
   //});
 
 
