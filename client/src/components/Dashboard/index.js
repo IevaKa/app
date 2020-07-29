@@ -136,6 +136,7 @@ const Dashboard = (props) => {
     getAllTicketsFromDb();
     props.socket.on('addTicket', () =>  getAllTicketsFromDb())
     props.socket.on('onDrag', () =>  getAllTicketsFromDb())
+    // props.socket.on('onDrag', () =>  console.log('on drag DRAG DRAG DRAG'))
   }, []);
 
   // useEffect(() => {
