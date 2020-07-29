@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import axios from "axios";
 import styled, { keyframes } from "styled-components";
 import Navbar from "../Navbar";
@@ -7,7 +6,7 @@ import TicketBoard from "../TicketBoard";
 import TicketAdd from "../TicketAdd";
 import Profile from "../Profile";
 import TicketDetail from "../TicketDetail";
-import TicketEdit from "../TicketEdit";
+// import TicketEdit from "../TicketEdit";
 
 import { } from "../../styles/global.js";
 // Socket IO
@@ -68,6 +67,7 @@ const Dashboard = (props) => {
   let [role, setRole] = useState("Student");
 
   let [ticketDetail, setTicketDetail] = useState(false);
+
   let [ticketadd, showTicketadd] = useState(false);
   let [profile, showProfile] = useState(false);
   let [ticketdeets, showTicketDetail] = useState(false);
@@ -174,7 +174,7 @@ const Dashboard = (props) => {
         ticketIds: newTicketIds,
       };
 
-      console.log(newColumn);
+      // console.log(newColumn);
       const newState = {
         ...columns,
         [newColumn.id]: newColumn,
@@ -253,24 +253,27 @@ const Dashboard = (props) => {
   const handleTicketAdd = () => {
     showTicketadd(true);
     showProfile(false);
+    showTicketDetail(false)
   };
 
   const handleProfile = () => {
     showTicketadd(false);
     showProfile(true);
+    showTicketDetail(false)
   };
 
   const getTicketDetails = (id) => {
     axios
       .get(`/api/tickets/${id}`)
       .then((response) => {
-        console.log("the ticket ingo got: ", response.data);
         setTicketDetail(response.data);
       })
       .catch((err) => {
         console.log(err);
       });
   };
+
+  // console.log(props.user)
 
   return (
     <MainContainer>
@@ -282,7 +285,7 @@ const Dashboard = (props) => {
       </WrapperNavbar>
 
       <WrapperTicketDetail ticketdeets={ticketdeets}>
-        <TicketDetail ticketDetail={ticketDetail} showTicketDetail={showTicketDetail}/>
+        <TicketDetail ticketDetail={ticketDetail} showTicketDetail={showTicketDetail} user={props.user} {...props}/>
       </WrapperTicketDetail>
 
       <WrapperTicketAdd ticketadd={ticketadd}>
@@ -293,7 +296,7 @@ const Dashboard = (props) => {
       </WrapperTicketAdd>
 
       <WrapperProfile profile={profile}>
-        <Profile showProfile={showProfile} setUser={props.setUser} {...props} />
+        <Profile showProfile={showProfile} setUser={props.setUser} user={props.user} {...props} />
       </WrapperProfile>
 
       <WrapperTicketBoard>

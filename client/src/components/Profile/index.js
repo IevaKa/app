@@ -2,18 +2,11 @@ import React, { Component } from "react";
 import ProfileEdit from "../ProfileEdit";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import Navbar from "../Navbar/index";
 import styled, { keyframes } from "styled-components";
 
 import { logout } from "../../services/auth.js";
 
 import {
-  IronButton,
-  ironBlue,
-  ironRed,
-  ironPurple,
-  lightGray,
-  StyledLink,
   Button,
 } from "../../styles/global.js";
 
@@ -103,22 +96,22 @@ const Name = styled.h1`
 
 export default class index extends Component {
   state = {
-    user: "",
+    // user: "",
     editForm: false,
   };
 
-  getUser = () => {
-    axios.get("/api/auth/loggedin").then((response) => {
-      const user = response.data;
-      this.setState({
-        user: user,
-      });
-    });
-  };
+  // getUser = () => {
+  //   axios.get("/api/auth/loggedin").then((response) => {
+  //     const user = response.data;
+  //     this.setState({
+  //       user: user,
+  //     });
+  //   });
+  // };
 
-  componentDidMount = () => {
-    this.getUser();
-  };
+  // componentDidMount = () => {
+  //   this.getUser();
+  // };
 
   // Editing
 
@@ -135,14 +128,14 @@ export default class index extends Component {
     const id = this.props.match.params.id;
     axios
       .put(`/api/auth/loggedin/${id}`, {
-        user: this.state.user,
+        user: this.props.user,
       })
       .then((response) => {
-        console.log(response.data.name);
+        // console.log(response.data.name);
         this.setState({
-          user: response.data,
           editForm: false,
-        });
+        })
+        this.props.setUser(response.data)
       })
       .catch((err) => {
         console.log(err);
@@ -162,7 +155,9 @@ export default class index extends Component {
   };
 
   render() {
-    if (!this.state.user) return <></>;
+
+    // console.log(this.props.user)
+    if (!this.props.user) return <></>;
     return (
       <MainContainer>
         <Container>
@@ -171,8 +166,8 @@ export default class index extends Component {
           </Close>
           <FormContainer>
             <FormWrap>
-              {this.state.user.image ? (
-                <UserPic src={this.state.user.image} alt="User Pic" />
+              {this.props.user.image ? (
+                <UserPic src={this.props.user.image} alt="User Pic" />
               ) : (
                 <UserPic src={profile} alt="User Pic" />
               )}
@@ -184,13 +179,13 @@ export default class index extends Component {
                 />
               ) : (
                 <Name>
-                  {this.state.user.name}
+                  {this.props.user.name}
                   <Icon src={pencil} alt="Edit" onClick={this.toggleEditForm} />
                 </Name>
               )}
-              @{this.state.user.username}
-              {this.state.user.location}
-              {this.state.user.bio}
+              @{this.props.user.username}
+              {this.props.user.location}
+              {this.props.user.bio}
             </FormWrap>
             <FormWrap>
               <Link to="/" onClick={this.handleLogout}>

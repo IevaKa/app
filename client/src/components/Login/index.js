@@ -10,7 +10,6 @@ import {
   IronButton,
   ironBlue,
   ironRed,
-  ironPurple,
   lightGray,
   StyledLink,
 } from "../../styles/global.js";

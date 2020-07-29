@@ -1,19 +1,21 @@
 import React, { Component } from "react";
 import axios from "axios";
-import styled, { keyframes } from "styled-components";
+import styled from "styled-components";
 
 import {
   IronButton,
   ironBlue,
-  ironPurple,
   ironRed,
+  ironYellow,
+  lightYellow,
+  lightRed,
   lightBlue,
   lightGray,
   evenLighterGray,
 } from "../../styles/global.js";
 
-import { w3cwebsocket as W3CWebSocket } from "websocket";
-import { Card, Avatar, Input, Typography } from "antd";
+// import { w3cwebsocket as W3CWebSocket } from "websocket";
+// import { Card, Avatar, Input, Typography } from "antd";
 
 import x from "../../files/x.svg";
 
@@ -22,17 +24,17 @@ import x from "../../files/x.svg";
 // const { Search } = Input;
 // const { Meta } = Card;
 
-const fadeIn = keyframes`
- 0% { opacity: 0 }
- 70% { opacity: 0   }
- 100% { opacity: 1 }
-`;
+// const fadeIn = keyframes`
+//  0% { opacity: 0 }
+//  70% { opacity: 0   }
+//  100% { opacity: 1 }
+// `;
 
-const slideUp = keyframes`
- 0% { transform: translateY(1000px); opacity: 0; }
- 50% { opacity: 0.2; }
- 100% { transform: translateY(0); opacity: 1; }
-`;
+// const slideUp = keyframes`
+//  0% { transform: translateY(1000px); opacity: 0; }
+//  50% { opacity: 0.2; }
+//  100% { transform: translateY(0); opacity: 1; }
+// `;
 
 const MainContainer = styled.div`
   display: flex;
@@ -42,7 +44,6 @@ const MainContainer = styled.div`
   width: 100vw;
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.8);
-  animation: ${fadeIn} 0.4s ease-in-out;
 `;
 
 const Container = styled.div`
@@ -51,13 +52,11 @@ const Container = styled.div`
   border-radius: 10px;
   background-color: white;
   width: 350px;
-  height: 450px;
   box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.1);
-  animation: ${slideUp} 2s ease-in-out;
 `;
 
 const FormContainer = styled.div`
-  padding: 40px 30px;
+  padding: 60px 30px 30px;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
@@ -84,6 +83,107 @@ const Paragraph = styled.p`
   display: block;
 `;
 
+const TicketHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
+const TicketTitle = styled.div`
+  margin: 0 0 15px 0;
+`;
+
+const Title = styled.h1`
+  font-size: 20px;
+  margin: 0;
+  margin: 0 0 10px 0;
+`;
+
+const LabTag = styled.div`
+  font-size: 12px;
+  color: ${ironBlue};
+  display: inline-block;
+  margin: 0;
+`;
+
+const OwnerTag = styled.div`
+  font-size: 12px;
+  color: ${ironBlue};
+  display: block;
+  margin: 0;
+  color: ${lightGray};
+`;
+
+const OpenTag = styled.div`
+  font-size: 12px;
+  padding: 3px 8px 3px 8px;
+  border-radius: 10px;
+  color: ${ironBlue};
+  background-color: ${lightBlue};
+  display: inline-block;
+  margin: 0 0 0 -10px;
+`;
+
+const ProgressTag = styled.div`
+  font-size: 12px;
+  padding: 3px 8px 3px 8px;
+  border-radius: 10px;
+  color: ${ironYellow};
+  background-color: ${lightYellow};
+  display: inline-block;
+  margin: 0 0 0 -10px;
+`;
+
+const CancelledTag = styled.div`
+  font-size: 12px;
+  padding: 3px 8px 3px 8px;
+  border-radius: 10px;
+  color: ${ironRed};
+  background-color: ${lightRed};
+  display: inline-block;
+  margin: 0 0 0 -10px;
+`;
+
+const TicketPic = styled.div``;
+
+const TicketBody = styled.div``;
+
+const TAtag = styled.div`
+  font-size: 12px;
+  padding: 3px 8px 3px 8px;
+  border-radius: 10px;
+  color: ${ironBlue};
+  border: 1px solid ${ironBlue};
+  ${"" /* background-color: ${lightBlue}; */}
+  display: inline-block;
+  margin: 0 0 0 5px;
+`;
+
+const NoOneTag = styled.div`
+  font-size: 12px;
+  padding: 3px 8px 3px 8px;
+  border-radius: 10px;
+  color: ${lightGray};
+  border: 1px solid ${lightGray};
+  ${"" /* background-color: ${evenLighterGray}; */}
+  display: inline-block;
+  margin: 0 0 0 5px;
+`;
+
+const TicketDescription = styled.div`
+  width: 100%;
+  font-size: 14px;
+  border-radius: 10px;
+  background-color: ${evenLighterGray};
+  padding: 10px;
+  margin: 0 0 15px 0;
+  ${"" /* min-height: 100px; */}
+`;
+
+const UserPic = styled.img`
+  width: 70px;
+  border-radius: 100px;
+`;
+
 export default class TicketDetail extends Component {
   // state = {
   //   ticket: null,
@@ -107,11 +207,11 @@ export default class TicketDetail extends Component {
 
   assignTeacher = () => {
     axios
-      .put(`/api/tickets/${this.props.match.params.id}`, {
+      .put(`/api/tickets/${this.props.ticketDetail._id}`, {
         status: "In progress",
       })
       .then((response) => {
-        // console.log(response);
+        console.log('heyyyy' + response);
       })
       .catch((err) => {
         console.log(err);
@@ -153,7 +253,10 @@ export default class TicketDetail extends Component {
   //   this.setState({ searchVal: '' })
 
   render() {
-    console.log("ITSSSSS" + this.props.ticketDetail);
+    // console.log(this.props.ticketDetail);
+    // console.log(this.props.user);
+    // console.log(this.props.ticketDetail._id)
+
     if (!this.props.ticketDetail) return <></>;
     return (
       <MainContainer>
@@ -166,26 +269,48 @@ export default class TicketDetail extends Component {
             <X src={x} alt="Close" />
           </Close>
           <FormContainer>
-            <Paragraph> {this.props.ticketDetail.title}</Paragraph>
-            <Paragraph>
-              Created By: {this.props.ticketDetail.createdBy.name}
-            </Paragraph>
+            <TicketHeader>
+              <TicketTitle>
+                <Title>{this.props.ticketDetail.title}</Title>
+                <LabTag>{this.props.ticketDetail.lab}</LabTag>
+                <OwnerTag>By {this.props.ticketDetail.createdBy.name}</OwnerTag>
+              </TicketTitle>
+              <TicketPic>
+                <UserPic
+                  src={this.props.ticketDetail.createdBy.image}
+                  alt="User Pic"
+                />
+              </TicketPic>
+            </TicketHeader>
+            <TicketBody>
+              <TicketDescription>
+                {this.props.ticketDetail.description}
+              </TicketDescription>
 
-            <Paragraph> Lab: {this.props.ticketDetail.lab}</Paragraph>
-            <Paragraph> Title: {this.props.ticketDetail.title}</Paragraph>
-            <Paragraph>
-              Problem: {this.props.ticketDetail.description}
-            </Paragraph>
-            <Paragraph> Status: {this.props.ticketDetail.status}</Paragraph>
-            <Paragraph>
-              Assignee:{" "}
-              {this.props.ticketDetail.assignee &&
-                this.props.ticketDetail.assignee.name}
-            </Paragraph>
-
-            <IronButton onClick={this.assignTeacher}>
-              Take this ticket
-            </IronButton>
+              {this.props.ticketDetail.status === "Opened" && (
+                <OpenTag>Open</OpenTag>
+              )}
+              {this.props.ticketDetail.status === "In progress" && (
+                <ProgressTag>In Progress</ProgressTag>
+              )}
+              {this.props.ticketDetail.status === "Cancelled" && (
+                <CancelledTag>Cancelled</CancelledTag>
+              )}
+              {this.props.ticketDetail.status !== "Cancelled" &&
+                (this.props.ticketDetail.assignee ? (
+                  <TAtag>
+                    <b>{this.props.ticketDetail.assignee.name}</b> is working on
+                    it
+                  </TAtag>
+                ) : (
+                  <NoOneTag>No one is working on it yet</NoOneTag>
+                ))}
+            </TicketBody>
+            {this.props.user.role === "Teacher" && (
+              <IronButton onClick={this.assignTeacher}>
+                Take this ticket
+              </IronButton>
+            )}
           </FormContainer>
         </Container>
       </MainContainer>
