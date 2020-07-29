@@ -2,6 +2,12 @@ const mongoose = require('mongoose');
 const { Schema, model } = mongoose;
 
 const userSchema = new Schema({
+  createdAt: { 
+    type: Date, 
+    required: true, 
+    default: Date.now 
+  },
+  cohortStartWeek: Number,
   username: {
     type: String,
     required: true

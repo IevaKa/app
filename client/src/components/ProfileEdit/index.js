@@ -64,6 +64,7 @@ justify-content: center;
 align-items: center;
 `
 
+
 export default class index extends Component {
   render() {
     // console.log(this.props.user.name)
@@ -72,11 +73,11 @@ export default class index extends Component {
         <FormBody>
           <CssTextField
             // label="Name"
-            id="user"
+            id="name"
             variant="outlined"
             type="text"
-            name="user"
-            value={this.props.user.name}
+            name="name"
+            value={this.props.name}
             onChange={this.props.handleChange}
             size="small"
           />

@@ -100,7 +100,7 @@ router.get('/loggedin', (req, res) => {
 })
 
 router.put('/loggedin/:id', (req, res) => {
-  const name = req.body.user;
+  const name = req.body.name;
   console.log(name)
   User.findByIdAndUpdate(
     req.params.id,

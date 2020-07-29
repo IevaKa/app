@@ -106,6 +106,7 @@ export default class index extends Component {
   state = {
     user: "",
     editForm: false,
+    name: ""
   };
 
   getUser = () => {
@@ -114,6 +115,7 @@ export default class index extends Component {
         const user = response.data;
         this.setState({
           user: user,
+          name: user.name
         });
       })
   } 
@@ -126,25 +128,26 @@ export default class index extends Component {
 
   handleChange = event => {
     console.log(event.target)
-    const { name, value } = event.target;
+    const value = event.target.value;
     this.setState({
-      [name]: value
+      name: value
     });
   };
 
 
   handleSubmit = event => {
     event.preventDefault();
-    const id = this.props.user._id;
+    const id = this.state.user._id;
     console.log(id)
     axios.put(`/api/auth/loggedin/${id}`, {
-      user: this.state.user,
+      name: this.state.name,
     })
       .then(response => {
         console.log(response.data.name)
         this.setState({
           user: response.data,
-          editForm: false
+          editForm: false,
+          name: response.data.name
         })
       })
       .catch(err => {
@@ -164,9 +167,9 @@ export default class index extends Component {
     });
   };
 
+
   render() {
-    // console.log(this.props.user)
-    if (!this.props.user) return <></>;
+    if (!this.state.user) return <></>;
     return (
       <MainContainer>
         <Container>
@@ -175,8 +178,8 @@ export default class index extends Component {
           </Close>
           <FormContainer>
             <FormWrap>
-              {this.props.user.image ? (
-                <UserPic src={this.props.user.image} alt="User Pic" />
+              {this.state.user.image ? (
+                <UserPic src={this.state.user.image} alt="User Pic" />
               ) : (
                 <UserPic src={profile} alt="User Pic" />
               )}
@@ -185,16 +188,17 @@ export default class index extends Component {
                   {...this.state}
                   handleChange={this.handleChange}
                   handleSubmit={this.handleSubmit}
+                  getUser={this.getUser}
                 />
               ) : (
                 <Name>
-                  {this.props.user.name}
+                  {this.state.user.name}
                   <Icon src={pencil} alt="Edit" onClick={this.toggleEditForm} />
                 </Name>
               )}
-              @{this.props.user.username}
-             <Location>{this.props.user.location}</Location> 
-              {this.props.user.bio}
+              @{this.state.user.username}
+             <Location>{this.state.user.location}</Location> 
+              {this.state.user.bio}
             </FormWrap>
             <FormWrap>
               <Link to="/" onClick={this.handleLogout}>
