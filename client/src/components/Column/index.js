@@ -1,12 +1,11 @@
 import React from "react";
 import styled from "styled-components";
-import { ironYellow } from "../../styles/global.js";
 
 import { Droppable } from "react-beautiful-dnd";
 
 import TicketPreview from "../TicketPreview";
 
-import { lightGray, ironPurple } from "../../styles/global.js";
+import { ironPurple } from "../../styles/global.js";
 
 const Container = styled.div`
   margin: 10px;

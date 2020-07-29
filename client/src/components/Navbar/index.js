@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import axios from "axios";
 
-import styled, { keyframes } from "styled-components";
+import styled from "styled-components";
 
 import plus from "../../files/plus.svg";
 import bell from "../../files/bell.svg";

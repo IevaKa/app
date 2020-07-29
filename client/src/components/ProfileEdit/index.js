@@ -3,6 +3,7 @@ import { Form, Button } from 'react-bootstrap';
 
 export default class index extends Component {
   render() {
+    // console.log(this.props.user.name)
     return (
       <>
         <Form onSubmit={this.props.handleSubmit}>

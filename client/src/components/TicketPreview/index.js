@@ -1,13 +1,10 @@
 import React from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
 import { Draggable } from "react-beautiful-dnd";
 
-import TicketAdd from "../TicketAdd";
 
 import {
   ironBlue,
-  ironPurple,
   ironRed,
   lightBlue,
   lightGray,
@@ -21,8 +18,7 @@ const Container = styled.div`
   font-size: 14px;
   border: ${(props) =>
     props.hover ? `1px solid ${ironBlue}` : `1px solid ${lightGray}`};
-  width: ${(props) =>
-    props.hover ? '220px' : '210px'};
+  width: ${(props) => (props.hover ? "220px" : "210px")};
   padding: 12px 10px 18px 10px;
   margin-bottom: 15px;
   border-radius: 5px;
@@ -97,16 +93,13 @@ export default class TicketPreview extends React.Component {
     let checkTA = (user) => user._id === this.props.ticket.assignee;
     const ticketTA = this.props.allUsers.find(checkTA);
 
-    const SOMETHING = (id) => {
-      alert("aaa" + id);
-    };
-
     const handleClick = (id) => {
       this.props.getTicketDetails(id);
       this.props.showTicketDetail(true);
     };
 
     // console.log("OWNER IS" + ticketOwner);
+    // console.log(this.props.ticket);
     return (
       <Draggable draggableId={this.props.ticket._id} index={this.props.index}>
         {(provided, snapshot) => (
@@ -118,7 +111,6 @@ export default class TicketPreview extends React.Component {
             onClick={() => handleClick(this.props.ticket._id)}
             onMouseOver={hovering}
             onMouseOut={notHovering}
-
             hover={this.state.hover}
           >
             <LabTag isDragging={snapshot.isDragging}>
@@ -136,8 +128,9 @@ export default class TicketPreview extends React.Component {
             <Timestamp isDragging={snapshot.isDragging}>
               Created <Moment fromNow>{timestamp}</Moment>
             </Timestamp>
-
-            {ticketTA && <TAstatus>{ticketTA.name} is on it!</TAstatus>}
+            {this.props.ticket.status !== "Cancelled" && (ticketTA && 
+              <TAstatus>{ticketTA.name} is on it!</TAstatus>
+            )}
           </Container>
         )}
       </Draggable>
