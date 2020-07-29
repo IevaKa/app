@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import { Draggable } from "react-beautiful-dnd";
 
-
 import {
   ironBlue,
   ironRed,
@@ -53,14 +52,19 @@ const TicketOwner = styled.img`
   display: inline-block;
 `;
 
+const WrapTAstatus = styled.div`
+  position: relative;
+`;
+
 const TAstatus = styled.div`
   color: white;
   text-align: right;
   position: absolute;
   font-size: 11px;
+  margin: 10px 0 0 0;
+  right: 0;
   padding: 2px 5px 2px 5px;
   border-radius: 100px;
-  margin: 8px 0 0 120px;
   background-color: ${ironRed};
 `;
 
@@ -128,9 +132,10 @@ export default class TicketPreview extends React.Component {
             <Timestamp isDragging={snapshot.isDragging}>
               Created <Moment fromNow>{timestamp}</Moment>
             </Timestamp>
-            {this.props.ticket.status !== "Cancelled" && (ticketTA && 
+            <WrapTAstatus>{this.props.ticket.status !== "Solved" && ticketTA && (
               <TAstatus>{ticketTA.name} is on it!</TAstatus>
-            )}
+            )}</WrapTAstatus>
+            
           </Container>
         )}
       </Draggable>
