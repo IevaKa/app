@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
+import TicketEdit from "../TicketEdit";
 
 import {
   IronButton,
@@ -181,25 +182,6 @@ const UserPic = styled.img`
 `;
 
 export default class TicketDetail extends Component {
-  // state = {
-  //   ticket: null,
-  //   // messages: []
-  //   // user: this.props.user.name
-  // };
-
-  // getTicket = () => {
-  //   axios
-  //     .get(`/api/tickets/${this.props.match.params.id}`)
-  //     .then((response) => {
-  //       console.log("the ticket ingo got: ", response.data);
-  //       this.setState({
-  //         ticket: response.data,
-  //       });
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // };
 
   assignTeacher = () => {
     axios
@@ -213,40 +195,6 @@ export default class TicketDetail extends Component {
         console.log(err);
       });
   };
-
-  // componentDidMount() {
-  //   this.getTicket();
-  //   client.onopen = () => {
-  //     console.log('WebSocket Client Connected')
-  //   };
-  //   client.onmessage = (message) => {
-  //     console.log('Now I am here')
-  //     const dataFromServer = JSON.parse(message.data);
-  //     console.log(message.data);
-  //     console.log(message);
-  //     console.log('got reply! ', dataFromServer);
-  //     if (dataFromServer.type === 'message') {
-  //       this.setState((state) => ({
-  //         messages: [...state.messages,
-  //         {
-  //           msg: dataFromServer.msg
-  //           // user: this.state.user
-  //         }]
-  //       }))
-  //       console.log('I am Here', this.state.messages);
-  //     }
-  //   };
-  // }
-
-  // onButtonClicked = (value) => {
-  //   // const client = new W3CWebSocket(`ws://localhost:5555/api/tickets/${this.props.match.params.id}`);
-  //   console.log(value)
-  //   client.send(JSON.stringify({
-  //     type: 'message',
-  //     msg: value,
-  //     // user: this.state.user
-  //   }));
-  //   this.setState({ searchVal: '' })
 
   render() {
     // console.log(this.props.ticketDetail);
@@ -302,6 +250,11 @@ export default class TicketDetail extends Component {
                   <NoOneTag>No one is working on it yet</NoOneTag>
                 ))}
             </TicketBody>
+
+            <TicketEdit
+              ticketDetail={this.props.ticketDetail}
+            />
+            
             {this.props.user.role === "Teacher" && (
               <IronButton onClick={this.assignTeacher}>
                 Take this ticket

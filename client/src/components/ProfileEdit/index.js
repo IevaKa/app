@@ -3,13 +3,14 @@ import { Form, Button } from 'react-bootstrap';
 
 export default class index extends Component {
   render() {
+    // console.log(this.props.user.name)
     return (
       <>
         <Form onSubmit={this.props.handleSubmit}>
             <Form.Control
               type='text'
               name='user'
-              value={this.props.user.name}
+              value={this.props.user}
               onChange={this.props.handleChange}
             />
           <Button type='submit'>Edit</Button>

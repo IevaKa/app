@@ -96,28 +96,30 @@ const Name = styled.h1`
 
 export default class index extends Component {
   state = {
-    // user: "",
+    user: "",
     editForm: false,
   };
 
-  // getUser = () => {
-  //   axios.get("/api/auth/loggedin").then((response) => {
-  //     const user = response.data;
-  //     this.setState({
-  //       user: user,
-  //     });
-  //   });
-  // };
+  getUser = () => {
+    axios.get("/api/auth/loggedin").then((response) => {
+      const user = response.data;
+      this.setState({
+        user: user,
+      });
+    });
+  };
 
-  // componentDidMount = () => {
-  //   this.getUser();
-  // };
+  componentDidMount = () => {
+    this.getUser();
+  };
 
   // Editing
 
   handleChange = (event) => {
     // console.log(event.target);
     const { name, value } = event.target;
+        console.log(name);
+
     this.setState({
       [name]: value,
     });
@@ -155,7 +157,6 @@ export default class index extends Component {
   };
 
   render() {
-
     // console.log(this.props.user)
     if (!this.props.user) return <></>;
     return (
