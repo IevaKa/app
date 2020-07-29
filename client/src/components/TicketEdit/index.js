@@ -1,6 +1,17 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { Form, Button } from 'react-bootstrap';
+import styled, { keyframes } from "styled-components";
+
+
+const FormContainer = styled.div`
+  padding: 60px 30px 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  border-radius: 10px;
+  background-color: white;
+`;
 
 
 
@@ -49,11 +60,10 @@ export default class TicketEdit extends Component {
         this.setState({
           title: response.data.title,
           description: response.data.description,
-
-          editForm: false
         })
         this.props.getAllfromDb()
         this.props.showTicketDetail(false)
+        this.props.hideEdit()
       })
       .catch(err => {
         console.log(err);
@@ -73,7 +83,7 @@ export default class TicketEdit extends Component {
   render() {
     // console.log("THIS CONSOLE LOG", this.props.ticketDetail)
     return (
-      <div>
+      <FormContainer>
         {/* <Button onClick={this.toggleEditForm}>Show Edit Form</Button> */}
         {this.state.editForm && (
           <>
@@ -99,7 +109,7 @@ export default class TicketEdit extends Component {
           </>
         )}
 
-      </div>
+      </FormContainer>
     )
   }
 }

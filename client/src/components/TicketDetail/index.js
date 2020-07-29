@@ -199,24 +199,33 @@ const UserPic = styled.img`
 `;
 
 const WrapTicket = styled.div`
-  opacity: ${(props) => (props.showEdit ? 0 : 1)};
-  pointer-events: ${(props) => (props.showEdit ? "none" : "block")};
+  opacity: ${(props) => (props.showEdit ? 1 : 1)};
+  pointer-events: ${(props) => (props.showEdit ? "block" : "block")};
 `;
 
 const WrapTicketEdit = styled.div`
-  opacity: ${(props) => (props.showEdit ? 1 : 0)};
-  pointer-events: ${(props) => (props.showEdit ? "block" : "none")};
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  display: ${(props) => (props.showEdit ? "block" : "none")};
+
 `;
 
 export default class TicketDetail extends Component {
-
   state = {
-    showEdit: false
-  }
+    showEdit: false,
+  };
 
   toggleEdit = () => {
     this.setState({
-      showEdit: !this.state.showEdit
+      showEdit: !this.state.showEdit,
+    });
+  };
+
+  hideEdit = () => {
+    this.setState({
+      showEdit: false,
     });
   };
 
@@ -242,6 +251,14 @@ export default class TicketDetail extends Component {
     return (
       <MainContainer>
         <Container>
+          <WrapTicketEdit showEdit={this.state.showEdit}>
+            <TicketEdit
+              ticketDetail={this.props.ticketDetail}
+              getAllfromDb={this.props.getAllfromDb}
+              showTicketDetail={this.props.showTicketDetail}
+              hideEdit={this.hideEdit}
+            />
+          </WrapTicketEdit>
           <Edit
             onClick={() => {
               this.toggleEdit();
@@ -251,7 +268,8 @@ export default class TicketDetail extends Component {
           </Edit>
           <Close
             onClick={() => {
-              this.props.showTicketDetail(false);
+              this.props.showTicketDetail(false)
+              this.hideEdit();
             }}
           >
             <X src={x} alt="Close" />
@@ -304,14 +322,6 @@ export default class TicketDetail extends Component {
                 </IronButton>
               )}
             </WrapTicket>
-
-            <WrapTicketEdit showEdit={this.state.showEdit}>
-              <TicketEdit
-                ticketDetail={this.props.ticketDetail}
-                getAllfromDb={this.props.getAllfromDb}
-                showTicketDetail={this.props.showTicketDetail}
-              />
-            </WrapTicketEdit>
           </FormContainer>
         </Container>
       </MainContainer>
