@@ -68,6 +68,8 @@ export default class Column extends React.Component {
                     allUsers={this.props.allUsers} 
                     getTicketDetails={this.props.getTicketDetails}
                     showTicketDetail={this.props.showTicketDetail}
+                    user={this.props.user}
+
                   />
                 ))}
                 {provided.placeholder}

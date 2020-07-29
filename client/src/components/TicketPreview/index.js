@@ -132,7 +132,7 @@ export default class TicketPreview extends React.Component {
             <Timestamp isDragging={snapshot.isDragging}>
               Created <Moment fromNow>{timestamp}</Moment>
             </Timestamp>
-            <WrapTAstatus>{this.props.ticket.status !== "Solved" && ticketTA && (
+            <WrapTAstatus>{this.props.ticket.status !== "Solved" && ticketTA && this.props.user.role === "Student" && (
               <TAstatus>{ticketTA.name} is on it!</TAstatus>
             )}</WrapTAstatus>
             
