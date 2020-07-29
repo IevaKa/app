@@ -136,7 +136,7 @@ const Dashboard = (props) => {
     getAllTicketsFromDb();
     props.socket.on('addTicket', () =>  getAllTicketsFromDb())
     props.socket.on('onDrag', () =>  getAllTicketsFromDb())
-    // props.socket.on('onDrag', () =>  console.log('MOUSEDOG'))
+    props.socket.on('assignTeacher', () =>  getAllTicketsFromDb())
   }, []);
 
   // useEffect(() => {
@@ -299,6 +299,7 @@ const Dashboard = (props) => {
           ticketDetail={ticketDetail}
           showTicketDetail={showTicketDetail}
           user={props.user}
+          socket={props.socket}
           getAllfromDb={getAllTicketsFromDb}
           {...props}
         />
@@ -308,6 +309,7 @@ const Dashboard = (props) => {
         <TicketAdd
           showTicketadd={showTicketadd}
           getAllfromDb={getAllTicketsFromDb}
+          showTicketDetail={showTicketDetail}
           socket={props.socket}
         />
       </WrapperTicketAdd>

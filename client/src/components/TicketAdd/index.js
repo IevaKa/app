@@ -182,6 +182,7 @@ export default class AddTicket extends Component {
         this.props.socket.emit('addTicket', {
           message: 'this socket works --> ticketADD'
         })
+        this.props.showTicketDetail(false);
         // this.props.setTickets([...this.props.tickets, data] )
         this.props.getAllfromDb()
         // this.props.history.push("/dashboard");
@@ -199,7 +200,6 @@ export default class AddTicket extends Component {
   };
 
   render() {
-    console.log('HERE:', this.props)
     return (
       <MainContainer>
         <Container>

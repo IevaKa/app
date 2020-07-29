@@ -154,14 +154,18 @@ router.put('/assignment/:id', (req, res, next) => {
               { $pull: { "columnOpen": id } }
             ).then(col => {
               console.log('remove assign tickets for other teachers ', col)
+              res.json(ticket);
+
             })
           })
         // updating the student and TAs states when the ticket had assignee before
       } else {
         Column.findOneAndUpdate({ user: ticket.assignee }, { $pull: { columnProgress: id } }, { new: true }).then(col => {
+          res.json(col);
           console.log('updated old teacher', col)
         });
         Column.findOneAndUpdate({ user: req.user.id }, { $push: { columnProgress: id } }, { new: true }).then(col => {
+          res.json(col);
           console.log('new teacher updated', col)
         });
       }

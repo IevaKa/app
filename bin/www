@@ -88,6 +88,11 @@ io.on("connection", function (socket) {
     io.sockets.emit('onDrag', data)
     // console.log('on drag ', data)
   })
+
+  socket.on('assignTeacher', data => {
+    io.sockets.emit('assignTeacher', data)
+    // console.log('assignTeacher ', data)
+  })
   //});
 
 
