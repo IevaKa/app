@@ -89,7 +89,7 @@ router.put('/:id', (req, res, next) => {
       console.log('remove assign tickets for other teachers ', col)
     })
 
-    Ticket.findByIdAndUpdate(id, { $unset: { assignee: 1, assignedAt: 1 } }, { new: true })
+    Ticket.findByIdAndUpdate(id, { $unset: { assignee: 1, assignedAt: 1 }, status: 'Opened' }, { new: true })
       .then(ticket => {
         console.log('ticket unassigned', ticket)
         // find the student's document
