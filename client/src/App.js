@@ -1,7 +1,9 @@
 import React from "react";
 import { Route, Switch as RouterSwitch } from "react-router-dom";
-import ReactDOM from 'react-dom';
+import ReactDOM from "react-dom";
 import { GlobalStyles } from "../src/styles/global.js";
+import axios from "axios";
+
 import Signup from "./components/Signup";
 import Login from "./components/Login";
 import Home from "./components/Home/";
@@ -25,10 +27,23 @@ class App extends React.Component {
     socket: socketIOClient('http://localhost:3000')
   };
 
-  setUser = (user) => {
-    this.setState({
-      user: user,
+  // setUser = (user) => {
+  //   this.setState({
+  //     user: user,
+  //   });
+  // };
+
+  setUser = () => {
+    axios.get("/api/auth/loggedin").then((response) => {
+      const user = response.data;
+      this.setState({
+        user: user,
+      });
     });
+  };
+
+  componentDidMount = () => {
+    this.setUser();
   };
 
   // componentDidMount() {
@@ -45,7 +60,6 @@ class App extends React.Component {
     // });
     console.log ('fe socket: ', username)
   };
-
 
   render() {
     // console.log('this is my socket: ', this.state.socket.id)
@@ -90,12 +104,20 @@ class App extends React.Component {
           <Route
             exact
             path="/signup"
-            render={(props) => <Signup setUser={this.setUser} logedin={this.logedin} {...props}  />}
+            render={(props) => (
+              <Signup
+                setUser={this.setUser}
+                logedin={this.logedin}
+                {...props}
+              />
+            )}
           />
           <Route
             exact
             path="/login"
-            render={(props) => <Login setUser={this.setUser} logedin={this.logedin} {...props}  />}
+            render={(props) => (
+              <Login setUser={this.setUser} logedin={this.logedin} {...props} />
+            )}
           />
         </RouterSwitch>
       </>

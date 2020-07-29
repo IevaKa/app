@@ -42,7 +42,7 @@ router.post('/', (req, res) => {
     status: status
   })
     .then(task => {
-      const query = { $or:[ { user: req.user.id }, { role : 'Teacher' } ] }
+      const query = { $or: [{ user: req.user.id }, { role: 'Teacher' }] }
       const fields = { $push: { columnOpen: task._id } }
       Column.updateMany(
         query,
@@ -50,7 +50,7 @@ router.post('/', (req, res) => {
       ).then(column => {
         console.log('column is updated ', column)
       })
-      
+
       res.json(task)
     })
     .catch(err => {
@@ -74,46 +74,46 @@ router.put('/:id', (req, res, next) => {
   })
 
   // updating the order for OTHER teachers
-  if(destination !== "columnOpen" && source === "columnOpen") {
+  if (destination !== "columnOpen" && source === "columnOpen") {
     Column.updateMany(
       { role: 'Teacher', user: { "$ne": req.user.id } },
-      { $pull: { "columnOpen": id  } }
-      ).then(col => {
-        console.log('remove assign tickets for other teachers ', col)
-      })
-  } else if(destination === "columnOpen" && source !== "columnOpen") {
+      { $pull: { "columnOpen": id } }
+    ).then(col => {
+      console.log('remove assign tickets for other teachers ', col)
+    })
+  } else if (destination === "columnOpen" && source !== "columnOpen") {
     Column.updateMany(
       { role: 'Teacher', user: { "$ne": req.user.id } },
-      { $push: { "columnOpen": id  } }
-      ).then(col => {
-        console.log('remove assign tickets for other teachers ', col)
-      }) 
-      
-      Ticket.findByIdAndUpdate(id, { $unset : { assignee : 1, assignedAt: 1} }, { new: true })
+      { $push: { "columnOpen": id } }
+    ).then(col => {
+      console.log('remove assign tickets for other teachers ', col)
+    })
+
+    Ticket.findByIdAndUpdate(id, { $unset: { assignee: 1, assignedAt: 1 } }, { new: true })
       .then(ticket => {
         console.log('ticket unassigned', ticket)
         // find the student's document
         Column.findOneAndUpdate(
-          { user: ticket.createdBy}, 
-          { $pull: { [source]: id  }, $push: { [destination]: id  } }
-          ).then(col => {
-            res.json(ticket);
-          }).catch(err => {
-            res.json(err);
-          });
+          { user: ticket.createdBy },
+          { $pull: { [source]: id }, $push: { [destination]: id } }
+        ).then(col => {
+          res.json(ticket);
+        }).catch(err => {
+          res.json(err);
+        });
       })
   }
 
   // finding the user first, since they will have different actions
   // they can take
   User.findById(req.user.id).then(user => {
-    if(user.role === "Student") {
-  // updating the state of the tickets
+    if (user.role === "Student") {
+      // updating the state of the tickets
       Ticket.findByIdAndUpdate(id, { status: status, [timestamp]: Date.now() }, { new: true })
         .then(ticket => {
           Column.updateOne(
-            { user: ticket.assignee }, 
-            { $pull: { [source]: id  }, $push: { [destination]: id  } }
+            { user: ticket.assignee },
+            { $pull: { [source]: id }, $push: { [destination]: id } }
           ).then(col => {
             res.json(col);
             console.log('column for TA assigned: ', col)
@@ -122,51 +122,83 @@ router.put('/:id', (req, res, next) => {
           });
         })
 
-    } else if(user.role === "Teacher" && status !== 'Opened') {
-        Ticket.findByIdAndUpdate(id, { status: status, assignee: req.user.id, [timestamp]: Date.now() }, { new: true })
-          .then(ticket => {
-            console.log('this is the assigned ticket ', ticket)
-            // find the student's document
-            Column.findOneAndUpdate(
-              { user: ticket.createdBy}, 
-              { $pull: { [source]: id  }, $push: { [destination]: id  } }
-              ).then(col => {
-                res.json(ticket);
-              }).catch(err => {
-                res.json(err);
-              });
-          })
+    } else if (user.role === "Teacher" && status !== 'Opened') {
+      Ticket.findByIdAndUpdate(id, { status: status, assignee: req.user.id, [timestamp]: Date.now() }, { new: true })
+        .then(ticket => {
+          console.log('this is the assigned ticket ', ticket)
+          // find the student's document
+          Column.findOneAndUpdate(
+            { user: ticket.createdBy },
+            { $pull: { [source]: id }, $push: { [destination]: id } }
+          ).then(col => {
+            res.json(ticket);
+          }).catch(err => {
+            res.json(err);
+          });
+        })
     }
-  })   
+  })
 });
 
-  router.put('/assignment/:id', (req, res, next) => {
-    const id = req.params.id;
-    // update the ticket document
-    Ticket.findByIdAndUpdate(id, { status: 'In progress', assignee: req.user.id, assignedAt: Date.now() })
+router.put('/assignment/:id', (req, res, next) => {
+  const id = req.params.id;
+  // update the ticket document
+  Ticket.findByIdAndUpdate(id, { status: 'In progress', assignee: req.user.id, assignedAt: Date.now() })
     .then(ticket => {
       console.log('this is the ticket: ', ticket)
-      if(!ticket.assignee) {
-      Column.updateMany({ user: { $in: [req.user.id, ticket.createdBy ] } }, { $pull: { columnOpen: id  }, $push: { columnProgress: id  } })
-      .then(() => {
-      Column.updateMany(
-        { role: 'Teacher', user: { "$ne": req.user.id } },
-        { $pull: { "columnOpen": id  } }
-        ).then(col => {
-          console.log('remove assign tickets for other teachers ', col)
-        })
-      })
-      // updating the student and TAs states when the ticket had assignee before
+      if (!ticket.assignee) {
+        Column.updateMany({ user: { $in: [req.user.id, ticket.createdBy] } }, { $pull: { columnOpen: id }, $push: { columnProgress: id } })
+          .then(() => {
+            Column.updateMany(
+              { role: 'Teacher', user: { "$ne": req.user.id } },
+              { $pull: { "columnOpen": id } }
+            ).then(col => {
+              console.log('remove assign tickets for other teachers ', col)
+            })
+          })
+        // updating the student and TAs states when the ticket had assignee before
       } else {
-        Column.findOneAndUpdate({ user: ticket.assignee }, { $pull: { columnProgress: id  } }, { new: true}).then(col => {
+        Column.findOneAndUpdate({ user: ticket.assignee }, { $pull: { columnProgress: id } }, { new: true }).then(col => {
           console.log('updated old teacher', col)
         });
-        Column.findOneAndUpdate({ user: req.user.id }, { $push: { columnProgress: id  } }, { new: true}).then( col => {
+        Column.findOneAndUpdate({ user: req.user.id }, { $push: { columnProgress: id } }, { new: true }).then(col => {
           console.log('new teacher updated', col)
         });
       }
     })
-  })
+})
+
+
+router.get('/edit/:id', (req, res) => {
+  // check if req.params.id is valid, if not respond with a 4xx status code
+  Ticket.findById(req.params.id)
+    .then(project => {
+      if (!project) {
+        res.status(404).json(project);
+      } else {
+        res.status(200).json(project);
+      }
+    })
+    .catch(err => {
+      res.json(err);
+    });
+});
+
+router.put('/edit/:id', (req, res) => {
+  const { title, description } = req.body;
+  Ticket.findByIdAndUpdate(
+    req.params.id,
+    { title, description },
+    { new: true }
+  )
+    .then(ticket => {
+      console.log('BACK END', ticket)
+      res.status(200).json(ticket);
+    })
+    .catch(err => {
+      res.json(err);
+    });
+});
 
 
 // router.delete('/:id', (req, res, next) => {
