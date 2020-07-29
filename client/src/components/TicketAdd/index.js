@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import styled, { keyframes } from "styled-components";
-
+import labs from '../../lab'
 import InputLabel from "@material-ui/core/InputLabel";
 import FormControl from "@material-ui/core/FormControl";
 import TextField from "@material-ui/core/TextField";
@@ -150,6 +150,8 @@ export default class AddTicket extends Component {
     lab: "React | Ironbeers",
     title: "",
     description: "",
+    cohortStartWeek: 30,
+    labs: []
   };
 
   handleChange = (event) => {
@@ -173,7 +175,6 @@ export default class AddTicket extends Component {
     axios
       .post(`/api/tickets`, data)
       .then(() => {
-        // console.log("here", this.props.history);
         this.setState({
           lab: "React | Ironbeers",
           title: "",
@@ -183,23 +184,34 @@ export default class AddTicket extends Component {
           message: 'this socket works --> ticketADD'
         })
         this.props.showTicketDetail(false);
-        // this.props.setTickets([...this.props.tickets, data] )
         this.props.getAllfromDb()
-        // this.props.history.push("/dashboard");
-        // this.props.socket.emit('addTicket')
       })
       .catch((err) => {
         console.log(err);
       });
-
-
   };
 
   handleClick = () => {
     this.props.showTicketadd(false);
   };
 
+  getLabs = () => {
+    let d = new Date()
+    d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+    d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay()||7));
+    const yearStart = new Date(Date.UTC(d.getUTCFullYear(),0,1));
+    const weekNo = Math.ceil(( ( (d - yearStart) / 86400000) + 1)/7);
+    const labWeek = weekNo - this.state.cohortStartWeek + 1
+    this.setState({
+      labs: labs[labWeek]
+    });
+}
+  componentDidMount = () => {
+    this.getLabs()
+  }
+
   render() {
+    console.log('this is week: ', this.state.labs)
     return (
       <MainContainer>
         <Container>
@@ -224,11 +236,11 @@ export default class AddTicket extends Component {
                     }}
                   >
                     <option aria-label="None" value="" />
-                    <option value="React | Ironbeers">React | Ironbeers</option>
-                    <option value="React | Wiki Countries">
-                      React | Wiki Countries
-                    </option>
-                    <option value="React | IronBook">React | IronBook</option>
+                    {this.state.labs.map(lab => {
+                      return(
+                        <option value={lab}>{lab}</option>
+                        ) 
+                    })}
                   </Select>
                 </CssFormControl>
               </FormField>

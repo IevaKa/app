@@ -232,11 +232,9 @@ export default class TicketDetail extends Component {
   assignTeacher = () => {
     axios
       .put(`/api/tickets/assignment/${this.props.ticketDetail._id}`).then(response => {
-        console.log("heyyyy" + response)
         this.props.socket.emit('assignTeacher', {
           message: 'IEVA --> assignTeacher'
         })
-
       })
       .catch((err) => {
         console.log(err);
@@ -244,11 +242,6 @@ export default class TicketDetail extends Component {
 
       this.props.showTicketDetail(false)
   };
-
-  // componentDidMount = () => {
-  //   this.props.socket.on('assignTeacher', () =>  this.props.getAllTicketsFromDb())
-
-  // }
 
   render() {
     if (!this.props.ticketDetail) return <></>;
