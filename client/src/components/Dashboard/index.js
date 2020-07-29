@@ -157,6 +157,9 @@ const Dashboard = (props) => {
     if (role === "Student" && destination.droppableId === "columnProgress") {
       return alert("Only TAs can move Tickets to Progress");
     }
+    if (role === "Student" && source.droppableId === "columnProgress" && destination.droppableId === "columnOpen") {
+      return alert("You cannot move the ticket back");
+    }
 
     // moving inside the same column
 
