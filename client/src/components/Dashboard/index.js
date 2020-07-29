@@ -248,15 +248,16 @@ const Dashboard = (props) => {
       })
       .then((response) => {
         console.log(response);
+        props.socket.emit('onDrag', {
+          message: 'IEVA --> onDrag'
+        })
       })
       .catch((err) => {
         console.log(err);
       });
 
-      props.socket.emit('onDrag', {
-        message: 'IEVA --> onDrag'
-      })
-      props.socket.emit('onDrag', () =>  getAllTicketsFromDb())
+
+      // props.socket.emit('onDrag', () =>  getAllTicketsFromDb())
       
   };
 
