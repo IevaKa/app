@@ -179,17 +179,18 @@ export default class AddTicket extends Component {
           title: "",
           description: "",
         });
+        this.props.socket.emit('addTicket', {
+          message: 'this socket works --> ticketADD'
+        })
         // this.props.setTickets([...this.props.tickets, data] )
         this.props.getAllfromDb()
-        this.props.history.push("/dashboard");
+        // this.props.history.push("/dashboard");
         // this.props.socket.emit('addTicket')
       })
       .catch((err) => {
         console.log(err);
       });
-      this.props.socket.emit('addTicket', {
-        message: 'this socket works --> ticketADD'
-      })
+
 
   };
 
@@ -198,6 +199,7 @@ export default class AddTicket extends Component {
   };
 
   render() {
+    console.log('HERE:', this.props)
     return (
       <MainContainer>
         <Container>

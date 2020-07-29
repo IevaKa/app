@@ -251,8 +251,6 @@ const Dashboard = (props) => {
         props.socket.emit('onDrag', {
           message: 'IEVA --> onDrag'
         })
-        // props.socket.emit('onDrag', () =>  getAllTicketsFromDb())
-
       })
       .catch((err) => {
         console.log(err);
