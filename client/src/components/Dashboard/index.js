@@ -134,8 +134,8 @@ const Dashboard = (props) => {
 
   useEffect(() => {
     getAllTicketsFromDb();
-    props.socket.on('addTicket', () =>  getAllTicketsFromDb())
-    props.socket.on('onDrag', () =>  getAllTicketsFromDb())
+    props.socket.on('addTicket', () => getAllTicketsFromDb())
+    props.socket.on('onDrag', () => getAllTicketsFromDb())
     // props.socket.on('onDrag', () =>  console.log('MOUSEDOG'))
   }, []);
 
@@ -248,16 +248,21 @@ const Dashboard = (props) => {
       })
       .then((response) => {
         console.log(response);
+        props.socket.emit('onDrag', {
+          message: 'IEVA --> onDrag'
+        })
+        // props.socket.emit('onDrag', () =>  getAllTicketsFromDb())
+
       })
       .catch((err) => {
         console.log(err);
       });
 
-      props.socket.emit('onDrag', {
-        message: 'IEVA --> onDrag'
-      })
-      props.socket.emit('onDrag', () =>  getAllTicketsFromDb())
-      
+    // props.socket.emit('onDrag', {
+    //   message: 'IEVA --> onDrag'
+    // })
+    // props.socket.emit('onDrag', () =>  getAllTicketsFromDb())
+
   };
 
   const handleTicketAdd = (socket) => {
