@@ -276,7 +276,6 @@ export default class TicketDetail extends Component {
           </Close>
           <FormContainer>
             <WrapTicket showEdit={this.state.showEdit}>
-              {" "}
               <TicketHeader>
                 <TicketTitle>
                   <Title>{this.props.ticketDetail.title}</Title>

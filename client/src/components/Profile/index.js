@@ -8,6 +8,7 @@ import { logout } from "../../services/auth.js";
 
 import {
   Button,
+  lightGray
 } from "../../styles/global.js";
 
 import x from "../../files/x.svg";
@@ -39,11 +40,11 @@ const MainContainer = styled.div`
 
 const Container = styled.div`
   position: relative;
+  padding: 20px;
   display: inline-block;
   border-radius: 10px;
   background-color: white;
   width: 350px;
-  height: 450px;
   box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.1);
   animation: ${slideUp} 2s ease-in-out;
 `;
@@ -80,6 +81,7 @@ const X = styled.img`
 `;
 
 const Icon = styled.img`
+cursor: pointer;
   width: 15px;
   margin: 0 0 0 10px;
 `;
@@ -92,6 +94,12 @@ const UserPic = styled.img`
 
 const Name = styled.h1`
   font-size: 24px;
+  margin: 8px 0 0 0;
+`;
+const Location = styled.h2`
+  font-size: 14px;
+  color: ${lightGray};
+  margin: 10px;
 `;
 
 export default class index extends Component {
@@ -101,13 +109,14 @@ export default class index extends Component {
   };
 
   getUser = () => {
-    axios.get("/api/auth/loggedin").then((response) => {
-      const user = response.data;
-      this.setState({
-        user: user,
-      });
-    });
-  };
+    axios.get('/api/auth/loggedin')
+      .then(response => {
+        const user = response.data;
+        this.setState({
+          user: user,
+        });
+      })
+  } 
 
   componentDidMount = () => {
     this.getUser();
@@ -115,34 +124,32 @@ export default class index extends Component {
 
   // Editing
 
-  handleChange = (event) => {
-    // console.log(event.target);
+  handleChange = event => {
+    console.log(event.target)
     const { name, value } = event.target;
-        console.log(name);
-
     this.setState({
-      [name]: value,
+      [name]: value
     });
   };
 
-  handleSubmit = (event) => {
+
+  handleSubmit = event => {
     event.preventDefault();
     const id = this.props.match.params.id;
-    axios
-      .put(`/api/auth/loggedin/${id}`, {
-        user: this.props.user,
-      })
-      .then((response) => {
-        // console.log(response.data.name);
+    axios.put(`/api/auth/loggedin/${id}`, {
+      user: this.state.user,
+    })
+      .then(response => {
+        console.log(response.data.name)
         this.setState({
-          editForm: false,
+          user: response.data,
+          editForm: false
         })
-        this.props.setUser(response.data)
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
-      });
-  };
+      })
+  }
 
   toggleEditForm = () => {
     this.setState({
@@ -175,7 +182,6 @@ export default class index extends Component {
               {this.state.editForm ? (
                 <ProfileEdit
                   {...this.state}
-                  user={this.props.user}
                   handleChange={this.handleChange}
                   handleSubmit={this.handleSubmit}
                 />
@@ -186,7 +192,7 @@ export default class index extends Component {
                 </Name>
               )}
               @{this.props.user.username}
-              {this.props.user.location}
+             <Location>{this.props.user.location}</Location> 
               {this.props.user.bio}
             </FormWrap>
             <FormWrap>

@@ -50,8 +50,8 @@ const CssTextField = withStyles({
 
 export default class TicketEdit extends Component {
   state = {
-    title: this.props.ticketDetail.title,
-    description: this.props.ticketDetail.description,
+    title: '',
+    description: '',
     editForm: true,
   };
 
@@ -155,37 +155,4 @@ export default class TicketEdit extends Component {
       </FormContainer>
     );
   }
-}
-
-{
-  /* <Form onSubmit={this.handleSubmit}>
-<FormField>
-  <CssTextField
-    label="Title"
-    id="title"
-    variant="outlined"
-    type="text"
-    name="title"
-    value={this.state.title}
-    onChange={this.handleChange}
-  />
-</FormField>
-<FormField>
-  <CssTextField
-    label="Description"
-    id="description"
-    variant="outlined"
-    type="text"
-    name="description"
-    value={this.state.description}
-    onChange={this.handleChange}
-    multiline
-    rows={4}
-  />
-</FormField>
-
-<IronButton type="submit" onClick={this.handleClick}>
-  Create Ticket
-</IronButton>
-</Form> */
 }

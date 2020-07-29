@@ -15,7 +15,7 @@ const lightRed = "rgba(248, 90, 91, 0.25)";
 const lightPurple = "rgba(135, 79, 255, 0.2)";
 const lightYellow = "rgba(255, 220, 97, 0.1)";
 
-const evenLighterGray = "rgba(245, 245, 245, 1)";
+const evenLighterGray = "rgba(0, 0, 0, 0.05)";
 
 const darkBlue = "rgba(18, 129, 231, 0.2)";
 
@@ -62,7 +62,7 @@ const Button = styled.button`
     background-color: black;
     border: 2px solid black;
     width: 260px;
-    box-shadow: 0px 10px 10px ${evenLighterGray};
+    box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.2);
   }
 
   &:focus {
@@ -90,7 +90,7 @@ const IronButton = styled.button`
     background-color: black;
     border: 2px solid black;
     width: 260px;
-    box-shadow: 0px 10px 10px ${evenLighterGray};
+    box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.2);
   }
 
   &:focus {
