@@ -79,10 +79,6 @@ const X = styled.img`
   width: 40px;
 `;
 
-const Paragraph = styled.p`
-  display: block;
-`;
-
 const TicketHeader = styled.div`
   display: flex;
   justify-content: space-between;

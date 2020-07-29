@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import { DragDropContext } from "react-beautiful-dnd";
 import Column from "../Column";
-
 import { evenLighterGray, lightGray } from "../../styles/global.js";
 
 

@@ -18,11 +18,13 @@ import ProfileEdit from "./components/ProfileEdit";
 import { Typography } from "@material-ui/core";
 
 import socketIOClient from "socket.io-client";
-let socket = socketIOClient("http://localhost:3000");
+// let socket = socketIOClient('http://localhost:3000');
+
 
 class App extends React.Component {
   state = {
     user: this.props.user,
+    socket: socketIOClient('http://localhost:3000')
   };
 
   // setUser = (user) => {
@@ -53,13 +55,14 @@ class App extends React.Component {
 
   // Socket Io
   logedin = (username) => {
-    socket.emit("logedin", {
-      username: username,
-    });
-    return username;
+    // socket.emit("logedin", {
+    //   username: username
+    // });
+    console.log ('fe socket: ', username)
   };
 
   render() {
+    // console.log('this is my socket: ', this.state.socket.id)
     return (
       <>
         <GlobalStyles />
@@ -67,37 +70,31 @@ class App extends React.Component {
           <Route
             exact
             path="/dashboard"
-            render={(props) => (
-              <Dashboard
-                setUser={this.setUser}
-                user={this.state.user}
-                {...props}
-              />
-            )}
+            render={(props) => <Dashboard socket={this.state.socket} setUser={this.setUser} user={this.state.user} {...props} />}
           />
 
           <Route
             exact
             path="/"
-            render={(props) => (
-              <Home setUser={this.setUser} logedin={this.logedin} {...props} />
-            )}
+            render={(props) => <Home setUser={this.setUser} logedin={this.logedin} socket={this.state.socket} {...props} />}
           />
           {/* <Route exact path="/" component={Home} /> */}
-          <Route exact path="/ticket/board" component={TicketBoard} />
-
+          {/* <Route exact path="/ticket/board" component={TicketBoard} /> */}
+          <Route
+            exact
+            path="/ticket/board"
+            render={(props) => <TicketBoard socket={this.state.socket} {...props} />}
+          />
           {/* <Route exact path="/ticket/add" component={TicketAdd} /> */}
           <Route
             exact
             path="/ticket/add"
-            render={(props) => <TicketAdd {...props} />}
+            render={(props) => <TicketAdd socket={this.state.socket} {...props} />}
           />
           <Route
             exact
             path="/ticket/:id"
-            render={(props) => (
-              <TicketDetail {...props} user={this.state.user} />
-            )}
+            render={(props) => <TicketDetail {...props} socket={this.state.socket} user={this.state.user} />}
           />
 
           {/* <Route exact path="/ticket/:id" component={TicketDetail} /> */}

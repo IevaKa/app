@@ -70,15 +70,19 @@ io.on("connection", function (socket) {
   console.log("User connected");
 
   // join roo
-  socket.on("logedin", function (data) {
-    console.log('socket loggin')
-    connectedUsers.push(data.username);
-    connectedUsers = [...new Set (connectedUsers)];
-    console.log('socket array: ', connectedUsers)
-    io.emit("connected-users", {
-      connectedUsers: connectedUsers,
-    });
-  });
+  // socket.on("logedin", function (data) {
+  //   console.log('socket loggin')
+  //   connectedUsers.push(data.username);
+  //   connectedUsers = [...new Set (connectedUsers)];
+  //   console.log('socket array: ', connectedUsers)
+  //   io.emit("connected-users", {
+  //     connectedUsers: connectedUsers,
+  //   });
+  
+  socket.on('addTicket', data => {
+    io.sockets.emit('addTicket', data)
+  })
+  //});
 
 
   // disconnect

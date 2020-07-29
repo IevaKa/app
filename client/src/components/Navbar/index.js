@@ -158,6 +158,7 @@ const Navbar = (props) => {
       <NavContainer>
         {user.role === "Student" ? (
           <AddTicket
+            socket={props.socket}
             onClick={() => props.handleTicketAdd()}
             onMouseOver={() => {
               setAddhover(true);

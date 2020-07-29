@@ -182,11 +182,15 @@ export default class AddTicket extends Component {
         // this.props.setTickets([...this.props.tickets, data] )
         this.props.getAllfromDb()
         this.props.history.push("/dashboard");
-
+        // this.props.socket.emit('addTicket')
       })
       .catch((err) => {
         console.log(err);
       });
+      this.props.socket.emit('addTicket', {
+        message: 'this socket works --> ticketADD'
+      })
+
   };
 
   handleClick = () => {

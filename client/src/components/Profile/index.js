@@ -174,6 +174,7 @@ export default class index extends Component {
               {this.state.editForm ? (
                 <ProfileEdit
                   {...this.state}
+                  user={this.props.user}
                   handleChange={this.handleChange}
                   handleSubmit={this.handleSubmit}
                 />

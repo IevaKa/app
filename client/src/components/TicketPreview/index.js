@@ -5,7 +5,6 @@ import { Draggable } from "react-beautiful-dnd";
 
 import {
   ironBlue,
-  ironPurple,
   ironRed,
   lightBlue,
   lightGray,
@@ -93,10 +92,6 @@ export default class TicketPreview extends React.Component {
 
     let checkTA = (user) => user._id === this.props.ticket.assignee;
     const ticketTA = this.props.allUsers.find(checkTA);
-
-    const SOMETHING = (id) => {
-      alert("aaa" + id);
-    };
 
     const handleClick = (id) => {
       this.props.getTicketDetails(id);
