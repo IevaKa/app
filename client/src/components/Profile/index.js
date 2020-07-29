@@ -135,7 +135,8 @@ export default class index extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
-    const id = this.props.match.params.id;
+    const id = this.props.user._id;
+    console.log(id)
     axios.put(`/api/auth/loggedin/${id}`, {
       user: this.state.user,
     })

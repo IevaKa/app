@@ -10,7 +10,7 @@ const ticketSchema = new Schema({
     },
     category: {
         type: String,
-        enum: ['lab', 'error', 'general/understanding', 'setup']
+        enum: ['error', 'general/understanding', 'setup']
     },
     // properties: week, topics (routing, crud, etc), iterations
     lab: {
