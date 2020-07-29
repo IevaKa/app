@@ -60,6 +60,25 @@ function SyncRadioLabel(props) {
   return (
     <>
       <CssFormControlLabel
+        checked={props.category === "Lab"}
+        onChange={props.handleChange}
+        type="radio"
+        value="Lab"
+        name="category"
+        inputProps={{ "aria-label": "A" }}
+        control={
+          <CssRadio
+            classes={{
+              checked: classes.checked,
+            }}
+          />
+        }
+        label="Lab"
+        classes={{
+          label: classes.label,
+        }}
+      />
+      <CssFormControlLabel
         checked={props.category === "Question"}
         onChange={props.handleChange}
         type="radio"

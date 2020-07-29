@@ -32,7 +32,6 @@ router.get('/', (req, res) => {
 
 
 router.post('/', (req, res) => {
-  console.log('category is ' + req.body.category)
   const { lab, title, description, category, status } = req.body;
   Ticket.create({
     createdBy: req.user.id,

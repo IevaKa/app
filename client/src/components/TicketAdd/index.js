@@ -7,13 +7,9 @@ import FormControl from "@material-ui/core/FormControl";
 import TextField from "@material-ui/core/TextField";
 import Select from "@material-ui/core/Select";
 import RadioGroup from "@material-ui/core/RadioGroup";
-
 import CssSyncRadioLabel from "./radiolabel";
-
 import { withStyles } from "@material-ui/core/styles";
-
 import x from "../../files/x.svg";
-
 import { IronButton, ironBlue, ironRed } from "../../styles/global.js";
 
 const fadeIn = keyframes`
@@ -145,18 +141,19 @@ const CssFormControl = withStyles({
     fontSize: 14,
     fontFamily: `'Poppins', sans-serif`,
     color: "red",
-  },
+    // display: ${(this.state.category) === 'Lab' ? 'block' : 'none'}
+  }
 })(FormControl);
 
 export default class AddTicket extends Component {
   state = {
-    lab: "React | Ironbeers",
+    lab: "",
     title: "",
     description: "",
     cohortStartWeek: 30,
     labs: [],
-    category: ""
-  };
+    category: "Lab"
+    };
 
   handleChange = (event) => {
     const name = event.target.name;
@@ -168,7 +165,6 @@ export default class AddTicket extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-
     const data = {
       lab: this.state.lab,
       title: this.state.title,
@@ -181,10 +177,10 @@ export default class AddTicket extends Component {
       .post(`/api/tickets`, data)
       .then(() => {
         this.setState({
-          lab: "React | Ironbeers",
+          lab: "",
           title: "",
           description: "",
-          category: ""
+          category: "Lab"
         });
         this.props.socket.emit('addTicket', {
           message: 'this socket works --> ticketADD'
@@ -216,6 +212,12 @@ export default class AddTicket extends Component {
     this.getLabs()
   }
 
+  componentDidUpdate = (prevProps, prevState) => {
+    if(prevState.category !== this.state.category) {
+      console.log('HERE', this.state.category)
+    }
+  }
+
   render() {
     return (
       <MainContainer>
@@ -229,13 +231,14 @@ export default class AddTicket extends Component {
 
             <RadioGroup row>
               <CssSyncRadioLabel
+                checked={this.state.value === 1}
                 handleChange={this.handleChange}
                 category={this.state.category}
               ></CssSyncRadioLabel>
             </RadioGroup>
 
               <FormField>
-                <CssFormControl variant="outlined">
+                <CssFormControl variant="outlined" style={{ display: this.state.category === 'Lab' ? 'block' : 'none' }}>
                   <CssInputLabel htmlFor="lab">Lab</CssInputLabel>
                   <Select
                     native
