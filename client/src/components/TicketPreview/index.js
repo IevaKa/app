@@ -78,9 +78,13 @@ const Category = styled.img`
 const TicketHeader = styled.div`
   display: flex;
   justify-content: space-between;
+  padding: 0;
+  margin: 0
 `;
 
-const Icon = styled.div``;
+const Icon = styled.div`
+  padding: 0;
+margin: 0`;
 
 export default class TicketPreview extends React.Component {
   state = {
@@ -145,7 +149,6 @@ export default class TicketPreview extends React.Component {
               </Icon>
             </TicketHeader>
 
-            <br />
             {this.props.ticket.title}
             <br />
             {ticketOwner &&
