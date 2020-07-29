@@ -8,9 +8,8 @@ import Profile from "../Profile";
 import TicketDetail from "../TicketDetail";
 // import TicketEdit from "../TicketEdit";
 
-import { } from "../../styles/global.js";
+import {} from "../../styles/global.js";
 // Socket IO
-
 
 const loadIn = keyframes`
  0% { opacity: 0; transform: translate(-50%, 0);}
@@ -135,7 +134,7 @@ const Dashboard = (props) => {
 
   useEffect(() => {
     getAllTicketsFromDb();
-    props.socket.on('addTicket', () =>  getAllTicketsFromDb())
+    props.socket.on("addTicket", () => getAllTicketsFromDb());
   }, []);
 
   // useEffect(() => {
@@ -254,13 +253,13 @@ const Dashboard = (props) => {
   const handleTicketAdd = (socket) => {
     showTicketadd(true);
     showProfile(false);
-    showTicketDetail(false)
+    showTicketDetail(false);
   };
 
   const handleProfile = () => {
     showTicketadd(false);
     showProfile(true);
-    showTicketDetail(false)
+    showTicketDetail(false);
   };
 
   const getTicketDetails = (id) => {
@@ -288,7 +287,13 @@ const Dashboard = (props) => {
       </WrapperNavbar>
 
       <WrapperTicketDetail ticketdeets={ticketdeets}>
-        <TicketDetail ticketDetail={ticketDetail} showTicketDetail={showTicketDetail} user={props.user} {...props}/>
+        <TicketDetail
+          ticketDetail={ticketDetail}
+          showTicketDetail={showTicketDetail}
+          user={props.user}
+          getAllfromDb={getAllTicketsFromDb}
+          {...props}
+        />
       </WrapperTicketDetail>
 
       <WrapperTicketAdd ticketadd={ticketadd}>
@@ -300,7 +305,12 @@ const Dashboard = (props) => {
       </WrapperTicketAdd>
 
       <WrapperProfile profile={profile}>
-        <Profile showProfile={showProfile} setUser={props.setUser} user={props.user} {...props} />
+        <Profile
+          showProfile={showProfile}
+          setUser={props.setUser}
+          user={props.user}
+          {...props}
+        />
       </WrapperProfile>
 
       <WrapperTicketBoard>
@@ -316,7 +326,6 @@ const Dashboard = (props) => {
           getTicketDetails={getTicketDetails}
           showTicketDetail={showTicketDetail}
           socket={props.socket}
-
         />
       </WrapperTicketBoard>
     </MainContainer>

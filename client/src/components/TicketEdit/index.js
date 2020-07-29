@@ -52,6 +52,8 @@ export default class TicketEdit extends Component {
 
           editForm: false
         })
+        this.props.getAllfromDb()
+        this.props.showTicketDetail(false)
       })
       .catch(err => {
         console.log(err);

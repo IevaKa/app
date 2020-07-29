@@ -252,7 +252,7 @@ export default class TicketDetail extends Component {
             </TicketBody>
 
             <TicketEdit
-              ticketDetail={this.props.ticketDetail}
+              ticketDetail={this.props.ticketDetail} getAllfromDb={this.props.getAllfromDb} showTicketDetail={this.props.showTicketDetail}
             />
             
             {this.props.user.role === "Teacher" && (
