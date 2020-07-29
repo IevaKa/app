@@ -19,6 +19,7 @@ import {
 // import { Card, Avatar, Input, Typography } from "antd";
 
 import x from "../../files/x.svg";
+import edit from "../../files/edit.svg";
 
 // const client = new W3CWebSocket('ws://localhost:5555');
 // const { Text } = Typography;
@@ -76,10 +77,26 @@ const Close = styled.div`
   cursor: pointer;
 `;
 
+const Edit = styled.div`
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 5px;
+  left: 5px;
+  width: 50px;
+  height: 50px;
+  border-radius: 100%;
+  cursor: pointer;
+`;
+
 const X = styled.img`
   width: 40px;
 `;
 
+const Y = styled.img`
+  width: 30px;
+`;
 const TicketHeader = styled.div`
   display: flex;
   justify-content: space-between;
@@ -181,7 +198,27 @@ const UserPic = styled.img`
   border-radius: 100px;
 `;
 
+const WrapTicket = styled.div`
+  opacity: ${(props) => (props.showEdit ? 0 : 1)};
+  pointer-events: ${(props) => (props.showEdit ? "none" : "block")};
+`;
+
+const WrapTicketEdit = styled.div`
+  opacity: ${(props) => (props.showEdit ? 1 : 0)};
+  pointer-events: ${(props) => (props.showEdit ? "block" : "none")};
+`;
+
 export default class TicketDetail extends Component {
+
+  state = {
+    showEdit: false
+  }
+
+  toggleEdit = () => {
+    this.setState({
+      showEdit: !this.state.showEdit
+    });
+  };
 
   assignTeacher = () => {
     axios
@@ -189,7 +226,7 @@ export default class TicketDetail extends Component {
         status: "In progress",
       })
       .then((response) => {
-        console.log('heyyyy' + response);
+        console.log("heyyyy" + response);
       })
       .catch((err) => {
         console.log(err);
@@ -205,6 +242,13 @@ export default class TicketDetail extends Component {
     return (
       <MainContainer>
         <Container>
+          <Edit
+            onClick={() => {
+              this.toggleEdit();
+            }}
+          >
+            <Y src={edit} alt="Edit" />
+          </Edit>
           <Close
             onClick={() => {
               this.props.showTicketDetail(false);
@@ -213,53 +257,61 @@ export default class TicketDetail extends Component {
             <X src={x} alt="Close" />
           </Close>
           <FormContainer>
-            <TicketHeader>
-              <TicketTitle>
-                <Title>{this.props.ticketDetail.title}</Title>
-                <LabTag>{this.props.ticketDetail.lab}</LabTag>
-                <OwnerTag>By {this.props.ticketDetail.createdBy.name}</OwnerTag>
-              </TicketTitle>
-              <TicketPic>
-                <UserPic
-                  src={this.props.ticketDetail.createdBy.image}
-                  alt="User Pic"
-                />
-              </TicketPic>
-            </TicketHeader>
-            <TicketBody>
-              <TicketDescription>
-                {this.props.ticketDetail.description}
-              </TicketDescription>
+            <WrapTicket showEdit={this.state.showEdit}>
+              {" "}
+              <TicketHeader>
+                <TicketTitle>
+                  <Title>{this.props.ticketDetail.title}</Title>
+                  <LabTag>{this.props.ticketDetail.lab}</LabTag>
+                  <OwnerTag>
+                    By {this.props.ticketDetail.createdBy.name}
+                  </OwnerTag>
+                </TicketTitle>
+                <TicketPic>
+                  <UserPic
+                    src={this.props.ticketDetail.createdBy.image}
+                    alt="User Pic"
+                  />
+                </TicketPic>
+              </TicketHeader>
+              <TicketBody>
+                <TicketDescription>
+                  {this.props.ticketDetail.description}
+                </TicketDescription>
 
-              {this.props.ticketDetail.status === "Opened" && (
-                <OpenTag>Open</OpenTag>
+                {this.props.ticketDetail.status === "Opened" && (
+                  <OpenTag>Open</OpenTag>
+                )}
+                {this.props.ticketDetail.status === "In progress" && (
+                  <ProgressTag>In Progress</ProgressTag>
+                )}
+                {this.props.ticketDetail.status === "Cancelled" && (
+                  <CancelledTag>Cancelled</CancelledTag>
+                )}
+                {this.props.ticketDetail.status !== "Cancelled" &&
+                  (this.props.ticketDetail.assignee ? (
+                    <TAtag>
+                      <b>{this.props.ticketDetail.assignee.name}</b> is working
+                      on it
+                    </TAtag>
+                  ) : (
+                    <NoOneTag>No one is working on it yet</NoOneTag>
+                  ))}
+              </TicketBody>
+              {this.props.user.role === "Teacher" && (
+                <IronButton onClick={this.assignTeacher}>
+                  Take this ticket
+                </IronButton>
               )}
-              {this.props.ticketDetail.status === "In progress" && (
-                <ProgressTag>In Progress</ProgressTag>
-              )}
-              {this.props.ticketDetail.status === "Cancelled" && (
-                <CancelledTag>Cancelled</CancelledTag>
-              )}
-              {this.props.ticketDetail.status !== "Cancelled" &&
-                (this.props.ticketDetail.assignee ? (
-                  <TAtag>
-                    <b>{this.props.ticketDetail.assignee.name}</b> is working on
-                    it
-                  </TAtag>
-                ) : (
-                  <NoOneTag>No one is working on it yet</NoOneTag>
-                ))}
-            </TicketBody>
+            </WrapTicket>
 
-            <TicketEdit
-              ticketDetail={this.props.ticketDetail} getAllfromDb={this.props.getAllfromDb} showTicketDetail={this.props.showTicketDetail}
-            />
-            
-            {this.props.user.role === "Teacher" && (
-              <IronButton onClick={this.assignTeacher}>
-                Take this ticket
-              </IronButton>
-            )}
+            <WrapTicketEdit showEdit={this.state.showEdit}>
+              <TicketEdit
+                ticketDetail={this.props.ticketDetail}
+                getAllfromDb={this.props.getAllfromDb}
+                showTicketDetail={this.props.showTicketDetail}
+              />
+            </WrapTicketEdit>
           </FormContainer>
         </Container>
       </MainContainer>

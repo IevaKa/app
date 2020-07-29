@@ -9,7 +9,7 @@ export default class TicketEdit extends Component {
   state = {
     title: '',
     description: '',
-    editForm: false,
+    editForm: true,
   }
 
   getData = () => {
@@ -74,7 +74,7 @@ export default class TicketEdit extends Component {
     // console.log("THIS CONSOLE LOG", this.props.ticketDetail)
     return (
       <div>
-        <Button onClick={this.toggleEditForm}>Show Edit Form</Button>
+        {/* <Button onClick={this.toggleEditForm}>Show Edit Form</Button> */}
         {this.state.editForm && (
           <>
             <Form onSubmit={this.handleSubmit}>
