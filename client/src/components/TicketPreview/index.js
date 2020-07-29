@@ -12,6 +12,8 @@ import {
 import Moment from "react-moment";
 
 import profile from "../../files/b-user.svg";
+import bug from "../../files/bug.svg";
+import question from "../../files/question.svg";
 
 const Container = styled.div`
   font-size: 14px;
@@ -68,6 +70,18 @@ const TAstatus = styled.div`
   background-color: ${ironRed};
 `;
 
+const Category = styled.img`
+  width: 15px;
+  margin: 0 6px 0 0;
+`;
+
+const TicketHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
+const Icon = styled.div``;
+
 export default class TicketPreview extends React.Component {
   state = {
     hover: false,
@@ -117,9 +131,20 @@ export default class TicketPreview extends React.Component {
             onMouseOut={notHovering}
             hover={this.state.hover}
           >
-            <LabTag isDragging={snapshot.isDragging}>
-              {this.props.ticket.lab}
-            </LabTag>
+            <TicketHeader>
+              <LabTag isDragging={snapshot.isDragging}>
+                {this.props.ticket.lab}
+              </LabTag>
+              <Icon>
+                {this.props.ticket.category === "Error" && (
+                  <Category src={bug} slt="Bug" />
+                )}
+                {this.props.ticket.category === "Question" && (
+                  <Category src={question} slt="Question Mark" />
+                )}
+              </Icon>
+            </TicketHeader>
+
             <br />
             {this.props.ticket.title}
             <br />
@@ -132,10 +157,13 @@ export default class TicketPreview extends React.Component {
             <Timestamp isDragging={snapshot.isDragging}>
               Created <Moment fromNow>{timestamp}</Moment>
             </Timestamp>
-            <WrapTAstatus>{this.props.ticket.status !== "Solved" && ticketTA && this.props.user.role === "Student" && (
-              <TAstatus>{ticketTA.name} is on it!</TAstatus>
-            )}</WrapTAstatus>
-            
+            <WrapTAstatus>
+              {this.props.ticket.status !== "Solved" &&
+                ticketTA &&
+                this.props.user.role === "Student" && (
+                  <TAstatus>{ticketTA.name} is on it!</TAstatus>
+                )}
+            </WrapTAstatus>
           </Container>
         )}
       </Draggable>
