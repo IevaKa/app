@@ -32,11 +32,21 @@ const Container = styled.div`
 `;
 
 class TicketBoard extends React.Component {
+
+  // state = {
+
+  // }
+
+  // dragExtended = () => {
+  //   this.props.onDragEnd()
+  // }
+
   render() {
+    
     return (
       <MainContainer>
         <DragDropContext
-          // onDragStart={this.onDragStart}
+          // onDragStart={() => this.props.getSocket(this.props.socket)}
           // onDragUpdate={this.onDragUpdate}
           onDragEnd={this.props.onDragEnd}
         >

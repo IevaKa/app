@@ -170,7 +170,6 @@ export default class Signup extends Component {
   };
 
   render() {
-    console.log('SIGNUP props', this.props)
     return (
       <Overlay>
         <Container>
