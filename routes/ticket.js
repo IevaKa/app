@@ -32,13 +32,14 @@ router.get('/', (req, res) => {
 
 
 router.post('/', (req, res) => {
-  console.log(req.body)
-  const { lab, title, description, status } = req.body;
+  console.log('category is ' + req.body.category)
+  const { lab, title, description, category, status } = req.body;
   Ticket.create({
     createdBy: req.user.id,
     lab: lab,
     title: title,
     description: description,
+    category: category,
     status: status
   })
     .then(task => {

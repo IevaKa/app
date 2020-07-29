@@ -6,6 +6,9 @@ import InputLabel from "@material-ui/core/InputLabel";
 import FormControl from "@material-ui/core/FormControl";
 import TextField from "@material-ui/core/TextField";
 import Select from "@material-ui/core/Select";
+import RadioGroup from "@material-ui/core/RadioGroup";
+
+import CssSyncRadioLabel from "./radiolabel";
 
 import { withStyles } from "@material-ui/core/styles";
 
@@ -94,7 +97,7 @@ const FormField = styled.div`
   align-items: center;
   justify-content: center;
   padding: 3px;
-  margin: ${(props) => (props.bottom ? "0 0 8px 0" : "0px")};
+  margin: ${(props) => (props.bottom ? "0 0 -15px 0" : "0px")};
 `;
 
 const Form = styled.form`
@@ -151,7 +154,8 @@ export default class AddTicket extends Component {
     title: "",
     description: "",
     cohortStartWeek: 30,
-    labs: []
+    labs: [],
+    category: ""
   };
 
   handleChange = (event) => {
@@ -169,6 +173,7 @@ export default class AddTicket extends Component {
       lab: this.state.lab,
       title: this.state.title,
       description: this.state.description,
+      category: this.state.category,
       status: "Opened",
     }
 
@@ -179,6 +184,7 @@ export default class AddTicket extends Component {
           lab: "React | Ironbeers",
           title: "",
           description: "",
+          category: ""
         });
         this.props.socket.emit('addTicket', {
           message: 'this socket works --> ticketADD'
@@ -211,7 +217,6 @@ export default class AddTicket extends Component {
   }
 
   render() {
-    console.log('this is week: ', this.state.labs)
     return (
       <MainContainer>
         <Container>
@@ -221,6 +226,14 @@ export default class AddTicket extends Component {
           </Close>
           <FormContainer>
             <Form onSubmit={this.handleSubmit}>
+
+            <RadioGroup row>
+              <CssSyncRadioLabel
+                handleChange={this.handleChange}
+                category={this.state.category}
+              ></CssSyncRadioLabel>
+            </RadioGroup>
+
               <FormField>
                 <CssFormControl variant="outlined">
                   <CssInputLabel htmlFor="lab">Lab</CssInputLabel>
@@ -228,7 +241,7 @@ export default class AddTicket extends Component {
                     native
                     label="lab"
                     id="lab"
-                    value={this.state.age}
+                    // value={this.state.age}
                     onChange={this.handleChange}
                     inputProps={{
                       name: "lab",
@@ -256,7 +269,7 @@ export default class AddTicket extends Component {
                   onChange={this.handleChange}
                 />
               </FormField>
-              <FormField>
+              <FormField bottom>
                 <CssTextField
                   label="Description"
                   id="description"

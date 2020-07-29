@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import { Draggable } from "react-beautiful-dnd";
 
-
 import {
   ironBlue,
   ironRed,
@@ -13,6 +12,8 @@ import {
 import Moment from "react-moment";
 
 import profile from "../../files/b-user.svg";
+import bug from "../../files/bug.svg";
+import question from "../../files/question.svg";
 
 const Container = styled.div`
   font-size: 14px;
@@ -53,16 +54,37 @@ const TicketOwner = styled.img`
   display: inline-block;
 `;
 
+const WrapTAstatus = styled.div`
+  position: relative;
+`;
+
 const TAstatus = styled.div`
   color: white;
   text-align: right;
   position: absolute;
   font-size: 11px;
+  margin: 10px 0 0 0;
+  right: 0;
   padding: 2px 5px 2px 5px;
   border-radius: 100px;
-  margin: 8px 0 0 120px;
   background-color: ${ironRed};
 `;
+
+const Category = styled.img`
+  width: 15px;
+  margin: 0 6px 0 0;
+`;
+
+const TicketHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  padding: 0;
+  margin: 0
+`;
+
+const Icon = styled.div`
+  padding: 0;
+margin: 0`;
 
 export default class TicketPreview extends React.Component {
   state = {
@@ -113,10 +135,20 @@ export default class TicketPreview extends React.Component {
             onMouseOut={notHovering}
             hover={this.state.hover}
           >
-            <LabTag isDragging={snapshot.isDragging}>
-              {this.props.ticket.lab}
-            </LabTag>
-            <br />
+            <TicketHeader>
+              <LabTag isDragging={snapshot.isDragging}>
+                {this.props.ticket.lab}
+              </LabTag>
+              <Icon>
+                {this.props.ticket.category === "Error" && (
+                  <Category src={bug} slt="Bug" />
+                )}
+                {this.props.ticket.category === "Question" && (
+                  <Category src={question} slt="Question Mark" />
+                )}
+              </Icon>
+            </TicketHeader>
+
             {this.props.ticket.title}
             <br />
             {ticketOwner &&
@@ -128,9 +160,13 @@ export default class TicketPreview extends React.Component {
             <Timestamp isDragging={snapshot.isDragging}>
               Created <Moment fromNow>{timestamp}</Moment>
             </Timestamp>
-            {this.props.ticket.status !== "Cancelled" && (ticketTA && 
-              <TAstatus>{ticketTA.name} is on it!</TAstatus>
-            )}
+            <WrapTAstatus>
+              {this.props.ticket.status !== "Solved" &&
+                ticketTA &&
+                this.props.user.role === "Student" && (
+                  <TAstatus>{ticketTA.name} is on it!</TAstatus>
+                )}
+            </WrapTAstatus>
           </Container>
         )}
       </Draggable>

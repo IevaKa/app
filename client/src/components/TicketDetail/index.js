@@ -278,7 +278,7 @@ export default class TicketDetail extends Component {
                   <Title>{this.props.ticketDetail.title}</Title>
                   <LabTag>{this.props.ticketDetail.lab}</LabTag>
                   <OwnerTag>
-                    By {this.props.ticketDetail.createdBy.name}
+                  {this.props.ticketDetail.category} by {this.props.ticketDetail.createdBy.name}
                   </OwnerTag>
                 </TicketTitle>
                 <TicketPic>

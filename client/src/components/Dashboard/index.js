@@ -336,6 +336,8 @@ const Dashboard = (props) => {
           getTicketDetails={getTicketDetails}
           showTicketDetail={showTicketDetail}
           socket={props.socket}
+          user={props.user}
+
         />
       </WrapperTicketBoard>
     </MainContainer>
