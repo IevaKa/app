@@ -173,14 +173,14 @@ const Navbar = (props) => {
         ) : (
           null
         )}
-        <Notification onClick={toggleNotification}>
+        {/* <Notification onClick={toggleNotification}>
           <NotificationBubble>2</NotificationBubble>
           <NotificationDetails notifications={notifications}>
             Jeff has picked up your ticket!
             <Timestamp>12 minutes ago</Timestamp>
           </NotificationDetails>
           <Icon src={bell} alt="Notification" />
-        </Notification>
+        </Notification> */}
       </NavContainer>
       <NavContainer>
         <UserGreeting>
