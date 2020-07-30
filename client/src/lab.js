@@ -1,13 +1,9 @@
 const labs = {
-  1 : ['lab1 week1', 'lab2 week1'],
-  2 : ['lab1 week2', 'lab2 week2'],
-  3 : ['lab1 week3', 'lab2 week3'],
-  4 : ['lab1 week4', 'lab2 week4'],
-  5 : ['lab1 week5', 'lab2 week5'],
-  6 : ['lab1 week6', 'lab2 week6'],
-  7 : ['lab1 week7', 'lab2 week7'],
-  8 : ['lab1 week8', 'lab2 week8'],
-  9 : ['lab1 week9', 'lab2 week9']
+  1 : ['JavaScript Basic Algorithms', 'CSS Recipes clone', 'JavaScript functions and arrays', 'JavaScript Clue', 'CSS Spotify clone', 'CSS Instagram clone', 'Greatest Movies of All Time'],
+  2 : ['DOM Pizza Builder', 'DOM Ironhack Cart', 'JavaScript Vikings', 'Bootstrap Cloning Revera', 'Treasure Hunt'],
+  4 : ['ES6 JavaScript Koans', 'Intro Node', 'MongoDB - Advanced Querying', 'Express Basic Site', 'IronBeers', 'Mongoose Recipes', 'Express Spotify'],
+  5 : ['Express Cinema', 'Mongoose Movies', 'Express basic auth', 'Add users to Library project', 'Add social logins to Library project', 'Financial data graphing', 'AJAX CRUD Characters', 'IronRooms'],
+  7 : ['Bulma', 'React Training', 'React IronContacts', 'React IronBook', 'Thinking in React', 'Wiki Countries', 'React IronBeers']
 }
 
 export default labs;
