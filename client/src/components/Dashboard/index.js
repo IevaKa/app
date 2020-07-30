@@ -139,10 +139,6 @@ const Dashboard = (props) => {
     props.socket.on('assignTeacher', () =>  getAllTicketsFromDb())
   }, []);
 
-  // useEffect(() => {
-  //    setColumns(columns);
-  // }, [ticketadd]);
-
   const onDragEnd = (result) => {
     const { destination, source, draggableId } = result;
     if (!destination) {
@@ -159,6 +155,9 @@ const Dashboard = (props) => {
     }
     if (role === "Student" && source.droppableId === "columnProgress" && destination.droppableId === "columnOpen") {
       return alert("You cannot move the ticket back");
+    }
+    if (source.droppableId === "columnDone" || source.droppableId === "columnCancelled") {
+      return alert("The ticket has been closed");
     }
 
     // moving inside the same column
