@@ -11,7 +11,7 @@ const flash = require('connect-flash');
 
 
 mongoose
-  .connect('mongodb://localhost/ticketing_app', { useNewUrlParser: true })
+  .connect(process.env.MONGODB_URI || 'mongodb://localhost/ticketing_app', { useNewUrlParser: true })
   .then(x => {
     console.log(`Connected to Mongo! Database name: "${x.connections[0].name}"`)
   })
@@ -55,12 +55,17 @@ app.use(require('node-sass-middleware')({
   sourceMap: true
 }));
 
-app.use(express.static(path.join(__dirname, 'public')));
+// app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, '/client/build')));
 app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
 
 app.use('/api/tickets', require('./routes/ticket'));
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/user', require('./routes/user'));
 app.use('/api/columns', require('./routes/column'));
+
+app.use((req, res) => {
+  res.sendFile(__dirname + "/client/build/index.html");
+});
 
 module.exports = app;
