@@ -58,7 +58,7 @@ const Container = styled.div`
 `;
 
 const FormContainer = styled.div`
-  padding: 60px 30px 30px;
+  padding: 70px 30px 30px;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
@@ -189,7 +189,7 @@ const TicketDescription = styled.div`
   border-radius: 10px;
   background-color: ${evenLighterGray};
   padding: 10px;
-  margin: 0 0 15px 0;
+  margin: 10px 0 30px 0;
   ${"" /* min-height: 100px; */}
 `;
 

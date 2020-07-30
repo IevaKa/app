@@ -94,6 +94,11 @@ const Icon = styled.div`
   margin: 0;
 `;
 
+const TicketTitle = styled.div`
+margin: 7px 0 7px 0;
+${'' /* background-color: red; */}
+`;
+
 export default class TicketPreview extends React.Component {
   state = {
     hover: false,
@@ -167,8 +172,8 @@ export default class TicketPreview extends React.Component {
               </Icon>
             </TicketHeader>
 
-            {this.props.ticket.title}
-            <br />
+            <TicketTitle>{this.props.ticket.title}</TicketTitle>
+            
             {ticketOwner &&
               (ticketOwner.image ? (
                 <TicketOwner src={ticketOwner.image} />
