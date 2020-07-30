@@ -15,6 +15,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  max-height: 475px
 `;
 const Title = styled.h3`
   padding: 12px;
@@ -34,6 +35,8 @@ const TicketList = styled.div`
   border-radius: 10px;
   padding: 8px;
   width: 220px;
+  overflow: scroll;
+  max-height: 475px;
 
   background-color: ${(props) =>
     props.isDraggingOver
@@ -69,7 +72,6 @@ export default class Column extends React.Component {
                     getTicketDetails={this.props.getTicketDetails}
                     showTicketDetail={this.props.showTicketDetail}
                     user={this.props.user}
-
                   />
                 ))}
                 {provided.placeholder}

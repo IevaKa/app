@@ -70,7 +70,7 @@ const TAstatus = styled.div`
   text-align: right;
   position: absolute;
   font-size: 11px;
-  margin: 10px 0 0 0;
+  margin: 7px 0 0 0;
   right: 0;
   padding: 2px 5px 2px 5px;
   border-radius: 100px;
@@ -184,7 +184,7 @@ export default class TicketPreview extends React.Component {
               Created <Moment fromNow>{timestamp}</Moment>
             </Timestamp>
             <WrapTAstatus>
-              {this.props.ticket.status !== "Solved" &&
+              {this.props.ticket.status !== "Solved" && this.props.user &&
                 ticketTA &&
                 this.props.user.role === "Student" && (
                   <TAstatus>{ticketTA.name} is on it!</TAstatus>

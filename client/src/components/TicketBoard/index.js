@@ -5,11 +5,11 @@ import Column from "../Column";
 
 import { evenLighterGray, lightGray } from "../../styles/global.js";
 
-
 const MainContainer = styled.div`
   display: flex;
   justify-content: center;
   background-color: ${evenLighterGray};
+  height: 100vh;
 `;
 
 const WrapContainer = styled.div`
@@ -18,7 +18,7 @@ const WrapContainer = styled.div`
   justify-content: center;
   margin: 0 0 0 135px;
   width: calc(100vw - 135px);
-  height: 100vh;
+  ${'' /* max-height: 700px */}
 `;
 
 const Container = styled.div`
@@ -32,9 +32,7 @@ const Container = styled.div`
 `;
 
 class TicketBoard extends React.Component {
-
   render() {
-    
     return (
       <MainContainer>
         <DragDropContext

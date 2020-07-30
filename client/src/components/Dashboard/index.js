@@ -23,12 +23,12 @@ const MainContainer = styled.div`
 `;
 
 const WrapperTicketBoard = styled.div`
-  ${"" /* animation: ${loadIn} 1s ease-in-out; */}
+  position: fixed;
 `;
 
 const WrapperNavbar = styled.div`
   z-index: 5;
-  position: absolute;
+  position: fixed;
   animation: ${loadIn} 1s ease-in-out;
 `;
 
