@@ -21,7 +21,7 @@ import socketIOClient from "socket.io-client";
 class App extends React.Component {
   state = {
     user: this.props.user,
-    socket: socketIOClient('http://localhost:3000')
+    socket: socketIOClient('https://irontickets.herokuapp.com/')
   };
 
   // setUser = (user) => {

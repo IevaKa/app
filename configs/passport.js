@@ -48,7 +48,7 @@ passport.use(
     {
       clientID: process.env.GITHUB_ID,
       clientSecret: process.env.GITHUB_SECRET,
-      callbackURL: 'http://localhost:5555/api/auth/github/callback'
+      callbackURL: 'https://irontickets.herokuapp.com/api/auth/github/callback'
     },
     (accessToken, refreshToken, profile, done) => {
       console.log(profile)

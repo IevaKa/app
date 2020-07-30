@@ -195,7 +195,7 @@ export default class Login extends React.Component {
             <IronButton type="submit">Login</IronButton>
           </Form>
           <StyledLink>
-            <GitLink href="http://localhost:5555/api/auth/github">
+            <GitLink href="https://irontickets.herokuapp.com/api/auth/github">
               <Github>
                 Or login with <TinyIcon src={github} alt="GitHub Icon"/> <Strong>Github</Strong>
               </Github>
