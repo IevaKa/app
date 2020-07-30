@@ -73,12 +73,11 @@ const Form = styled.form`
 
 export default class index extends Component {
   render() {
-    // console.log(this.props.user.name)
     return (
+      <>
       <Form onSubmit={this.props.handleSubmit}>
         <FormBody>
           <CssTextField
-            // label="Name"
             id="name"
             variant="outlined"
             type="text"
@@ -90,17 +89,21 @@ export default class index extends Component {
           <IronButton type="submit">Edit</IronButton>
         </FormBody>
       </Form>
-      // <>
-      //   <Form onSubmit={this.props.handleSubmit}>
-      //       <Form.Control
-      //         type='text'
-      //         name='user'
-      //         value={this.props.user.name}
-      //         onChange={this.props.handleChange}
-      //       />
-      //     <Button type='submit'>Edit</Button>
-      //   </Form>
-      // </>
+      {/* <Form onSubmit={this.props.handleSubmit}>
+        <FormBody>
+          <CssTextField
+            id="currentCohortWeek"
+            variant="outlined"
+            type="text"
+            name="currentCohortWeek"
+            value={this.props.currentCohortWeek}
+            onChange={this.props.handleChange}
+            size="small"
+          />
+          <IronButton type="submit">Edit</IronButton>
+        </FormBody>
+      </Form> */}
+      </>
     );
   }
 }
