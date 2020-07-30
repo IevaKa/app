@@ -1,9 +1,8 @@
 import React, { Component } from "react";
-import { Form, Button } from "react-bootstrap";
 
 import { withStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
-import styled, { keyframes } from "styled-components";
+import styled from "styled-components";
 
 import { ironBlue, ironRed } from "../../styles/global.js";
 
@@ -63,6 +62,13 @@ display: flex;
 justify-content: center;
 align-items: center;
 `
+
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
 
 
 export default class index extends Component {

@@ -14,6 +14,7 @@ import Moment from "react-moment";
 import profile from "../../files/b-user.svg";
 import bug from "../../files/bug.svg";
 import question from "../../files/question.svg";
+import lab from "../../files/lab.svg";
 
 const Container = styled.div`
   font-size: 14px;
@@ -39,6 +40,12 @@ const LabTag = styled.div`
   display: inline-block;
   margin: 0 0 10px 0;
 `;
+
+const EmptyLabTag = styled.div`
+  display: inline-block;
+  margin: 0 0 10px 0;
+`;
+
 
 const Timestamp = styled.div`
   font-size: 11px;
@@ -79,12 +86,13 @@ const TicketHeader = styled.div`
   display: flex;
   justify-content: space-between;
   padding: 0;
-  margin: 0
+  margin: 0;
 `;
 
 const Icon = styled.div`
   padding: 0;
-margin: 0`;
+  margin: 0;
+`;
 
 export default class TicketPreview extends React.Component {
   state = {
@@ -136,15 +144,25 @@ export default class TicketPreview extends React.Component {
             hover={this.state.hover}
           >
             <TicketHeader>
-              <LabTag isDragging={snapshot.isDragging}>
-                {this.props.ticket.lab}
-              </LabTag>
+              {this.props.ticket.lab ? (
+                <LabTag isDragging={snapshot.isDragging}>
+                  {this.props.ticket.lab}
+                </LabTag>
+              ) : (
+                <EmptyLabTag isDragging={snapshot.isDragging}>
+                  
+                </EmptyLabTag>
+              )}
+
               <Icon>
                 {this.props.ticket.category === "Error" && (
                   <Category src={bug} slt="Bug" />
                 )}
                 {this.props.ticket.category === "Question" && (
                   <Category src={question} slt="Question Mark" />
+                )}
+                {this.props.ticket.category === "Lab" && (
+                  <Category src={lab} slt="Lab" />
                 )}
               </Icon>
             </TicketHeader>

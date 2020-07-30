@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
-import styled, { keyframes } from "styled-components";
+import styled from "styled-components";
 import TicketEdit from "../TicketEdit";
 
 import {
@@ -278,7 +278,11 @@ export default class TicketDetail extends Component {
                   <Title>{this.props.ticketDetail.title}</Title>
                   <LabTag>{this.props.ticketDetail.lab}</LabTag>
                   <OwnerTag>
-                  {this.props.ticketDetail.category} by {this.props.ticketDetail.createdBy.name}
+                  
+                  
+                  { this.props.ticketDetail.category === "Question" && 'A question from '} 
+                  {this.props.ticketDetail.createdBy.name}{ this.props.ticketDetail.category === "Lab" && ' has a lab problem.'}
+                  { this.props.ticketDetail.category === "Error" && ' got an error.'} 
                   </OwnerTag>
                 </TicketTitle>
                 <TicketPic>

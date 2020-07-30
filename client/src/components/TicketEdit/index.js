@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
-import { Form, Button } from "react-bootstrap";
-import styled, { keyframes } from "styled-components";
+import styled from "styled-components";
 import { withStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import { IronButton, ironBlue, ironRed } from "../../styles/global.js";
@@ -21,6 +20,13 @@ const FormField = styled.div`
   justify-content: center;
   padding: 3px;
   margin: ${(props) => (props.bottom ? "0 0 8px 0" : "0px")};
+`;
+
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 `;
 
 const CssTextField = withStyles({

@@ -127,7 +127,7 @@ export default class index extends Component {
   // Editing
 
   handleChange = event => {
-    console.log(event.target)
+    // console.log(event.target)
     const value = event.target.value;
     this.setState({
       name: value
@@ -138,12 +138,12 @@ export default class index extends Component {
   handleSubmit = event => {
     event.preventDefault();
     const id = this.state.user._id;
-    console.log(id)
+    // console.log(id)
     axios.put(`/api/auth/loggedin/${id}`, {
       name: this.state.name,
     })
       .then(response => {
-        console.log(response.data.name)
+        // console.log(response.data.name)
         this.setState({
           user: response.data,
           editForm: false,

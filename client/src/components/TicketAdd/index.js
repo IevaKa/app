@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import styled, { keyframes } from "styled-components";
-import labs from '../../lab'
+import labs from "../../lab";
 import InputLabel from "@material-ui/core/InputLabel";
 import FormControl from "@material-ui/core/FormControl";
 import TextField from "@material-ui/core/TextField";
@@ -15,6 +15,11 @@ import { IronButton, ironBlue, ironRed } from "../../styles/global.js";
 const fadeIn = keyframes`
  0% { opacity: 0 }
  70% { opacity: 0   }
+ 100% { opacity: 1 }
+`;
+
+const showLab = keyframes`
+ 0% { opacity: 0 }
  100% { opacity: 1 }
 `;
 
@@ -40,8 +45,8 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 350px;
-  height: 450px;
+  width: 370px;
+  height: 460px;
   border-radius: 10px;
   background-color: white;
   box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.1);
@@ -96,6 +101,15 @@ const FormField = styled.div`
   margin: ${(props) => (props.bottom ? "0 0 -15px 0" : "0px")};
 `;
 
+const WrapLab = styled.div`
+  display: ${(props) => (props.showLab ? "block" : "none")};
+  ${'' /* opacity: ${(props) => (props.showLab ? 1 : 0)};
+  height: ${(props) => (props.showLab ? '' : '10px')}; */}
+  animation: ${showLab} 0.4s ease-in-out;
+  transition: all 500ms ease-in-out;
+
+`;
+
 const Form = styled.form`
   display: flex;
   flex-direction: column;
@@ -106,7 +120,7 @@ const Form = styled.form`
 const CssTextField = withStyles({
   root: {
     margin: "6px",
-    width: "250px",
+    width: "270px",
     "& .MuiInputLabel-root": {
       fontFamily: `'Poppins', sans-serif`,
       fontSize: "14px",
@@ -137,12 +151,12 @@ const CssInputLabel = withStyles({
 
 const CssFormControl = withStyles({
   root: {
-    width: "250px",
+    width: "270px",
     fontSize: 14,
     fontFamily: `'Poppins', sans-serif`,
     color: "red",
     // display: ${(this.state.category) === 'Lab' ? 'block' : 'none'}
-  }
+  },
 })(FormControl);
 
 export default class AddTicket extends Component {
@@ -152,8 +166,21 @@ export default class AddTicket extends Component {
     description: "",
     cohortStartWeek: 30,
     labs: [],
-    category: "Lab"
-    };
+    category: "Lab",
+    showLab: true,
+  };
+
+  handleShowLab = () => {
+    if (this.state.category !== "Lab") {
+      this.setState({
+        showLab: false,
+      });
+    } else {
+      this.setState({
+        showLab: true,
+      });
+    }
+  };
 
   handleChange = (event) => {
     const name = event.target.name;
@@ -171,7 +198,7 @@ export default class AddTicket extends Component {
       description: this.state.description,
       category: this.state.category,
       status: "Opened",
-    }
+    };
 
     axios
       .post(`/api/tickets`, data)
@@ -180,13 +207,13 @@ export default class AddTicket extends Component {
           lab: "",
           title: "",
           description: "",
-          category: "Lab"
+          category: "Lab",
         });
-        this.props.socket.emit('addTicket', {
-          message: 'this socket works --> ticketADD'
-        })
+        this.props.socket.emit("addTicket", {
+          message: "this socket works --> ticketADD",
+        });
         this.props.showTicketDetail(false);
-        this.props.getAllfromDb()
+        this.props.getAllfromDb();
       })
       .catch((err) => {
         console.log(err);
@@ -198,27 +225,31 @@ export default class AddTicket extends Component {
   };
 
   getLabs = () => {
-    let d = new Date()
+    let d = new Date();
     d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
-    d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay()||7));
-    const yearStart = new Date(Date.UTC(d.getUTCFullYear(),0,1));
-    const weekNo = Math.ceil(( ( (d - yearStart) / 86400000) + 1)/7);
-    const labWeek = weekNo - this.state.cohortStartWeek + 1
+    d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7));
+    const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+    const weekNo = Math.ceil(((d - yearStart) / 86400000 + 1) / 7);
+    const labWeek = weekNo - this.state.cohortStartWeek + 1;
     this.setState({
-      labs: labs[labWeek]
+      labs: labs[labWeek],
     });
-}
+  };
   componentDidMount = () => {
-    this.getLabs()
-  }
+    this.getLabs();
+  };
 
   componentDidUpdate = (prevProps, prevState) => {
-    if(prevState.category !== this.state.category) {
-      console.log('HERE', this.state.category)
+    // if (prevState.category !== this.state.category) {
+    //   console.log("HERE", this.state.category);
+    // }
+    if (prevState.category !== this.state.category) {
+      this.handleShowLab();
     }
-  }
+  };
 
   render() {
+    // console.log("showlab is " + this.state.showLab);
     return (
       <MainContainer>
         <Container>
@@ -228,38 +259,37 @@ export default class AddTicket extends Component {
           </Close>
           <FormContainer>
             <Form onSubmit={this.handleSubmit}>
+              <RadioGroup row>
+                <CssSyncRadioLabel
+                  checked={this.state.value === 1}
+                  handleChange={this.handleChange}
+                  category={this.state.category}
+                ></CssSyncRadioLabel>
+              </RadioGroup>
 
-            <RadioGroup row>
-              <CssSyncRadioLabel
-                checked={this.state.value === 1}
-                handleChange={this.handleChange}
-                category={this.state.category}
-              ></CssSyncRadioLabel>
-            </RadioGroup>
-
-              <FormField>
-                <CssFormControl variant="outlined" style={{ display: this.state.category === 'Lab' ? 'block' : 'none' }}>
-                  <CssInputLabel htmlFor="lab">Lab</CssInputLabel>
-                  <Select
-                    native
-                    label="lab"
-                    id="lab"
-                    // value={this.state.age}
-                    onChange={this.handleChange}
-                    inputProps={{
-                      name: "lab",
-                      id: "lab",
-                    }}
-                  >
-                    <option aria-label="None" value="" />
-                    {this.state.labs.map(lab => {
-                      return(
-                        <option value={lab}>{lab}</option>
-                        ) 
-                    })}
-                  </Select>
-                </CssFormControl>
-              </FormField>
+              <WrapLab showLab={this.state.showLab}>
+                <FormField>
+                  <CssFormControl variant="outlined">
+                    <CssInputLabel htmlFor="lab">Lab</CssInputLabel>
+                    <Select
+                      native
+                      label="lab"
+                      id="lab"
+                      // value={this.state.age}
+                      onChange={this.handleChange}
+                      inputProps={{
+                        name: "lab",
+                        id: "lab",
+                      }}
+                    >
+                      <option aria-label="None" value="" />
+                      {this.state.labs.map((lab) => {
+                        return <option value={lab}>{lab}</option>;
+                      })}
+                    </Select>
+                  </CssFormControl>
+                </FormField>
+              </WrapLab>
 
               <FormField>
                 <CssTextField

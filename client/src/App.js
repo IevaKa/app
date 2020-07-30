@@ -1,6 +1,6 @@
 import React from "react";
 import { Route, Switch as RouterSwitch } from "react-router-dom";
-import ReactDOM from "react-dom";
+// import ReactDOM from "react-dom";
 import { GlobalStyles } from "../src/styles/global.js";
 import axios from "axios";
 
@@ -11,11 +11,8 @@ import TicketBoard from "./components/TicketBoard";
 import TicketAdd from "./components/TicketAdd";
 import Dashboard from "./components/Dashboard";
 import TicketDetail from "./components/TicketDetail";
-// import TicketEdit from "./components/TicketEdit";
-// import MainDash from "./components/MainDash";
 import Profile from "./components/Profile";
 import ProfileEdit from "./components/ProfileEdit";
-import { Typography } from "@material-ui/core";
 
 import socketIOClient from "socket.io-client";
 // let socket = socketIOClient('http://localhost:3000');
