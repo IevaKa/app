@@ -209,7 +209,6 @@ const WrapTicketEdit = styled.div`
   height: 100%;
   margin: 0;
   display: ${(props) => (props.showEdit ? "block" : "none")};
-
 `;
 
 export default class TicketDetail extends Component {
@@ -231,16 +230,17 @@ export default class TicketDetail extends Component {
 
   assignTeacher = () => {
     axios
-      .put(`/api/tickets/assignment/${this.props.ticketDetail._id}`).then(response => {
-        this.props.socket.emit('assignTeacher', {
-          message: 'IEVA --> assignTeacher'
-        })
+      .put(`/api/tickets/assignment/${this.props.ticketDetail._id}`)
+      .then((response) => {
+        this.props.socket.emit("assignTeacher", {
+          message: "IEVA --> assignTeacher",
+        });
       })
       .catch((err) => {
         console.log(err);
       });
 
-      this.props.showTicketDetail(false)
+    this.props.showTicketDetail(false);
   };
 
   render() {
@@ -248,24 +248,29 @@ export default class TicketDetail extends Component {
     return (
       <MainContainer>
         <Container>
-          <WrapTicketEdit showEdit={this.state.showEdit}>
-            <TicketEdit
-              ticketDetail={this.props.ticketDetail}
-              getAllfromDb={this.props.getAllfromDb}
-              showTicketDetail={this.props.showTicketDetail}
-              hideEdit={this.hideEdit}
-            />
-          </WrapTicketEdit>
-          <Edit
-            onClick={() => {
-              this.toggleEdit();
-            }}
-          >
-            <Y src={edit} alt="Edit" />
-          </Edit>
+          {this.props.user.role === "Student" && (
+            <>
+              <WrapTicketEdit showEdit={this.state.showEdit}>
+                <TicketEdit
+                  ticketDetail={this.props.ticketDetail}
+                  getAllfromDb={this.props.getAllfromDb}
+                  showTicketDetail={this.props.showTicketDetail}
+                  hideEdit={this.hideEdit}
+                />
+              </WrapTicketEdit>
+              <Edit
+                onClick={() => {
+                  this.toggleEdit();
+                }}
+              >
+                <Y src={edit} alt="Edit" />
+              </Edit>
+            </>
+          )}
+
           <Close
             onClick={() => {
-              this.props.showTicketDetail(false)
+              this.props.showTicketDetail(false);
               this.hideEdit();
             }}
           >
@@ -278,11 +283,13 @@ export default class TicketDetail extends Component {
                   <Title>{this.props.ticketDetail.title}</Title>
                   <LabTag>{this.props.ticketDetail.lab}</LabTag>
                   <OwnerTag>
-                  
-                  
-                  { this.props.ticketDetail.category === "Question" && 'A question from '} 
-                  {this.props.ticketDetail.createdBy.name}{ this.props.ticketDetail.category === "Lab" && ' has a lab problem.'}
-                  { this.props.ticketDetail.category === "Error" && ' got an error.'} 
+                    {this.props.ticketDetail.category === "Question" &&
+                      "A question from "}
+                    {this.props.ticketDetail.createdBy.name}
+                    {this.props.ticketDetail.category === "Lab" &&
+                      " has a lab problem."}
+                    {this.props.ticketDetail.category === "Error" &&
+                      " got an error."}
                   </OwnerTag>
                 </TicketTitle>
                 <TicketPic>
