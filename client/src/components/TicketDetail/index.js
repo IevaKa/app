@@ -26,17 +26,7 @@ import edit from "../../files/edit.svg";
 // const { Search } = Input;
 // const { Meta } = Card;
 
-// const fadeIn = keyframes`
-//  0% { opacity: 0 }
-//  70% { opacity: 0   }
-//  100% { opacity: 1 }
-// `;
 
-// const slideUp = keyframes`
-//  0% { transform: translateY(1000px); opacity: 0; }
-//  50% { opacity: 0.2; }
-//  100% { transform: translateY(0); opacity: 1; }
-// `;
 
 const MainContainer = styled.div`
   display: flex;
