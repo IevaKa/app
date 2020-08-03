@@ -283,7 +283,7 @@ export default class AddTicket extends Component {
                       }}
                     >
                       <option aria-label="None" value="" />
-                      {this.state.labs.map((lab) => {
+                      {!this.state.labs && this.state.labs.map((lab) => {
                         return <option value={lab}>{lab}</option>;
                       })}
                     </Select>
