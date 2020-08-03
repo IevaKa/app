@@ -164,7 +164,7 @@ export default class AddTicket extends Component {
     lab: "",
     title: "",
     description: "",
-    cohortStartWeek: 30,
+    cohortStartWeek: 31,
     labs: [],
     category: "Lab",
     showLab: true,
