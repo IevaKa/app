@@ -249,7 +249,7 @@ export default class AddTicket extends Component {
   };
 
   render() {
-    // console.log("showlab is " + this.state.showLab);
+    if(!this.state.labs) return <></>;
     return (
       <MainContainer>
         <Container>
