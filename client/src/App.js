@@ -50,6 +50,7 @@ class App extends React.Component {
             path="/"
             render={(props) => <Home setUser={this.setUser} socket={this.state.socket} {...props} />}
           />
+          
           <Route
             exact
             path="/signup"
