@@ -151,18 +151,13 @@ export default class Login extends React.Component {
           password: "",
         });
       } else {
-        // successfully logged in
-        // update the state for the parent component
         this.props.setUser(data);
-        this.props.logedin(data.username);
         this.props.history.push("/dashboard");
       }
     });
   };
 
   render() {
-    // console.log(this.props.setUser)
-
     return (
       <Overlay>
         <Container>

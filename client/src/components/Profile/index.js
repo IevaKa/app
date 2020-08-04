@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import ProfileEdit from "../ProfileEdit";
+import CohortStartEdit from "../CohortStartEdit";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import styled, { keyframes } from "styled-components";
@@ -106,7 +107,9 @@ export default class index extends Component {
   state = {
     user: "",
     editForm: false,
-    name: ""
+    editCohortStart: false,
+    name: "",
+    cohortStartWeek: null
   };
 
   getUser = () => {
@@ -115,7 +118,8 @@ export default class index extends Component {
         const user = response.data;
         this.setState({
           user: user,
-          name: user.name
+          name: user.name,
+          cohortStartWeek: user.cohortStartWeek
         });
       })
   } 
@@ -124,13 +128,11 @@ export default class index extends Component {
     this.getUser();
   };
 
-  // Editing
-
   handleChange = event => {
-    // console.log(event.target)
     const value = event.target.value;
+    const name = event.target.name;
     this.setState({
-      name: value
+      [name]: value
     });
   };
 
@@ -138,16 +140,29 @@ export default class index extends Component {
   handleSubmit = event => {
     event.preventDefault();
     const id = this.state.user._id;
-    // console.log(id)
     axios.put(`/api/auth/loggedin/${id}`, {
       name: this.state.name,
     })
       .then(response => {
-        // console.log(response.data.name)
         this.setState({
           user: response.data,
           editForm: false,
           name: response.data.name
+       })
+      })
+      .catch(err => {
+        console.log(err);
+      })
+  }
+
+  handleCohortStartSubmit = event => {
+    event.preventDefault();
+    axios.put('/api/user', {
+      startWeek: this.state.cohortStartWeek
+    })
+      .then(response => {
+        this.setState({
+          editCohortStart: false
         })
       })
       .catch(err => {
@@ -158,6 +173,12 @@ export default class index extends Component {
   toggleEditForm = () => {
     this.setState({
       editForm: !this.state.editForm,
+    });
+  };
+
+  toggleCohortStartForm = () => {
+    this.setState({
+      editCohortStart: !this.state.editCohortStart,
     });
   };
 
@@ -200,6 +221,22 @@ export default class index extends Component {
              <Location>{this.state.user.location}</Location> 
               {this.state.user.bio}
             </FormWrap>
+
+            <FormWrap>
+              {this.state.editCohortStart && this.state.user.role === 'Teacher' ? (
+                <CohortStartEdit
+                  {...this.state}
+                  handleChange={this.handleChange}
+                  handleSubmit={this.handleCohortStartSubmit}
+                />
+              ) : 
+                  <Location> 
+                    Cohort Start Week: {this.state.cohortStartWeek}
+                      <Icon src={pencil} alt="Edit" onClick={this.toggleCohortStartForm} />
+                  </Location>
+              }
+            </FormWrap>
+
             <FormWrap>
               <Link to="/" onClick={this.handleLogout}>
                 <Button>Logout</Button>

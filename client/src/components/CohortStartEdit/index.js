@@ -71,18 +71,18 @@ const Form = styled.form`
 `;
 
 
-export default class index extends Component {
+export default class CohortStartEdit extends Component {
   render() {
     return (
       <>
       <Form onSubmit={this.props.handleSubmit}>
         <FormBody>
           <CssTextField
-            id="name"
+            id="cohortStartWeek"
             variant="outlined"
             type="text"
-            name="name"
-            value={this.props.name}
+            name="cohortStartWeek"
+            value={this.props.cohortStartWeek}
             onChange={this.props.handleChange}
             size="small"
           />

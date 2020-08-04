@@ -137,7 +137,7 @@ const CssTextField = withStyles({
       borderBottomColor: ironBlue,
     },
     "& .MuiInput-underline:hover:before": {
-      borderBottomColor: ironRed, // Solid underline on hover
+      borderBottomColor: ironRed,
     },
   },
 })(TextField);
@@ -155,7 +155,6 @@ const CssFormControl = withStyles({
     fontSize: 14,
     fontFamily: `'Poppins', sans-serif`,
     color: "red",
-    // display: ${(this.state.category) === 'Lab' ? 'block' : 'none'}
   },
 })(FormControl);
 
@@ -164,7 +163,6 @@ export default class AddTicket extends Component {
     lab: "",
     title: "",
     description: "",
-    cohortStartWeek: 31,
     labs: [],
     category: "Lab",
     showLab: true,
@@ -230,30 +228,28 @@ export default class AddTicket extends Component {
     d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7));
     const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
     const weekNo = Math.ceil(((d - yearStart) / 86400000 + 1) / 7);
-    const labWeek = weekNo - this.state.cohortStartWeek + 1;
+    const labWeek = weekNo - this.props.user.cohortStartWeek + 1;
+    return labWeek
+  };
+
+  componentDidMount = () => {
+    const labWeek = this.getLabs();
     this.setState({
       labs: labs[labWeek],
     });
   };
-  componentDidMount = () => {
-    this.getLabs();
-  };
 
   componentDidUpdate = (prevProps, prevState) => {
-    // if (prevState.category !== this.state.category) {
-    //   console.log("HERE", this.state.category);
-    // }
     if (prevState.category !== this.state.category) {
       this.handleShowLab();
     }
   };
 
   render() {
-    if(!this.state.labs) return <></>;
+    if(!this.props.user) return <></>
     return (
       <MainContainer>
         <Container>
-          {/* <Navbar /> */}
           <Close onClick={() => this.props.showTicketadd(false)}>
             <X src={x} alt="Close" />
           </Close>
@@ -275,7 +271,6 @@ export default class AddTicket extends Component {
                       native
                       label="lab"
                       id="lab"
-                      // value={this.state.age}
                       onChange={this.handleChange}
                       inputProps={{
                         name: "lab",
@@ -283,8 +278,8 @@ export default class AddTicket extends Component {
                       }}
                     >
                       <option aria-label="None" value="" />
-                      {!this.state.labs && this.state.labs.map((lab) => {
-                        return <option value={lab}>{lab}</option>;
+                      {this.state.labs && this.state.labs.map((lab) => {
+                        return <option key={lab} value={lab}>{lab}</option>;
                       })}
                     </Select>
                   </CssFormControl>

@@ -131,7 +131,8 @@ export default class Signup extends Component {
     name: "",
     password: "",
     message: "",
-    role: "Student"
+    role: "Student",
+    cohortStartWeek: 1
   };
 
 
@@ -143,26 +144,35 @@ export default class Signup extends Component {
     });
   };
 
-  afterAuth = (data) => {
-    this.props.setUser(data);
-    this.props.logedin(data.username);
+  getWeek = () => {
+    let d = new Date();
+    d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+    d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7));
+    const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+    const weekNo = Math.ceil(((d - yearStart) / 86400000 + 1) / 7);
+    this.setState({
+      cohortStartWeek: weekNo
+    });
+  };
+
+  componentDidMount = () => {
+    this.getWeek()
   }
+
   handleSubmit = (event) => {
     event.preventDefault();
-    const { username, password, name, role } = this.state;
-
-    signup(username, password, name, role).then((data) => {
+    const { username, password, name, role, cohortStartWeek } = this.state;
+    signup(username, password, name, role, cohortStartWeek).then((data) => {
       if (data.message) {
         this.setState({
           message: data.message,
           username: "",
           password: "",
           name: "",
-          role: "Student",
+          role: "Student"
         });
       } else {
-        this.afterAuth(data)
-        // this.props.setUser(data);
+        this.props.setUser(data);
         this.props.history.push("/dashboard");
       }
       

@@ -7,7 +7,7 @@ const passport = require('passport');
 const Column = require('../models/Column');
 
 router.post('/signup', (req, res) => {
-  const { username, password, name, role } = req.body;
+  const { username, password, name, role, cohortStartWeek } = req.body;
 
   if (!password || password.length < 8) {
     return res
@@ -29,7 +29,13 @@ router.post('/signup', (req, res) => {
       const salt = bcrypt.genSaltSync();
       const hash = bcrypt.hashSync(password, salt);
 
-      return User.create({ username: username, password: hash, name: name, role: role }).then(
+      return User.create({ 
+        username: username, 
+        password: hash, 
+        name: name, 
+        role: role, 
+        cohortStartWeek: cohortStartWeek 
+      }).then(
         dbUser => {
 
           req.login(dbUser, err => {
@@ -116,6 +122,7 @@ router.put('/loggedin/:id', (req, res) => {
       res.json(err);
     });
 });
+
 
 // Social Login
 router.get('/github', passport.authenticate('github'));

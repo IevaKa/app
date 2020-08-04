@@ -6,16 +6,12 @@ import TicketBoard from "../TicketBoard";
 import TicketAdd from "../TicketAdd";
 import Profile from "../Profile";
 import TicketDetail from "../TicketDetail";
-// import TicketEdit from "../TicketEdit";
-
 import { } from "../../styles/global.js";
 
 const loadIn = keyframes`
  0% { opacity: 0; transform: translate(-50%, 0);}
  100% { opacity: 1; transform: translate(0, 0);}
 `;
-
-// const Animation = `${TicketAddAnm} 1.5s 1 ease-in-out`
 
 const MainContainer = styled.div`
   display: flex;
@@ -60,7 +56,6 @@ const Dashboard = (props) => {
   let [allUsers, setAllUsers] = useState([]);
 
   let [columns, setColumns] = useState(null);
-  // let [result, setResult] = useState(null);
   let [tickets, setTickets] = useState([]);
   let [order, setOrder] = useState([]);
   let [role, setRole] = useState("Student");
@@ -160,25 +155,19 @@ const Dashboard = (props) => {
       return alert("The ticket has been closed");
     }
 
-    // moving inside the same column
-
-    // console.log('from: ' + source.droppableId + '  //  to: ' + destination.droppableId);
-    // console.log('is: ' + draggableId);
-
     const start = columns[source.droppableId];
     const finish = columns[destination.droppableId];
 
     if (start === finish) {
       const newTicketIds = Array.from(start.ticketIds);
-      newTicketIds.splice(source.index, 1); // removes item from original array position
-      newTicketIds.splice(destination.index, 0, draggableId); // inserts in the new one
+      newTicketIds.splice(source.index, 1);
+      newTicketIds.splice(destination.index, 0, draggableId);
 
       const newColumn = {
         ...start,
         ticketIds: newTicketIds,
       };
 
-      // console.log(newColumn);
       const newState = {
         ...columns,
         [newColumn.id]: newColumn,
@@ -192,7 +181,6 @@ const Dashboard = (props) => {
           array: newColumn.ticketIds,
         })
         .then((response) => {
-          console.log(response);
         })
         .catch((err) => {
           console.log(err);
@@ -209,7 +197,7 @@ const Dashboard = (props) => {
     };
 
     const finishTicketIds = Array.from(finish.ticketIds);
-    finishTicketIds.splice(destination.index, 0, draggableId); // inserts in the new column
+    finishTicketIds.splice(destination.index, 0, draggableId);
     const newFinish = {
       ...finish,
       ticketIds: finishTicketIds,
@@ -246,18 +234,13 @@ const Dashboard = (props) => {
         timestamp: timestampMap[destination.droppableId],
       })
       .then((response) => {
-        console.log(response);
         props.socket.emit('onDrag', {
           message: 'IEVA --> onDrag'
         })
       })
       .catch((err) => {
         console.log(err);
-      });
-
-
-      // props.socket.emit('onDrag', () =>  getAllTicketsFromDb())
-      
+      });      
   };
 
   const handleTicketAdd = (socket) => {
@@ -306,6 +289,7 @@ const Dashboard = (props) => {
 
       <WrapperTicketAdd ticketadd={ticketadd}>
         <TicketAdd
+          user={props.user}
           showTicketadd={showTicketadd}
           getAllfromDb={getAllTicketsFromDb}
           showTicketDetail={showTicketDetail}
