@@ -15,7 +15,6 @@ class App extends React.Component {
   state = {
     user: this.props.user,
     socket: socketIOClient('https://irontickets.herokuapp.com/')
-    // socket: socketIOClient('http://localhost:3000')
   };
 
   setUser = () => {

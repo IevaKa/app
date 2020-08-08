@@ -6,6 +6,15 @@ const GitHubStrategy = require('passport-github').Strategy;
 const bcrypt = require('bcrypt');
 const passport = require('passport');
 
+const getWeek = () => {
+  let d = new Date();
+  d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+  d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7));
+  const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+  const weekNo = Math.ceil(((d - yearStart) / 86400000 + 1) / 7);
+  return weekNo
+};
+
 passport.serializeUser((loggedInUser, cb) => {
   cb(null, loggedInUser._id);
 });
@@ -64,7 +73,8 @@ passport.use(
               image: profile._json.avatar_url,
               name: profile.displayName,
               bio: profile._json.bio,
-              role: 'Student'
+              role: 'Student',
+              cohortStartWeek: getWeek()
             }).then(dbUser => {
               Ticket.find({ status: 'Opened' }).then(tickets => {
                 let openTickets = [];

@@ -111,7 +111,6 @@ router.put('/loggedin/:id', (req, res) => {
   User.findByIdAndUpdate(
     req.params.id,
     { name },
-    // { new: true } ensures that we are getting the updated document in the .then callback
     { new: true }
   )
     .then(user => {
@@ -130,7 +129,6 @@ router.get('/github', passport.authenticate('github'));
 router.get(
   '/github/callback',
   passport.authenticate('github', {
-    // successRedirect: '/ticket/board',
     successRedirect: '/dashboard',
     failureRedirect: '/',
   })
