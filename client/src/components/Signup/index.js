@@ -225,7 +225,7 @@ export default class Signup extends Component {
               Signup
             </IronButton>
           </Form>
-          <GitLink href="https://irontickets.herokuapp.com/api/auth/github">
+          <GitLink href="https://ironticketsmanager.herokuapp.com/api/auth/github">
             <Github>
               Or signup with <TinyIcon src={github} /> <Strong>Github</Strong>
             </Github>

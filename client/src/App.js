@@ -13,7 +13,7 @@ import socketIOClient from "socket.io-client";
 class App extends React.Component {
   state = {
     user: this.props.user,
-    socket: socketIOClient("https://irontickets.herokuapp.com/"),
+    socket: socketIOClient("https://ironticketsmanager.herokuapp.com/"),
   };
 
   setUser = () => {
@@ -39,7 +39,6 @@ class App extends React.Component {
             path="/dashboard"
             render={(props) => {
               if (this.state.user) {
-                console.log("we have a user");
                 return (
                   <Dashboard
                     socket={this.state.socket}
@@ -49,7 +48,6 @@ class App extends React.Component {
                   />
                 );
               } else {
-                console.log("we do not have a user");
                 return <Redirect to="/" />;
               }
             }}

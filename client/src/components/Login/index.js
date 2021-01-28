@@ -126,10 +126,8 @@ export default class Login extends React.Component {
   state = {
     username: "",
     password: "",
-    message: ""
+    message: "",
   };
-
-
 
   handleChange = (event) => {
     const { name, value } = event.target;
@@ -141,7 +139,7 @@ export default class Login extends React.Component {
   handleSubmit = (event) => {
     event.preventDefault();
 
-    const { username, password} = this.state;
+    const { username, password } = this.state;
 
     login(username, password).then((data) => {
       if (data.message) {
@@ -163,7 +161,7 @@ export default class Login extends React.Component {
         <Container>
           <Form autoComplete="off" onSubmit={this.handleSubmit}>
             <FormField>
-              <TinyIcon form src={user} alt="User Icon"/>
+              <TinyIcon form src={user} alt="User Icon" />
               <CssTextField
                 label="Username"
                 id="username"
@@ -175,7 +173,7 @@ export default class Login extends React.Component {
               />
             </FormField>
             <FormField bottom>
-              <TinyIcon form src={key} alt="Key Icon"/>
+              <TinyIcon form src={key} alt="Key Icon" />
               <CssTextField
                 label="Password"
                 id="password"
@@ -190,9 +188,10 @@ export default class Login extends React.Component {
             <IronButton type="submit">Login</IronButton>
           </Form>
           <StyledLink>
-            <GitLink href="https://irontickets.herokuapp.com/api/auth/github">
+            <GitLink href="https://ironticketsmanager.herokuapp.com/api/auth/github">
               <Github>
-                Or login with <TinyIcon src={github} alt="GitHub Icon"/> <Strong>Github</Strong>
+                Or login with <TinyIcon src={github} alt="GitHub Icon" />{" "}
+                <Strong>Github</Strong>
               </Github>
             </GitLink>
           </StyledLink>
