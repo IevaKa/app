@@ -9,10 +9,7 @@ import { withStyles } from "@material-ui/core/styles";
 
 import styled, { keyframes } from "styled-components";
 
-import {
-  IronButton,
-  ironRed,
-} from "../../styles/global.js";
+import { IronButton, ironRed } from "../../styles/global.js";
 
 import hexa from "../../files/b-hexa.svg";
 import github from "../../files/w-github.svg";
@@ -132,9 +129,8 @@ export default class Signup extends Component {
     password: "",
     message: "",
     role: "Student",
-    cohortStartWeek: 1
+    cohortStartWeek: 1,
   };
-
 
   handleChange = (event) => {
     const { name, value } = event.target;
@@ -151,13 +147,13 @@ export default class Signup extends Component {
     const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
     const weekNo = Math.ceil(((d - yearStart) / 86400000 + 1) / 7);
     this.setState({
-      cohortStartWeek: weekNo
+      cohortStartWeek: weekNo,
     });
   };
 
   componentDidMount = () => {
-    this.getWeek()
-  }
+    this.getWeek();
+  };
 
   handleSubmit = (event) => {
     event.preventDefault();
@@ -169,13 +165,12 @@ export default class Signup extends Component {
           username: "",
           password: "",
           name: "",
-          role: "Student"
+          role: "Student",
         });
       } else {
         this.props.setUser(data);
         this.props.history.push("/dashboard");
       }
-      
     });
   };
 

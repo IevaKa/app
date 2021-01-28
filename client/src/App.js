@@ -10,11 +10,10 @@ import Dashboard from "./components/Dashboard";
 
 import socketIOClient from "socket.io-client";
 
-
 class App extends React.Component {
   state = {
     user: this.props.user,
-    socket: socketIOClient('https://irontickets.herokuapp.com/')
+    socket: socketIOClient("https://irontickets.herokuapp.com/"),
   };
 
   setUser = () => {
@@ -39,29 +38,48 @@ class App extends React.Component {
             exact
             path="/dashboard"
             render={(props) => {
-              if(this.state.user) return <Dashboard socket={this.state.socket} setUser={this.setUser} user={this.state.user} {...props} />
-              else return <Redirect to='/' /> 
-            }} 
+              if (this.state.user) {
+                console.log("we have a user");
+                return (
+                  <Dashboard
+                    socket={this.state.socket}
+                    setUser={this.setUser}
+                    user={this.state.user}
+                    {...props}
+                  />
+                );
+              } else {
+                console.log("we do not have a user");
+                return <Redirect to="/" />;
+              }
+            }}
           />
 
           <Route
             exact
             path="/"
-            render={(props) => <Home setUser={this.setUser} socket={this.state.socket} {...props} />}
+            render={(props) => {
+              if (this.state.user) return <Redirect to="/dashboard" />;
+              else
+                return (
+                  <Home
+                    setUser={this.setUser}
+                    socket={this.state.socket}
+                    {...props}
+                  />
+                );
+            }}
           />
-          
+
           <Route
             exact
             path="/signup"
-            render={(props) => <Signup setUser={this.setUser} {...props} />
-            }
+            render={(props) => <Signup setUser={this.setUser} {...props} />}
           />
           <Route
             exact
             path="/login"
-            render={(props) => (
-              <Login setUser={this.setUser} {...props} />
-            )}
+            render={(props) => <Login setUser={this.setUser} {...props} />}
           />
         </RouterSwitch>
       </>
